@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymProject", "GymProject\GymProject.csproj", "{A5F32D9A-BCD2-4819-A3DA-4E0573102CD3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymProject", "GymProject\GymProject.csproj", "{A5F32D9A-BCD2-4819-A3DA-4E0573102CD3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibrary", "ClassLibrary\ClassLibrary.csproj", "{C5423A31-1466-4D9B-B88E-9E94A1EB6278}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymAppWinForm", "GymAppWinForm\GymAppWinForm.csproj", "{CA8105D4-5E76-49B1-B8C3-0F9C76DA6EF7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{A5F32D9A-BCD2-4819-A3DA-4E0573102CD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5F32D9A-BCD2-4819-A3DA-4E0573102CD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5F32D9A-BCD2-4819-A3DA-4E0573102CD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5423A31-1466-4D9B-B88E-9E94A1EB6278}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5423A31-1466-4D9B-B88E-9E94A1EB6278}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5423A31-1466-4D9B-B88E-9E94A1EB6278}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5423A31-1466-4D9B-B88E-9E94A1EB6278}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA8105D4-5E76-49B1-B8C3-0F9C76DA6EF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA8105D4-5E76-49B1-B8C3-0F9C76DA6EF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA8105D4-5E76-49B1-B8C3-0F9C76DA6EF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA8105D4-5E76-49B1-B8C3-0F9C76DA6EF7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
