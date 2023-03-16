@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace ClassLibrary.Classes
 {
-    public class Customer : User
+    public class Admin : User
     {
-        public Customer(string name, string password, string email) : base(name, password, email)
+        public Admin(string name, string password, string email) : base(name, password, email)
         {
-
+             
         }
     }
 }
