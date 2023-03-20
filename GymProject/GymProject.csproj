@@ -10,4 +10,24 @@
     <ProjectReference Include="..\ClassLibrary\ClassLibrary.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\images\David-Laid.jpg" />
+    <None Include="wwwroot\images\gym-background.jpg" />
+    <None Include="wwwroot\images\gym-image1.jpg" />
+    <None Include="wwwroot\images\logo_gym.PNG" />
+    <None Include="wwwroot\images\products\anadrol.png" />
+    <None Include="wwwroot\images\products\anavar.jpg" />
+    <None Include="wwwroot\images\products\ashwaganda.png" />
+    <None Include="wwwroot\images\products\clenbuterol.jpg" />
+    <None Include="wwwroot\images\products\dianabol.jpg" />
+    <None Include="wwwroot\images\products\hgh.jpg" />
+    <None Include="wwwroot\images\products\trenbolone.jpg" />
+    <None Include="wwwroot\images\products\winstrol.png" />
+    <None Include="wwwroot\images\tren-twins-alex-eubank.jpg" />
+  </ItemGroup>
+
 </Project>

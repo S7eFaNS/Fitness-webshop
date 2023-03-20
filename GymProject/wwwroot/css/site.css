@@ -14,5 +14,60 @@ html {
 }
 
 body {
+    padding-bottom: 150px !important;
+}
 
+
+footer {
+}
+
+.container {
+    margin: 0px !important;
+}
+
+.logo-img {
+    width: 50px;
+    height:50px;
+}
+
+/*.img-david-laid {
+    position: absolute;
+    transform: translate(-50%, -5%);
+    left: 50%;
+    object-fit: cover;
+    height: 600px;
+    width: 100%;
+}*/
+
+.shopping-cart-container {
+    max-width: 960px;
+    margin: auto !important;
+}
+
+#testimonials {
+    padding: 7% 15%;
+    text-align: center;
+    background-color: #ef8172;
+    color: #fff;
+}
+
+.testimonial-image {
+    width: 10%;
+    border-radius: 100%;
+    margin: 20px;
+}
+
+#press {
+    background-color: #ef8172;
+    text-align: center;
+    padding-bottom: 3%;
+}
+
+.press-logo {
+    width: 15%;
+    margin: 20px 20px 50px;
+}
+
+.carousel-item {
+    padding: 7% 15%;
 }
