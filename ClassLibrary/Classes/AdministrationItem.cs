@@ -12,7 +12,7 @@ namespace ClassLibrary.Classes
 
         public AdministrationItem() { }
 
-        public List<Item> Items { get { return items;} }
+        public List<Item> AllItems { get { return items;} }
 
         public void AddItem(Item item) 
         { 

@@ -8,9 +8,11 @@ namespace ClassLibrary.Classes
 {
     public class AdministrationUser
     {
-        private List<User> users { get; set; }
+        private List<User> users;
         
         public AdministrationUser() { }
+
+        public List<User> AllUsers { get { return users;} }
 
         public void AddUser(User user) 
         { 

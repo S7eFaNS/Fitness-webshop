@@ -71,3 +71,17 @@ footer {
 .carousel-item {
     padding: 7% 15%;
 }
+
+.text-center{
+    text-align:center !important;
+}
+
+.form-signin {
+    max-width: 330px;
+    padding: 80px 15px 15px 15px;
+}
+
+.form-signup {
+    max-width: 330px;
+    padding-top: 15px;
+}
