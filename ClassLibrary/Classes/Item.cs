@@ -8,6 +8,7 @@ namespace ClassLibrary.Classes
 {
     public class Item
     {
+        private int itemId;
         private string itemName;
         private double itemPrice;
         private double itemQuantity;
@@ -18,11 +19,18 @@ namespace ClassLibrary.Classes
             GetItemPrice = itemPrice;
         }
 
-        public Item(string itemName, double itemPrice, double itemQuantity)
+        public Item(int itemId, string itemName, double itemPrice, double itemQuantity)
         {
+            GetId = itemId;
             GetItemName = itemName;
             GetItemPrice = itemPrice;
             GetItemQuantity = itemQuantity;
+        }
+
+        public int GetId
+        {
+            get { return itemId; }
+            set { itemId = value; }
         }
 
         public string GetItemName

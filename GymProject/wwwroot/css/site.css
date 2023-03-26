@@ -44,19 +44,6 @@ footer {
     margin: auto !important;
 }
 
-#testimonials {
-    padding: 7% 15%;
-    text-align: center;
-    background-color: #ef8172;
-    color: #fff;
-}
-
-.testimonial-image {
-    width: 10%;
-    border-radius: 100%;
-    margin: 20px;
-}
-
 #press {
     background-color: #ef8172;
     text-align: center;
@@ -84,4 +71,78 @@ footer {
 .form-signup {
     max-width: 330px;
     padding-top: 15px;
+}
+
+#features {
+    padding: 7% 15%;
+    background-color: #fff;
+    position: relative;
+    z-index: 1;
+}
+
+.feature-box {
+    text-align: center;
+    padding: 5%;
+}
+
+.icon {
+    color: #702963;
+    margin-bottom: 1rem;
+}
+
+.icon:hover {
+    color: #fff;
+}
+
+.carousel-item {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+}
+
+.carousel-item:nth-child(1) {
+    background-image: url('/images/tren-twins-alex-eubank.jpg');
+}
+
+.carousel-item:nth-child(2) {
+    background-image: url('/images/gym-image1.jpg');
+}
+
+#testimonial-carousel {
+    height: 100vh;
+}
+
+.carousel-inner {
+    width: 100%;
+    height: 100%;
+}
+
+.testimonial-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#testimonials {
+    text-align: center;
+    background-color: #000000;
+    color: #fff;
+}
+
+.testimonial-text {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    color: cornflowerblue;
+}
+
+.TrenTwins {
+    margin-bottom: 90px;
+}
+
+.Cbum {
+    margin-bottom: 60px;
 }
