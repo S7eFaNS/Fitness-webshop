@@ -8,7 +8,7 @@ namespace ClassLibrary.Classes.DataBase
 {
     public class DBConnection
     {
-        private string connectionString;
+        const string connectionString = "server=mssqlstud.fhict.local;database=dbi500182;User Id=dbi500182;password=123"; 
 
         public DBConnection(string connectionString)
         {

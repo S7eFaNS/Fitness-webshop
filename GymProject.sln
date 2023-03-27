@@ -9,6 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClassLibrary", "ClassLibrar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymAppWinForm", "GymAppWinForm\GymAppWinForm.csproj", "{CA8105D4-5E76-49B1-B8C3-0F9C76DA6EF7}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database", "Database\Database.csproj", "{157CC208-6D2E-439F-975B-ED2D3633E544}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagerLibrary", "ManagerLibrary\ManagerLibrary.csproj", "{E3B1C7E5-B5B2-43D9-9736-33BBF55B1AD8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{CA8105D4-5E76-49B1-B8C3-0F9C76DA6EF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA8105D4-5E76-49B1-B8C3-0F9C76DA6EF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA8105D4-5E76-49B1-B8C3-0F9C76DA6EF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{157CC208-6D2E-439F-975B-ED2D3633E544}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{157CC208-6D2E-439F-975B-ED2D3633E544}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{157CC208-6D2E-439F-975B-ED2D3633E544}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{157CC208-6D2E-439F-975B-ED2D3633E544}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3B1C7E5-B5B2-43D9-9736-33BBF55B1AD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3B1C7E5-B5B2-43D9-9736-33BBF55B1AD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3B1C7E5-B5B2-43D9-9736-33BBF55B1AD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3B1C7E5-B5B2-43D9-9736-33BBF55B1AD8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
