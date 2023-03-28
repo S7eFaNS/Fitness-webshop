@@ -16,5 +16,17 @@ namespace GymAppWinForm
         {
             InitializeComponent();
         }
+
+        private void btn_add_product_Click(object sender, EventArgs e)
+        {
+            Form_Add_Product form_Add_Product = new Form_Add_Product();
+            form_Add_Product.Show();
+        }
+
+        private void btn_edit_product_Click(object sender, EventArgs e)
+        {
+            Form_Edit_Product form_Edit_Product = new Form_Edit_Product();
+            form_Edit_Product.Show();
+        }
     }
 }

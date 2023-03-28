@@ -72,6 +72,7 @@
             this.btn_edit_product.TabIndex = 10;
             this.btn_edit_product.Text = "Edit";
             this.btn_edit_product.UseVisualStyleBackColor = false;
+            this.btn_edit_product.Click += new System.EventHandler(this.btn_edit_product_Click);
             // 
             // tb_search_users
             // 
@@ -119,6 +120,7 @@
             this.btn_add_product.TabIndex = 14;
             this.btn_add_product.Text = "Add";
             this.btn_add_product.UseVisualStyleBackColor = false;
+            this.btn_add_product.Click += new System.EventHandler(this.btn_add_product_Click);
             // 
             // UC_Products
             // 

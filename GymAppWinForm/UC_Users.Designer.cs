@@ -84,6 +84,7 @@
             this.btn_edit_user.TabIndex = 3;
             this.btn_edit_user.Text = "Edit";
             this.btn_edit_user.UseVisualStyleBackColor = false;
+            this.btn_edit_user.Click += new System.EventHandler(this.btn_edit_user_Click);
             // 
             // label1
             // 
@@ -110,6 +111,7 @@
             this.button1.TabIndex = 5;
             this.button1.Text = "Purchase History";
             this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // search_users_delete
             // 

@@ -16,5 +16,17 @@ namespace GymAppWinForm
         {
             InitializeComponent();
         }
+
+        private void btn_edit_user_Click(object sender, EventArgs e)
+        {
+            Form_Edit_User form_Edit_User = new Form_Edit_User();
+            form_Edit_User.Show();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Form_Purchase_History form_Purchase_History = new Form_Purchase_History();
+            form_Purchase_History.Show();
+        }
     }
 }
