@@ -1,6 +1,6 @@
 ﻿using ClassLibrary.Classes.User;
 using Database.DataBase;
-using InterfaceLibrary;
+using InterfaceLibrary.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -8,28 +8,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ManagerLibrary
+namespace ManagerLibrary.Repositories
 {
-    public class UserRepository : DatabaseRepository<User>, IUserRepository
+    public class UserRepository : IUserRepository
     {
-        public List<User> ReadAll(string name)
+        private string _ConnectionString;
+
+        public UserRepository() 
         {
-            using SqlConnection connection = Connect();
-            SqlCommand command = new($"SELECT * FROM {this.tableName} WHERE first_name LIKE @name OR last_name LIKE @name", connection);
-            command.Parameters.AddWithValue("@name", $"%{name}%");
-            SqlDataReader reader = command.ExecuteReader();
-            List<User> records = new();
-            while (reader.Read())
-                records.Add(Helpers.Serialize<User>(reader));
-            reader.Close();
-            return records;
+            ConfigureService();
+        }
+
+        private void ConfigureService()
+        {
+            DataBaseConnection dbConn = new DataBaseConnection();
+            _ConnectionString = dbConn.ConnectionString;
         }
 
         public List<User> GetUsers()
         {
             List<User> users = new List<User>();
 
-            using (SqlConnection connection = new SqlConnection("Server=mssqlstud.fhict.local;Database=dbi500182;User Id=dbi500182;Password=123;"))
+            using (SqlConnection connection = new SqlConnection(_ConnectionString))
             {
                 try
                 {
@@ -65,7 +65,7 @@ namespace ManagerLibrary
 
         public bool DeleteUser(User user)
         {
-            using (SqlConnection connection = new SqlConnection("Server=mssqlstud.fhict.local;Database=dbi500182;User Id=dbi500182;Password=123;"))
+            using (SqlConnection connection = new SqlConnection(_ConnectionString))
             {
                 try
                 {

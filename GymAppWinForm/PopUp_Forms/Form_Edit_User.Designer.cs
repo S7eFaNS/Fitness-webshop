@@ -128,6 +128,7 @@
             this.btn_save_user_changes.TabIndex = 8;
             this.btn_save_user_changes.Text = "Save";
             this.btn_save_user_changes.UseVisualStyleBackColor = false;
+            this.btn_save_user_changes.Click += new System.EventHandler(this.btn_save_user_changes_Click);
             // 
             // btn_cancel_user_changes
             // 
@@ -138,6 +139,7 @@
             this.btn_cancel_user_changes.TabIndex = 9;
             this.btn_cancel_user_changes.Text = "Cancel";
             this.btn_cancel_user_changes.UseVisualStyleBackColor = false;
+            this.btn_cancel_user_changes.Click += new System.EventHandler(this.btn_cancel_user_changes_Click);
             // 
             // textBox5
             // 
@@ -180,6 +182,7 @@
             this.ForeColor = System.Drawing.Color.Black;
             this.Name = "Form_Edit_User";
             this.Text = "Form_Edit_User";
+            this.Load += new System.EventHandler(this.Form_Edit_User_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

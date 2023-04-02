@@ -1,14 +1,16 @@
-﻿using ClassLibrary.Classes.User;
+﻿using ClassLibrary.Classes.Item;
+using Database.DataBase;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ManagerLibrary
 {
-    public interface IUserManager
+    public class ItemSupplementRepository
     {
-        List<User> GetAllUsers();
+
     }
 }

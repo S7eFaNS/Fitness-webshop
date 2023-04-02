@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ClassLibrary.Classes.User;
-using ManagerLibrary;
+using ManagerLibrary.ManagerClasses;
 
 namespace GymAppWinForm
 {
@@ -69,6 +69,12 @@ namespace GymAppWinForm
                 // Remove the row from the DataGridView
                 data_grid_view_users.Rows.Remove(selectedRow);
             }
+        }
+
+        private void btn_add_user_Click(object sender, EventArgs e)
+        {
+            Form_Add_User form_Add_User = new Form_Add_User();
+            form_Add_User.ShowDialog();
         }
     }
 }

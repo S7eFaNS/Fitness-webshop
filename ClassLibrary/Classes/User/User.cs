@@ -21,13 +21,17 @@ namespace ClassLibrary.Classes.User
         [ColumnName("password")]
         private string password { get; set; }
 
-        public User(int id, string firstName, string lastName, string email, string password)
+        [ColumnName("user_type")]
+        private UserType userType { get; set; }
+
+        public User(int id, string firstName, string lastName, string email, string password, UserType userType)
         {
             this.SetId(id);
             GetFirstName = firstName;
             GetLastName = lastName;
             GetEmail = email;
             GetPassword = password;
+            GetUserType = userType;
         }
         public User() { }
 
@@ -50,6 +54,11 @@ namespace ClassLibrary.Classes.User
         {
             get { return password; }
             set { password = value; }
+        }
+        public UserType GetUserType
+        {
+            get { return userType; }
+            set { userType = value; }
         }
     }
 }

@@ -5,11 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace InterfaceLibrary
+namespace InterfaceLibrary.Interfaces
 {
     public interface IUserRepository
     {
-        List<User> ReadAll(string name);
         List<User> GetUsers();
         bool DeleteUser(User user);
     }

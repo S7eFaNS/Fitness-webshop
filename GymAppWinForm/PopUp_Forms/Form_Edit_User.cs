@@ -16,5 +16,20 @@ namespace GymAppWinForm
         {
             InitializeComponent();
         }
+
+        private void Form_Edit_User_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_save_user_changes_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_cancel_user_changes_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

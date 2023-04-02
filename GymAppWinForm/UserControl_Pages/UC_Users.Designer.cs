@@ -36,6 +36,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.search_users_delete = new System.Windows.Forms.Button();
             this.data_grid_view_users = new System.Windows.Forms.DataGridView();
+            this.btn_add_user = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.data_grid_view_users)).BeginInit();
             this.SuspendLayout();
             // 
@@ -134,12 +135,29 @@
             this.data_grid_view_users.Size = new System.Drawing.Size(704, 537);
             this.data_grid_view_users.TabIndex = 7;
             // 
+            // btn_add_user
+            // 
+            this.btn_add_user.BackColor = System.Drawing.Color.Silver;
+            this.btn_add_user.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btn_add_user.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btn_add_user.ForeColor = System.Drawing.Color.Black;
+            this.btn_add_user.Image = ((System.Drawing.Image)(resources.GetObject("btn_add_user.Image")));
+            this.btn_add_user.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btn_add_user.Location = new System.Drawing.Point(856, 350);
+            this.btn_add_user.Name = "btn_add_user";
+            this.btn_add_user.Size = new System.Drawing.Size(270, 73);
+            this.btn_add_user.TabIndex = 8;
+            this.btn_add_user.Text = "Add";
+            this.btn_add_user.UseVisualStyleBackColor = false;
+            this.btn_add_user.Click += new System.EventHandler(this.btn_add_user_Click);
+            // 
             // UC_Users
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.Indigo;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.Controls.Add(this.btn_add_user);
             this.Controls.Add(this.data_grid_view_users);
             this.Controls.Add(this.search_users_delete);
             this.Controls.Add(this.button1);
@@ -166,5 +184,6 @@
         private Button button1;
         private Button search_users_delete;
         private DataGridView data_grid_view_users;
+        private Button btn_add_user;
     }
 }

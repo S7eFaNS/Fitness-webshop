@@ -157,9 +157,9 @@
             this.cb_program.ForeColor = System.Drawing.Color.Silver;
             this.cb_program.Location = new System.Drawing.Point(424, 125);
             this.cb_program.Name = "cb_program";
-            this.cb_program.Size = new System.Drawing.Size(183, 27);
+            this.cb_program.Size = new System.Drawing.Size(113, 27);
             this.cb_program.TabIndex = 11;
-            this.cb_program.Text = "Fitness Program";
+            this.cb_program.Text = "Program";
             this.cb_program.UseVisualStyleBackColor = false;
             // 
             // Form_Add_Product
