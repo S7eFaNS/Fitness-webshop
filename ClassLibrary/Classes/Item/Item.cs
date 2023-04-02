@@ -22,13 +22,17 @@ namespace ClassLibrary.Classes.Item
         [ColumnName("quantity")]
         protected double ItemQuantity { get; set; }
 
-        public Item(int id, string itemName, double itemPrice, string itemDescription, double itemQuantity)
+        [ColumnName("item_type")]
+        protected ItemType ItemType { get; set; }
+
+        public Item(int id, string itemName, double itemPrice, string itemDescription, double itemQuantity, ItemType itemType)
         {
             SetId(id);
             ItemName = itemName;
             ItemPrice = itemPrice;
             ItemDescription = itemDescription;
             ItemQuantity = itemQuantity;
+            ItemType = itemType;
         }
 
         public Item()

@@ -8,9 +8,28 @@ using System.Threading.Tasks;
 
 namespace ManagerLibrary
 {
-    public class UserManager
+    public class UserManager : IUserManager 
     {
         private UserRepository repository = new();
+
+        public List<User> GetAllUsers()
+        {
+            List<User> users = repository.GetUsers();
+            return users;
+        }
+
+        public bool DeleteUser(User user)
+        {
+            if (repository.DeleteUser(user))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public void Create(UserViewModel viewModel)
         {
             User record = Helpers.MapToEntity<UserViewModel, User>(viewModel);

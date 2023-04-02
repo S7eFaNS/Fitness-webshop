@@ -29,24 +29,15 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UC_Users));
-            this.lb_users = new System.Windows.Forms.ListBox();
             this.btn_remove_user = new System.Windows.Forms.Button();
             this.tb_search_users = new System.Windows.Forms.TextBox();
             this.btn_edit_user = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.search_users_delete = new System.Windows.Forms.Button();
+            this.data_grid_view_users = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.data_grid_view_users)).BeginInit();
             this.SuspendLayout();
-            // 
-            // lb_users
-            // 
-            this.lb_users.BackColor = System.Drawing.Color.Silver;
-            this.lb_users.FormattingEnabled = true;
-            this.lb_users.ItemHeight = 61;
-            this.lb_users.Location = new System.Drawing.Point(43, 28);
-            this.lb_users.Name = "lb_users";
-            this.lb_users.Size = new System.Drawing.Size(752, 553);
-            this.lb_users.TabIndex = 0;
             // 
             // btn_remove_user
             // 
@@ -61,13 +52,14 @@
             this.btn_remove_user.TabIndex = 1;
             this.btn_remove_user.Text = "Remove";
             this.btn_remove_user.UseVisualStyleBackColor = false;
+            this.btn_remove_user.Click += new System.EventHandler(this.btn_remove_user_Click);
             // 
             // tb_search_users
             // 
             this.tb_search_users.BackColor = System.Drawing.Color.Silver;
             this.tb_search_users.Location = new System.Drawing.Point(801, 95);
             this.tb_search_users.Name = "tb_search_users";
-            this.tb_search_users.Size = new System.Drawing.Size(378, 69);
+            this.tb_search_users.Size = new System.Drawing.Size(378, 32);
             this.tb_search_users.TabIndex = 2;
             // 
             // btn_edit_user
@@ -90,10 +82,11 @@
             // 
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Century Gothic", 28.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label1.ForeColor = System.Drawing.Color.Silver;
             this.label1.Location = new System.Drawing.Point(801, 28);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(210, 61);
+            this.label1.Size = new System.Drawing.Size(197, 57);
             this.label1.TabIndex = 4;
             this.label1.Text = "Search:";
             // 
@@ -118,9 +111,28 @@
             this.search_users_delete.Image = ((System.Drawing.Image)(resources.GetObject("search_users_delete.Image")));
             this.search_users_delete.Location = new System.Drawing.Point(1111, 95);
             this.search_users_delete.Name = "search_users_delete";
-            this.search_users_delete.Size = new System.Drawing.Size(68, 69);
+            this.search_users_delete.Size = new System.Drawing.Size(68, 32);
             this.search_users_delete.TabIndex = 6;
             this.search_users_delete.UseVisualStyleBackColor = true;
+            // 
+            // data_grid_view_users
+            // 
+            this.data_grid_view_users.AllowUserToAddRows = false;
+            this.data_grid_view_users.AllowUserToDeleteRows = false;
+            this.data_grid_view_users.AllowUserToOrderColumns = true;
+            this.data_grid_view_users.AllowUserToResizeColumns = false;
+            this.data_grid_view_users.AllowUserToResizeRows = false;
+            this.data_grid_view_users.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.data_grid_view_users.Location = new System.Drawing.Point(61, 44);
+            this.data_grid_view_users.Margin = new System.Windows.Forms.Padding(2);
+            this.data_grid_view_users.Name = "data_grid_view_users";
+            this.data_grid_view_users.ReadOnly = true;
+            this.data_grid_view_users.RowHeadersVisible = false;
+            this.data_grid_view_users.RowHeadersWidth = 200;
+            this.data_grid_view_users.RowTemplate.Height = 29;
+            this.data_grid_view_users.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.data_grid_view_users.Size = new System.Drawing.Size(704, 537);
+            this.data_grid_view_users.TabIndex = 7;
             // 
             // UC_Users
             // 
@@ -128,30 +140,31 @@
             this.BackColor = System.Drawing.Color.Indigo;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.Controls.Add(this.data_grid_view_users);
             this.Controls.Add(this.search_users_delete);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btn_edit_user);
             this.Controls.Add(this.tb_search_users);
             this.Controls.Add(this.btn_remove_user);
-            this.Controls.Add(this.lb_users);
-            this.Font = new System.Drawing.Font("Century Gothic", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.ForeColor = System.Drawing.Color.Black;
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "UC_Users";
             this.Size = new System.Drawing.Size(1182, 616);
+            ((System.ComponentModel.ISupportInitialize)(this.data_grid_view_users)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private ListBox lb_users;
         private Button btn_remove_user;
         private TextBox tb_search_users;
         private Button btn_edit_user;
         private Label label1;
         private Button button1;
         private Button search_users_delete;
+        private DataGridView data_grid_view_users;
     }
 }

@@ -10,25 +10,46 @@ namespace ClassLibrary.Classes.User
     public class User : Entity
     {
         [ColumnName("first_name")]
-        private string FirstName { get; set; }
+        private string firstName { get; set; }
 
         [ColumnName("last_name")]
-        private string LastName { get; set; }
-
-        [ColumnName("password")]
-        private string Password { get; set; }
+        private string lastName { get; set; }
 
         [ColumnName("email")]
-        private string Email { get; set; }
+        private string email { get; set; }
 
-        public User(int id, string firstName, string lastName, string password, string email)
+        [ColumnName("password")]
+        private string password { get; set; }
+
+        public User(int id, string firstName, string lastName, string email, string password)
         {
             this.SetId(id);
-            FirstName = firstName;
-            LastName = lastName;
-            Password = password;
-            Email = email;
+            GetFirstName = firstName;
+            GetLastName = lastName;
+            GetEmail = email;
+            GetPassword = password;
         }
         public User() { }
+
+        public string GetFirstName
+        {
+            get { return firstName; }
+            set { firstName = value; }
+        }
+        public string GetLastName
+        {
+            get { return lastName; }
+            set { lastName = value; }
+        }
+        public string GetEmail
+        {
+            get { return email; }
+            set { email = value; }
+        }
+        public string GetPassword
+        {
+            get { return password; }
+            set { password = value; }
+        }
     }
 }

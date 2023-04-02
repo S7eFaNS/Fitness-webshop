@@ -8,10 +8,16 @@ namespace ClassLibrary.Classes.Item
 {
     public class Supplement : Item
     {
-        public string Name { get => base.ItemName; set => base.ItemName = value; }
-        public double Price { get => base.ItemPrice; set => base.ItemPrice = value; }
-        public string Description { get => base.ItemDescription; set => base.ItemDescription = value; }
-        public double Quantity { get => base.ItemQuantity; set => base.ItemQuantity = value; }
-        public bool IsSupplement { get; internal set; }
+        public Supplement() { }
+
+        public Supplement(int id, string itemName, double itemPrice, string itemDescription, double itemQuantity, ItemType itemType)
+        {
+            SetId(id);
+            ItemName = itemName;
+            ItemPrice = itemPrice;
+            ItemDescription = itemDescription;
+            ItemQuantity = itemQuantity;
+            ItemType = itemType;
+        }
     }
 }

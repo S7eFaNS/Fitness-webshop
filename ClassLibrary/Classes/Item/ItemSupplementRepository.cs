@@ -35,44 +35,44 @@ namespace ClassLibrary.Classes.Item
             reader.Close();
             return records;
         }
-        public List<Item> ReadAll()
-        {
-            using SqlConnection connection = Connect();
-            SqlCommand command = new($"SELECT * FROM {this.tableName}", connection);
-            SqlDataReader reader = command.ExecuteReader();
-            List<Item> records = new List<Item>();
-            while (reader.Read())
-            {
-                bool isSupplement = (bool)reader["is_supplement"];
-                if (isSupplement)
-                {
-                    Supplement supplement = new Supplement()
-                    {
-                        Id = (int)reader["id"],
-                        Name = (string)reader["name"],
-                        Price = (double)reader["price"],
-                        Description = (string)reader["description"],
-                        Quantity = (double)reader["quantity"],
-                        IsSupplement = true
-                    };
-                    records.Add(supplement);
-                }
-                else
-                {
-                    Program program = new Program()
-                    {
-                        Id = (int)reader["id"],
-                        Name = (string)reader["name"],
-                        Price = (double)reader["price"],
-                        Description = (string)reader["description"],
-                        Quantity = (double)reader["quantity"],
-                        IsSupplement = false
-                    };
-                    records.Add(program);
-                }
-            }
-            reader.Close();
-            return records;
-        }
+        //public List<Item> ReadAll()
+        //{
+        //    using SqlConnection connection = Connect();
+        //    SqlCommand command = new($"SELECT * FROM {this.tableName}", connection);
+        //    SqlDataReader reader = command.ExecuteReader();
+        //    List<Item> records = new List<Item>();
+        //    while (reader.Read())
+        //    {
+        //        bool isSupplement = (bool)reader["is_supplement"];
+        //        if (isSupplement)
+        //        {
+        //            Supplement supplement = new Supplement()
+        //            {
+        //                Id = (int)reader["id"],
+        //                Name = (string)reader["name"],
+        //                Price = (double)reader["price"],
+        //                Description = (string)reader["description"],
+        //                Quantity = (double)reader["quantity"],
+        //                IsSupplement = true
+        //            };
+        //            records.Add(supplement);
+        //        }
+        //        else
+        //        {
+        //            Program program = new Program()
+        //            {
+        //                Id = (int)reader["id"],
+        //                Name = (string)reader["name"],
+        //                Price = (double)reader["price"],
+        //                Description = (string)reader["description"],
+        //                Quantity = (double)reader["quantity"],
+        //                IsSupplement = false
+        //            };
+        //            records.Add(program);
+        //        }
+        //    }
+        //    reader.Close();
+        //    return records;
+        //}
     }
 }
