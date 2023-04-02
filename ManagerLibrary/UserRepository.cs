@@ -1,4 +1,6 @@
-﻿using Database.DataBase;
+﻿using ClassLibrary.Classes.User;
+using Database.DataBase;
+using InterfaceLibrary;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -6,9 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClassLibrary.Classes.User
+namespace ManagerLibrary
 {
-    public class UserRepository : DatabaseRepository<User>
+    public class UserRepository : DatabaseRepository<User>, IUserRepository
     {
         public List<User> ReadAll(string name)
         {

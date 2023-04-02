@@ -1,4 +1,5 @@
-﻿using Database.DataBase;
+﻿using ClassLibrary.Classes.Item;
+using Database.DataBase;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClassLibrary.Classes.Item
+namespace ManagerLibrary
 {
     public class ItemProgramRepository : DatabaseRepository<Program>
     {
