@@ -33,14 +33,16 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.tb_first_name = new System.Windows.Forms.TextBox();
+            this.tb_last_name = new System.Windows.Forms.TextBox();
+            this.tb_email = new System.Windows.Forms.TextBox();
+            this.tb_password = new System.Windows.Forms.TextBox();
             this.btn_save_user_changes = new System.Windows.Forms.Button();
             this.btn_cancel_user_changes = new System.Windows.Forms.Button();
-            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.tb_id = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.comboBox_userType = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -87,37 +89,37 @@
             this.label4.TabIndex = 3;
             this.label4.Text = "Password:";
             // 
-            // textBox1
+            // tb_first_name
             // 
-            this.textBox1.BackColor = System.Drawing.Color.Silver;
-            this.textBox1.Location = new System.Drawing.Point(185, 81);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(482, 27);
-            this.textBox1.TabIndex = 4;
+            this.tb_first_name.BackColor = System.Drawing.Color.Silver;
+            this.tb_first_name.Location = new System.Drawing.Point(185, 81);
+            this.tb_first_name.Name = "tb_first_name";
+            this.tb_first_name.Size = new System.Drawing.Size(482, 27);
+            this.tb_first_name.TabIndex = 4;
             // 
-            // textBox2
+            // tb_last_name
             // 
-            this.textBox2.BackColor = System.Drawing.Color.Silver;
-            this.textBox2.Location = new System.Drawing.Point(185, 116);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(482, 27);
-            this.textBox2.TabIndex = 5;
+            this.tb_last_name.BackColor = System.Drawing.Color.Silver;
+            this.tb_last_name.Location = new System.Drawing.Point(185, 116);
+            this.tb_last_name.Name = "tb_last_name";
+            this.tb_last_name.Size = new System.Drawing.Size(482, 27);
+            this.tb_last_name.TabIndex = 5;
             // 
-            // textBox3
+            // tb_email
             // 
-            this.textBox3.BackColor = System.Drawing.Color.Silver;
-            this.textBox3.Location = new System.Drawing.Point(185, 154);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(482, 27);
-            this.textBox3.TabIndex = 6;
+            this.tb_email.BackColor = System.Drawing.Color.Silver;
+            this.tb_email.Location = new System.Drawing.Point(185, 154);
+            this.tb_email.Name = "tb_email";
+            this.tb_email.Size = new System.Drawing.Size(482, 27);
+            this.tb_email.TabIndex = 6;
             // 
-            // textBox4
+            // tb_password
             // 
-            this.textBox4.BackColor = System.Drawing.Color.Silver;
-            this.textBox4.Location = new System.Drawing.Point(185, 195);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(482, 27);
-            this.textBox4.TabIndex = 7;
+            this.tb_password.BackColor = System.Drawing.Color.Silver;
+            this.tb_password.Location = new System.Drawing.Point(185, 195);
+            this.tb_password.Name = "tb_password";
+            this.tb_password.Size = new System.Drawing.Size(482, 27);
+            this.tb_password.TabIndex = 7;
             // 
             // btn_save_user_changes
             // 
@@ -141,13 +143,13 @@
             this.btn_cancel_user_changes.UseVisualStyleBackColor = false;
             this.btn_cancel_user_changes.Click += new System.EventHandler(this.btn_cancel_user_changes_Click);
             // 
-            // textBox5
+            // tb_id
             // 
-            this.textBox5.BackColor = System.Drawing.Color.Silver;
-            this.textBox5.Location = new System.Drawing.Point(185, 43);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(60, 27);
-            this.textBox5.TabIndex = 11;
+            this.tb_id.BackColor = System.Drawing.Color.Silver;
+            this.tb_id.Location = new System.Drawing.Point(185, 43);
+            this.tb_id.Name = "tb_id";
+            this.tb_id.Size = new System.Drawing.Size(60, 27);
+            this.tb_id.TabIndex = 11;
             // 
             // label5
             // 
@@ -160,6 +162,25 @@
             this.label5.TabIndex = 10;
             this.label5.Text = "ID:";
             // 
+            // comboBox_userType
+            // 
+            this.comboBox_userType.BackColor = System.Drawing.Color.Silver;
+            this.comboBox_userType.FormattingEnabled = true;
+            this.comboBox_userType.Location = new System.Drawing.Point(516, 38);
+            this.comboBox_userType.Name = "comboBox_userType";
+            this.comboBox_userType.Size = new System.Drawing.Size(151, 28);
+            this.comboBox_userType.TabIndex = 12;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.BackColor = System.Drawing.Color.Silver;
+            this.label6.Location = new System.Drawing.Point(468, 41);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(42, 20);
+            this.label6.TabIndex = 13;
+            this.label6.Text = "Role:";
+            // 
             // Form_Edit_User
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -167,14 +188,16 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.textBox5);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.comboBox_userType);
+            this.Controls.Add(this.tb_id);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.btn_cancel_user_changes);
             this.Controls.Add(this.btn_save_user_changes);
-            this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.tb_password);
+            this.Controls.Add(this.tb_email);
+            this.Controls.Add(this.tb_last_name);
+            this.Controls.Add(this.tb_first_name);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -194,13 +217,15 @@
         private Label label2;
         private Label label3;
         private Label label4;
-        private TextBox textBox1;
-        private TextBox textBox2;
-        private TextBox textBox3;
-        private TextBox textBox4;
+        private TextBox tb_first_name;
+        private TextBox tb_last_name;
+        private TextBox tb_email;
+        private TextBox tb_password;
         private Button btn_save_user_changes;
         private Button btn_cancel_user_changes;
-        private TextBox textBox5;
+        private TextBox tb_id;
         private Label label5;
+        private ComboBox comboBox_userType;
+        private Label label6;
     }
 }

@@ -43,6 +43,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.cb_customer = new System.Windows.Forms.CheckBox();
             this.cb_admin = new System.Windows.Forms.CheckBox();
+            this.cb_user_type = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // textBox5
@@ -186,6 +188,25 @@
             this.cb_admin.Text = "Admin";
             this.cb_admin.UseVisualStyleBackColor = false;
             // 
+            // cb_user_type
+            // 
+            this.cb_user_type.BackColor = System.Drawing.Color.Silver;
+            this.cb_user_type.FormattingEnabled = true;
+            this.cb_user_type.Location = new System.Drawing.Point(535, 66);
+            this.cb_user_type.Name = "cb_user_type";
+            this.cb_user_type.Size = new System.Drawing.Size(151, 28);
+            this.cb_user_type.TabIndex = 26;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.BackColor = System.Drawing.Color.Silver;
+            this.label6.Location = new System.Drawing.Point(479, 69);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(42, 20);
+            this.label6.TabIndex = 27;
+            this.label6.Text = "Role:";
+            // 
             // Form_Add_User
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -193,6 +214,8 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.cb_user_type);
             this.Controls.Add(this.cb_customer);
             this.Controls.Add(this.cb_admin);
             this.Controls.Add(this.textBox5);
@@ -230,5 +253,7 @@
         private Label label1;
         private CheckBox cb_customer;
         private CheckBox cb_admin;
+        private ComboBox cb_user_type;
+        private Label label6;
     }
 }

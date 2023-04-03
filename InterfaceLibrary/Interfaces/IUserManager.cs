@@ -9,6 +9,27 @@ namespace InterfaceLibrary.Interfaces
 {
     public interface IUserManager
     {
-        List<User> GetAllUsers();
+        public List<User> GetUsers();
+
+        //User
+        //public bool CreateUser(User user);
+
+        //public bool UpdateUser(User user);
+
+        public bool DeleteUser(int id);
+
+        ////Admin
+        //public bool CreateAdmin(Admin admin);
+
+        //public bool UpdateAdmin(Admin admin);
+
+        //public bool DeleteAdmin(Admin admin);
+
+        ////Customer
+        //public bool CreateCustomer(Customer customer);
+
+        //public bool UpdateCustomer(Customer customer);
+
+        //public bool DeleteCustomer(Customer customer);
     }
 }

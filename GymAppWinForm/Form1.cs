@@ -1,4 +1,5 @@
 using ClassLibrary;
+using GymAppWinForm.UserControl_Pages;
 
 namespace GymAppWinForm
 {
@@ -34,7 +35,7 @@ namespace GymAppWinForm
                     pnl_products.BackColor = Color.MediumSeaGreen;
                     break;
                 case "btn_users":
-                    add_UControls(new UC_Users());
+                    add_UControls(new UC_User());
                     pnl_users.BackColor = Color.MediumSeaGreen;
                     break;
             }

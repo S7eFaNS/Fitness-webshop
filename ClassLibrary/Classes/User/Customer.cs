@@ -12,7 +12,7 @@ namespace ClassLibrary.Classes.User
 
         public Customer(int id, string firstName, string lastName, string email, string password, UserType userType)
         {
-            this.SetId(id);
+            //this.SetId(id);
             GetFirstName = firstName;
             GetLastName = lastName;
             GetEmail = email;

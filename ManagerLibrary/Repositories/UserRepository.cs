@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ManagerLibrary.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository /*:*/ /*IUserManager*/
     {
         private string _ConnectionString;
 
@@ -25,6 +25,46 @@ namespace ManagerLibrary.Repositories
             _ConnectionString = dbConn.ConnectionString;
         }
 
+        //public List<User> GetUsers()
+        //{
+        //    List<User> users = new List<User>();
+
+        //    using (SqlConnection connection = new SqlConnection(_ConnectionString))
+        //    {
+        //        try
+        //        {
+        //            connection.Open();
+        //            string query = "SELECT * FROM Users";
+
+        //            using (SqlCommand command = new SqlCommand(query, connection))
+        //            {
+        //                using (SqlDataReader reader = command.ExecuteReader())
+        //                {
+        //                    while (reader.Read())
+        //                    {
+        //                        User user = new User()
+        //                        {
+        //                            Id = reader.GetInt32(0),
+        //                            GetFirstName = reader.GetString(1),
+        //                            GetLastName = reader.GetString(2),
+        //                            GetEmail = reader.GetString(3),
+        //                            GetPassword= reader.GetString(4),
+        //                            GetUserType = (UserType)Enum.Parse(typeof(UserType), reader.GetString(5))
+        //                        };
+        //                        users.Add(user);
+        //                    };
+
+        //                }
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            return users;
+        //        }
+        //    }
+
+        //    return users;
+        //}
         public List<User> GetUsers()
         {
             List<User> users = new List<User>();
@@ -34,7 +74,7 @@ namespace ManagerLibrary.Repositories
                 try
                 {
                     connection.Open();
-                    string query = "SELECT Id, first_name, last_name, email FROM Users";
+                    string query = "SELECT * FROM Users";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
@@ -48,6 +88,9 @@ namespace ManagerLibrary.Repositories
                                     GetFirstName = reader.GetString(1),
                                     GetLastName = reader.GetString(2),
                                     GetEmail = reader.GetString(3),
+                                    GetPassword = reader.GetString(4),
+                                    //GetUserType = (UserType)Enum.Parse(typeof(UserType), reader.GetString(5))
+
                                 };
                                 users.Add(user);
                             };
@@ -63,14 +106,16 @@ namespace ManagerLibrary.Repositories
             return users;
         }
 
-        public bool DeleteUser(User user)
+
+        public bool CreateUser(User user)
         {
             using (SqlConnection connection = new SqlConnection(_ConnectionString))
             {
                 try
                 {
                     connection.Open();
-                    string query = $"DELETE FROM Users WHERE Id = {user.Id};";
+                    string query = $"INSERT INTO Users(first_name, last_name, email, password, user_type)" +
+                        $"VALUES('{user.GetFirstName}', '{user.GetLastName}', '{user.GetEmail}', {user.GetPassword}, '{user.GetUserType}', {(int)user.GetUserType}')";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
@@ -85,6 +130,96 @@ namespace ManagerLibrary.Repositories
                 }
             }
 
+        }
+
+        public bool UpdateUser(User user)
+        {
+            using (SqlConnection connection = new SqlConnection(_ConnectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    string query = $"UPDATE Users " +
+                    $"SET first_name = '{user.GetFirstName}'," +
+                    $"last_name = '{user.GetLastName}'," +
+                    $"email = '{user.GetEmail}'," +
+                    $"password = {user.GetPassword}," +
+                    $"user_type = {(int)user.GetUserType}," +
+                    $"WHERE id = {user.Id};";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+            }
+        }
+
+        public bool DeleteUser(User user)
+        {
+            using (SqlConnection connection = new SqlConnection(_ConnectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    string query = $"DELETE FROM Users WHERE id = {user.Id};";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+            }
+
+        }
+
+        public User GetUserById(int id)
+        {
+            User _user = new User();
+
+            using (SqlConnection connection = new SqlConnection(_ConnectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    string query = $"SELECT * FROM Users WHERE id={id}";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                _user.Id = (int)reader["Id"];
+                                _user.GetFirstName = (string)reader["first_name"];
+                                _user.GetLastName = (string)reader["last_name"];
+                                _user.GetEmail = (string)reader["email"];
+                                _user.GetPassword = (string)reader["password"];
+                                _user.GetUserType = (UserType)Convert.ToInt32(reader["user_type"]);
+                            }
+                        }
+                    }
+
+                    return _user;
+                }
+                catch (Exception ex)
+                {
+                    return _user;
+                }
+            }
         }
     }
 }

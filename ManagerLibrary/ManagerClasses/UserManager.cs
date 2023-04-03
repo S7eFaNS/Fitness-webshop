@@ -16,22 +16,61 @@ namespace ManagerLibrary.ManagerClasses
 
         public UserManager() { }
 
-        public List<User> GetAllUsers()
+        public User CreateUserInstance(List<object> eventElements)
         {
-            List<User> users = repository.GetUsers();
-            return users;
+            //ToDoNext
+            UserType userType = (UserType)Enum.Parse(typeof(UserType), eventElements[6].ToString());
+
+            User user = new User();
+            user.Id = (int)eventElements[0];
+            user.GetFirstName = (string)eventElements[1];
+            user.GetLastName = (string)eventElements[2];
+            user.GetEmail = (string)(eventElements[4]);
+            user.GetPassword = (string)eventElements[5];
+            user.GetUserType = userType;
+
+            return user;
         }
 
-        public bool DeleteUser(User user)
+        public List<User> GetUsers()
         {
-            if (repository.DeleteUser(user))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return repository.GetUsers();
+        }
+
+        //public User GiveUserRole(User user)
+        //{
+        //    switch (user.GetUserType.ToString())
+        //    {
+        //        case "Admin":
+        //            return repository.GetAdminById(user.Id);
+        //        case "Customer":
+        //            return repository.GetCustomerById(user.Id);
+        //        default:
+        //            throw new ArgumentException("Invalid input type");
+        //    }
+        //}
+
+        public User GetUserById(int id)
+        {
+            return repository.GetUserById(id);
+        }
+
+        public bool CreateUser(List<object> eventElements)
+        {
+            User user = CreateUserInstance(eventElements);
+            return repository.CreateUser(user);
+        }
+
+        public bool UpdateEvent(List<object> eventElements)
+        {
+            User user = CreateUserInstance(eventElements);
+            return repository.UpdateUser(user);
+        }
+
+        public bool DeleteUser(int id)
+        {
+            User user = repository.GetUserById(id);
+            return repository.DeleteUser(user);
         }
     }
 }
