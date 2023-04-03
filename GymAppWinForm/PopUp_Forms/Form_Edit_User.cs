@@ -36,7 +36,8 @@ namespace GymAppWinForm
             tb_last_name.Text = user.GetLastName;
             tb_email.Text = user.GetEmail;
             tb_password.Text = user.GetPassword;
-            comboBox_userType.Text = user.GetUserType.ToString();
+            comboBox_userType.DataSource = Enum.GetValues(typeof(UserType));
+            comboBox_userType.SelectedItem = user.GetUserType;
         }
 
         private void Form_Edit_User_Load(object sender, EventArgs e)

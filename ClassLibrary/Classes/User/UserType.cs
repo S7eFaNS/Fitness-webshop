@@ -8,7 +8,7 @@ namespace ClassLibrary.Classes.User
 {
     public enum UserType
     {
-        admin,
-        customer
+        Admin,
+        Customer
     }
 }

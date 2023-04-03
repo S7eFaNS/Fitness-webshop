@@ -89,7 +89,7 @@ namespace ManagerLibrary.Repositories
                                     GetLastName = reader.GetString(2),
                                     GetEmail = reader.GetString(3),
                                     GetPassword = reader.GetString(4),
-                                    //GetUserType = (UserType)Enum.Parse(typeof(UserType), reader.GetString(5))
+                                    GetUserType = (UserType)Enum.Parse(typeof(UserType), reader.GetString(5))
 
                                 };
                                 users.Add(user);
