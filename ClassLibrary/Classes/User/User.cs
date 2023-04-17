@@ -1,5 +1,4 @@
-﻿using Database.DataBase;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -8,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace ClassLibrary.Classes.User
 {
-    public class User : Entity
+    public class User
     {
+        public int Id { get; set; }
+
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
@@ -22,7 +23,7 @@ namespace ClassLibrary.Classes.User
 
         public User(int id, string firstName, string lastName, string email, string password, UserType userType)
         {
-            this.SetId(id);
+            Id = id;
             FirstName = firstName;
             LastName = lastName;
             Email = email;
