@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClassLibrary.Classes.Item
-{
-    public class ItemCatalogue
-    {
+//namespace ClassLibrary.Classes.Item
+//{
+    //public class ItemCatalogue
+    //{
         //private List<Item> itemList;
 
         //public ItemCatalogue(List<Item> itemList)
@@ -48,5 +48,5 @@ namespace ClassLibrary.Classes.Item
         //        }
         //    }
         //}
-    }
-}
+//    }
+//}
