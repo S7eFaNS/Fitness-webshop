@@ -1,6 +1,5 @@
 ﻿using ClassLibrary.Classes.Item;
 using Database.DataBase;
-using InterfaceLibrary.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -10,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ManagerLibrary.Repositories
 {
-    public class ItemRepository : IItemManager
+    public class ItemRepository
     {
         public List<Item> GetAllItems()
         {

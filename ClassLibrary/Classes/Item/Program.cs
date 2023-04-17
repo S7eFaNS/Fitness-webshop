@@ -12,7 +12,7 @@ namespace ClassLibrary.Classes.Item
 
         public Program(int id, string itemName, double itemPrice, string itemDescription, double itemQuantity, ItemType itemType)
         {
-            SetId(id);
+            Id = id;
             ItemName = itemName;
             ItemPrice = itemPrice;
             ItemDescription = itemDescription;

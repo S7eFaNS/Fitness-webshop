@@ -1,6 +1,5 @@
 ﻿using ClassLibrary.Classes.User;
 using Database.DataBase;
-using InterfaceLibrary.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -10,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ManagerLibrary.Repositories
 {
-    public class UserRepository /*:*/ /*IUserManager*/
+    public class UserRepository
     {
         private string _ConnectionString;
 
@@ -186,7 +185,7 @@ namespace ManagerLibrary.Repositories
 
         public User GetUserById(int id)
         {
-            User _user = new User();
+            User users = new User();
 
             using (SqlConnection connection = new SqlConnection(_ConnectionString))
             {
@@ -202,21 +201,21 @@ namespace ManagerLibrary.Repositories
                         {
                             while (reader.Read())
                             {
-                                _user.Id = (int)reader["Id"];
-                                _user.FirstName = (string)reader["first_name"];
-                                _user.LastName = (string)reader["last_name"];
-                                _user.Email = (string)reader["email"];
-                                _user.Password = (string)reader["password"];
-                                _user.UserType = (UserType)Convert.ToInt32(reader["user_type"]);
+                                users.Id = (int)reader["Id"];
+                                users.FirstName = (string)reader["first_name"];
+                                users.LastName = (string)reader["last_name"];
+                                users.Email = (string)reader["email"];
+                                users.Password = (string)reader["password"];
+                                users.UserType = (UserType)Convert.ToInt32(reader["user_type"]);
                             }
                         }
                     }
 
-                    return _user;
+                    return users;
                 }
                 catch (Exception ex)
                 {
-                    return _user;
+                    return users;
                 }
             }
         }

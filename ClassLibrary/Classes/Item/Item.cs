@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
-using Database.DataBase;
 
 namespace ClassLibrary.Classes.Item
 {
-    public abstract class Item : Entity
+    public abstract class Item
     {
+        public int Id { get; set; }
+
         protected string ItemName { get; set; }
 
         protected double ItemPrice { get; set; }
@@ -22,7 +23,7 @@ namespace ClassLibrary.Classes.Item
 
         public Item(int id, string itemName, double itemPrice, string itemDescription, double itemQuantity, ItemType itemType)
         {
-            SetId(id);
+            Id = id;
             ItemName = itemName;
             ItemPrice = itemPrice;
             ItemDescription = itemDescription;

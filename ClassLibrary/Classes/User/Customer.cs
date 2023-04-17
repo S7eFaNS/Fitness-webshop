@@ -10,9 +10,9 @@ namespace ClassLibrary.Classes.User
     {
         public Customer() { }
 
-        public Customer(/*int id, */string firstName, string lastName, string email, string password, UserType userType)
+        public Customer(int id, string firstName, string lastName, string email, string password, UserType userType)
         {
-            //this.SetId(id);
+            Id = id;
             FirstName = firstName;
             LastName = lastName;
             Email = email;
