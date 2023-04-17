@@ -38,11 +38,18 @@
             this.pnl_home = new System.Windows.Forms.Panel();
             this.btn_home = new System.Windows.Forms.Button();
             this.pnl_main = new System.Windows.Forms.Panel();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.btn_login = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.PnlMain.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.pnl_users.SuspendLayout();
             this.pnl_products.SuspendLayout();
             this.pnl_home.SuspendLayout();
+            this.pnl_main.SuspendLayout();
             this.SuspendLayout();
             // 
             // PnlMain
@@ -178,11 +185,78 @@
             // 
             this.pnl_main.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pnl_main.BackgroundImage")));
             this.pnl_main.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pnl_main.Controls.Add(this.label3);
+            this.pnl_main.Controls.Add(this.label2);
+            this.pnl_main.Controls.Add(this.label1);
+            this.pnl_main.Controls.Add(this.btn_login);
+            this.pnl_main.Controls.Add(this.textBox2);
+            this.pnl_main.Controls.Add(this.textBox1);
             this.pnl_main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnl_main.Location = new System.Drawing.Point(0, 87);
             this.pnl_main.Name = "pnl_main";
             this.pnl_main.Size = new System.Drawing.Size(1182, 616);
             this.pnl_main.TabIndex = 2;
+            // 
+            // textBox1
+            // 
+            this.textBox1.BackColor = System.Drawing.Color.Silver;
+            this.textBox1.ForeColor = System.Drawing.Color.Black;
+            this.textBox1.Location = new System.Drawing.Point(444, 184);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(252, 27);
+            this.textBox1.TabIndex = 0;
+            // 
+            // textBox2
+            // 
+            this.textBox2.BackColor = System.Drawing.Color.Silver;
+            this.textBox2.ForeColor = System.Drawing.Color.Black;
+            this.textBox2.Location = new System.Drawing.Point(444, 231);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(252, 27);
+            this.textBox2.TabIndex = 1;
+            // 
+            // btn_login
+            // 
+            this.btn_login.BackColor = System.Drawing.Color.Silver;
+            this.btn_login.ForeColor = System.Drawing.Color.Black;
+            this.btn_login.Location = new System.Drawing.Point(467, 281);
+            this.btn_login.Name = "btn_login";
+            this.btn_login.Size = new System.Drawing.Size(211, 54);
+            this.btn_login.TabIndex = 2;
+            this.btn_login.Text = "Log In";
+            this.btn_login.UseVisualStyleBackColor = false;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Location = new System.Drawing.Point(362, 187);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(49, 20);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Email:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.Location = new System.Drawing.Point(362, 234);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(73, 20);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Password:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.Font = new System.Drawing.Font("Showcard Gothic", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label3.ForeColor = System.Drawing.Color.Silver;
+            this.label3.Location = new System.Drawing.Point(493, 119);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(156, 50);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "SIGN IN";
             // 
             // Form1
             // 
@@ -202,6 +276,8 @@
             this.pnl_users.ResumeLayout(false);
             this.pnl_products.ResumeLayout(false);
             this.pnl_home.ResumeLayout(false);
+            this.pnl_main.ResumeLayout(false);
+            this.pnl_main.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -216,5 +292,11 @@
         private Panel pnl_home;
         private Button btn_home;
         private Panel pnl_main;
+        private Label label3;
+        private Label label2;
+        private Label label1;
+        private Button btn_login;
+        private TextBox textBox2;
+        private TextBox textBox1;
     }
 }

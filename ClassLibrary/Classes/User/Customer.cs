@@ -10,14 +10,14 @@ namespace ClassLibrary.Classes.User
     {
         public Customer() { }
 
-        public Customer(int id, string firstName, string lastName, string email, string password, UserType userType)
+        public Customer(/*int id, */string firstName, string lastName, string email, string password, UserType userType)
         {
             //this.SetId(id);
-            GetFirstName = firstName;
-            GetLastName = lastName;
-            GetEmail = email;
-            GetPassword = password;
-            GetUserType = userType;
+            FirstName = firstName;
+            LastName = lastName;
+            Email = email;
+            Password = password;
+            UserType = userType;
         }
     }
 }

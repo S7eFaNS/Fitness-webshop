@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace GymProject.Pages
 {
-    public class WomenModel : PageModel
+    public class ProductModel : PageModel
     {
         public void OnGet()
         {

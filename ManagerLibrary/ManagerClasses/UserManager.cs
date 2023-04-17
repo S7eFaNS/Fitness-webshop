@@ -12,22 +12,22 @@ namespace ManagerLibrary.ManagerClasses
 {
     public class UserManager : IUserManager
     {
-        private UserRepository repository = new UserRepository();
+        private readonly UserRepository repository = new UserRepository();
 
         public UserManager() { }
 
-        public User CreateUserInstance(List<object> eventElements)
+        public User CreateUserInstance(List<object> userElements)
         {
             //ToDoNext
-            UserType userType = (UserType)Enum.Parse(typeof(UserType), eventElements[6].ToString());
+            UserType userType = (UserType)Enum.Parse(typeof(UserType), userElements[6].ToString());
 
             User user = new User();
-            user.Id = (int)eventElements[0];
-            user.GetFirstName = (string)eventElements[1];
-            user.GetLastName = (string)eventElements[2];
-            user.GetEmail = (string)(eventElements[4]);
-            user.GetPassword = (string)eventElements[5];
-            user.GetUserType = userType;
+            user.Id = (int)userElements[0];
+            user.FirstName = (string)userElements[1];
+            user.LastName = (string)userElements[2];
+            user.Email = (string)(userElements[4]);
+            user.Password = (string)userElements[5];
+            user.UserType = userType;
 
             return user;
         }
@@ -61,7 +61,7 @@ namespace ManagerLibrary.ManagerClasses
             return repository.CreateUser(user);
         }
 
-        public bool UpdateEvent(List<object> eventElements)
+        public bool UpdateUser(List<object> eventElements)
         {
             User user = CreateUserInstance(eventElements);
             return repository.UpdateUser(user);
@@ -72,5 +72,7 @@ namespace ManagerLibrary.ManagerClasses
             User user = repository.GetUserById(id);
             return repository.DeleteUser(user);
         }
+
+
     }
 }

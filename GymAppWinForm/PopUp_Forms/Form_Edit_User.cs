@@ -32,12 +32,12 @@ namespace GymAppWinForm
         {
             user = userManager.GetUserById(Id);
 
-            tb_first_name.Text = user.GetFirstName;
-            tb_last_name.Text = user.GetLastName;
-            tb_email.Text = user.GetEmail;
-            tb_password.Text = user.GetPassword;
+            tb_first_name.Text = user.FirstName;
+            tb_last_name.Text = user.LastName;
+            tb_email.Text = user.Email;
+            tb_password.Text = user.Password;
             comboBox_userType.DataSource = Enum.GetValues(typeof(UserType));
-            comboBox_userType.SelectedItem = user.GetUserType;
+            comboBox_userType.SelectedItem = user.UserType;
         }
 
         private void Form_Edit_User_Load(object sender, EventArgs e)
@@ -58,7 +58,7 @@ namespace GymAppWinForm
                     comboBox_userType.Text,
                 };
 
-                userManager.UpdateEvent(eventElements);
+                userManager.UpdateUser(eventElements);
                 DialogResult = DialogResult.OK;
             }
             else if (Mode == "Read")

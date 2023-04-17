@@ -36,14 +36,14 @@ namespace GymAppWinForm.UserControl_Pages
             List<User> users = userManager.GetUsers();
             data_grid_view_users.DataSource = users;
             data_grid_view_users.Columns["Id"].Width = 35;
-            data_grid_view_users.Columns["GetFirstName"].Width = 195;
-            data_grid_view_users.Columns["GetLastName"].Width = 195;
-            data_grid_view_users.Columns["GetEmail"].Width = 195;
+            data_grid_view_users.Columns["FirstName"].Width = 195;
+            data_grid_view_users.Columns["LastName"].Width = 195;
+            data_grid_view_users.Columns["Email"].Width = 195;
 
             data_grid_view_users.Columns["Id"].DisplayIndex = 0;
-            data_grid_view_users.Columns["GetFirstName"].DisplayIndex = 1;
-            data_grid_view_users.Columns["GetLastName"].DisplayIndex = 2;
-            data_grid_view_users.Columns["GetEmail"].DisplayIndex = 3;
+            data_grid_view_users.Columns["FirstName"].DisplayIndex = 1;
+            data_grid_view_users.Columns["LastName"].DisplayIndex = 2;
+            data_grid_view_users.Columns["Email"].DisplayIndex = 3;
         }
 
         private void btn_edit_user_Click(object sender, EventArgs e)

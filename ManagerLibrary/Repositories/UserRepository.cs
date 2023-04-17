@@ -85,11 +85,11 @@ namespace ManagerLibrary.Repositories
                                 User user = new User()
                                 {
                                     Id = reader.GetInt32(0),
-                                    GetFirstName = reader.GetString(1),
-                                    GetLastName = reader.GetString(2),
-                                    GetEmail = reader.GetString(3),
-                                    GetPassword = reader.GetString(4),
-                                    GetUserType = (UserType)Enum.Parse(typeof(UserType), reader.GetString(5))
+                                    FirstName = reader.GetString(1),
+                                    LastName = reader.GetString(2),
+                                    Email = reader.GetString(3),
+                                    Password = reader.GetString(4),
+                                    UserType = (UserType)Enum.Parse(typeof(UserType), reader.GetString(5))
 
                                 };
                                 users.Add(user);
@@ -106,7 +106,6 @@ namespace ManagerLibrary.Repositories
             return users;
         }
 
-
         public bool CreateUser(User user)
         {
             using (SqlConnection connection = new SqlConnection(_ConnectionString))
@@ -115,7 +114,7 @@ namespace ManagerLibrary.Repositories
                 {
                     connection.Open();
                     string query = $"INSERT INTO Users(first_name, last_name, email, password, user_type)" +
-                        $"VALUES('{user.GetFirstName}', '{user.GetLastName}', '{user.GetEmail}', {user.GetPassword}, '{user.GetUserType}', {(int)user.GetUserType}')";
+                        $"VALUES('{user.FirstName}', '{user.LastName}', '{user.Email}', {user.Password}, '{user.UserType}', {(int)user.UserType}')";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
@@ -140,11 +139,11 @@ namespace ManagerLibrary.Repositories
                 {
                     connection.Open();
                     string query = $"UPDATE Users " +
-                    $"SET first_name = '{user.GetFirstName}'," +
-                    $"last_name = '{user.GetLastName}'," +
-                    $"email = '{user.GetEmail}'," +
-                    $"password = {user.GetPassword}," +
-                    $"user_type = {(int)user.GetUserType}," +
+                    $"SET first_name = '{user.FirstName}'," +
+                    $"last_name = '{user.LastName}'," +
+                    $"email = '{user.Email}'," +
+                    $"password = {user.Password}," +
+                    $"user_type = {(int)user.UserType}," +
                     $"WHERE id = {user.Id};";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
@@ -204,11 +203,11 @@ namespace ManagerLibrary.Repositories
                             while (reader.Read())
                             {
                                 _user.Id = (int)reader["Id"];
-                                _user.GetFirstName = (string)reader["first_name"];
-                                _user.GetLastName = (string)reader["last_name"];
-                                _user.GetEmail = (string)reader["email"];
-                                _user.GetPassword = (string)reader["password"];
-                                _user.GetUserType = (UserType)Convert.ToInt32(reader["user_type"]);
+                                _user.FirstName = (string)reader["first_name"];
+                                _user.LastName = (string)reader["last_name"];
+                                _user.Email = (string)reader["email"];
+                                _user.Password = (string)reader["password"];
+                                _user.UserType = (UserType)Convert.ToInt32(reader["user_type"]);
                             }
                         }
                     }
@@ -221,5 +220,29 @@ namespace ManagerLibrary.Repositories
                 }
             }
         }
+        //public bool AuthenticateUser(User user)
+        //{
+        //    using (SqlConnection connection = new SqlConnection(_ConnectionString))
+        //    {
+        //        connection.Open();
+        //        SqlCommand command = new SqlCommand("SELECT * FROM Users WHERE email=@Email AND password=@Password", connection);
+        //        command.Parameters.AddWithValue("@Email", user.Email);
+        //        command.Parameters.AddWithValue("@Password", user.Password);
+        //        SqlDataReader reader = command.ExecuteReader();
+        //        if (reader.HasRows)
+        //        {
+        //            reader.Read();
+        //            user.Id= (int)reader["Id"];
+        //            user.FirstName = reader.GetString(1);
+        //            user.LastName = reader.GetString(2);
+        //            user.UserType = (UserType)Enum.Parse(typeof(UserType), reader.GetString(5));
+        //            return true;
+        //        }
+        //        else
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //}
     }
 }

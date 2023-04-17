@@ -15,6 +15,6 @@ namespace Database.DataBase
     internal class PrimaryKey : ColumnName
     {
         public bool IsPrimaryKey { get; private set; }
-        public PrimaryKey(string name = "id") : base(name) { this.IsPrimaryKey = true; }
+        public PrimaryKey(string name = "id") :     base(name) { this.IsPrimaryKey = true; }
     }
 }

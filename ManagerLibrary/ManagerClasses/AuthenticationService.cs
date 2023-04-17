@@ -15,6 +15,25 @@ namespace ManagerLibrary.ManagerClasses
         public AuthenticationService()
         { }
 
+        //public bool Authenticate(string email, string password, out User authenticatedUser)
+        //{
+        //    authenticatedUser = null;
+        //    User user = new User();
+        //    user.Email = email;
+        //    user.Password = password;
+        //    bool result = userRepository.AuthenticateUser(user);
+
+        //    if (result)
+        //    {
+        //        authenticatedUser = user;
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
+
         //public bool Login(string email, string password)
         //{
         //    if (userRepository.CheckLogin(email, password))
