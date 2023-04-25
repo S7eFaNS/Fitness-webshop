@@ -1,5 +1,6 @@
 ﻿using ClassLibrary.Classes.User;
 using Database.DataBase;
+using InterfaceLibrary.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -9,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace ManagerLibrary.Repositories
 {
-    public class UserRepository
+    public class UserRepository : IUserRepository
     {
         private string _ConnectionString;
 
-        public UserRepository() 
+        public UserRepository()
         {
             ConfigureService();
         }
@@ -183,12 +184,11 @@ namespace ManagerLibrary.Repositories
 
         }
 
-        public User GetUserById(int id)
+        public User? GetUserById(int id)
         {
-            User users = new User();
-
             using (SqlConnection connection = new SqlConnection(_ConnectionString))
             {
+                User user = new();
                 try
                 {
                     connection.Open();
@@ -199,49 +199,62 @@ namespace ManagerLibrary.Repositories
                     {
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
-                            while (reader.Read())
+                            if (reader.Read())
                             {
-                                users.Id = (int)reader["Id"];
-                                users.FirstName = (string)reader["first_name"];
-                                users.LastName = (string)reader["last_name"];
-                                users.Email = (string)reader["email"];
-                                users.Password = (string)reader["password"];
-                                users.UserType = (UserType)Convert.ToInt32(reader["user_type"]);
+                                user.Id = (int)reader["Id"];
+                                user.FirstName = (string)reader["first_name"];
+                                user.LastName = (string)reader["last_name"];
+                                user.Email = (string)reader["email"];
+                                user.Password = (string)reader["password"];
+                                user.UserType = (UserType)Convert.ToInt32(reader["user_type"]);
                             }
                         }
                     }
 
-                    return users;
+                    return user;
                 }
                 catch (Exception ex)
                 {
-                    return users;
+                    return user;
                 }
             }
         }
-        //public bool AuthenticateUser(User user)
-        //{
-        //    using (SqlConnection connection = new SqlConnection(_ConnectionString))
-        //    {
-        //        connection.Open();
-        //        SqlCommand command = new SqlCommand("SELECT * FROM Users WHERE email=@Email AND password=@Password", connection);
-        //        command.Parameters.AddWithValue("@Email", user.Email);
-        //        command.Parameters.AddWithValue("@Password", user.Password);
-        //        SqlDataReader reader = command.ExecuteReader();
-        //        if (reader.HasRows)
-        //        {
-        //            reader.Read();
-        //            user.Id= (int)reader["Id"];
-        //            user.FirstName = reader.GetString(1);
-        //            user.LastName = reader.GetString(2);
-        //            user.UserType = (UserType)Enum.Parse(typeof(UserType), reader.GetString(5));
-        //            return true;
-        //        }
-        //        else
-        //        {
-        //            return false;
-        //        }
-        //    }
-        //}
+        public User? CheckLogin(string email, string password)
+        {
+            using (SqlConnection connection = new SqlConnection(_ConnectionString))
+            {
+                 try
+                {
+                    connection.Open();
+
+                    string query = $"SELECT * FROM Users " +
+                        $"WHERE email = '{email}' AND password = '{password}'";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                return new User() { 
+                                Id = (int)reader["Id"],
+                                FirstName = (string)reader["first_name"],
+                                LastName = (string)reader["last_name"],
+                                Email = (string)reader["email"],
+                                Password = (string)reader["password"],
+                                UserType = (UserType)Convert.ToInt32(reader["user_type"])
+                                    };
+                            }
+                        }
+                    }
+
+                    return null;
+                }
+                catch (Exception ex)
+                {
+                    return null;
+                }
+            }
+        }
     }
 }

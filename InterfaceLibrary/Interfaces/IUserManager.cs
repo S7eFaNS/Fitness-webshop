@@ -17,6 +17,8 @@ namespace InterfaceLibrary.Interfaces
         //public bool UpdateUser(User user);
 
         public bool DeleteUser(int id);
+        public User GetUserById(int id);
+        public bool UpdateUser(List<object> eventElements);
 
         ////Admin
         //public bool CreateAdmin(Admin admin);

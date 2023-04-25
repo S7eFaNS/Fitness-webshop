@@ -1,4 +1,5 @@
 ﻿using ClassLibrary.Classes.User;
+using InterfaceLibrary.Interfaces;
 using ManagerLibrary.ManagerClasses;
 using System;
 using System.Collections.Generic;
@@ -17,12 +18,13 @@ namespace GymAppWinForm
     {
         string Mode { get; set; }
         private int eventId;
-        User user;
-        UserManager userManager = new UserManager();
+        private User user;
+        private readonly IUserManager userManager;
 
-        public Form_Edit_User(string mode, int id)
+        public Form_Edit_User(IUserManager userManager, string mode, int id)
         {
             InitializeComponent();
+            this.userManager = userManager;
             Mode = mode;
             FillInData(id);
             eventId = id;

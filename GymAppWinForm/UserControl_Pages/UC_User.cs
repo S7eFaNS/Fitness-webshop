@@ -1,5 +1,7 @@
 ﻿using ClassLibrary.Classes.User;
+using InterfaceLibrary.Interfaces;
 using ManagerLibrary.ManagerClasses;
+using ManagerLibrary.Repositories;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,8 +17,7 @@ namespace GymAppWinForm.UserControl_Pages
 {
     public partial class UC_User : UserControl
     {
-        UserManager userManager = new UserManager();
-        
+        private readonly IUserManager userManager;
 
         //public UC_User(User currentUser)
         //{
@@ -27,7 +28,9 @@ namespace GymAppWinForm.UserControl_Pages
 
         public UC_User()
         {
+            IUserRepository repository = new UserRepository();
             InitializeComponent();
+            this.userManager = new UserManager(repository);
             LoadUsers();
         }
 
@@ -54,7 +57,7 @@ namespace GymAppWinForm.UserControl_Pages
             {
                 int id = (int)selectedRow.Cells["Id"].Value;
 
-                Form_Edit_User frm = new Form_Edit_User("Update", id);
+                Form_Edit_User frm = new Form_Edit_User(userManager, "Update", id);
                 frm.ShowDialog();
             }
             else
@@ -78,8 +81,7 @@ namespace GymAppWinForm.UserControl_Pages
             if (selectedRow != null)
             {
                 int id = (int)selectedRow.Cells["ID"].Value;
-                UserManager eventService = new UserManager();
-                eventService.DeleteUser(id);
+                userManager.DeleteUser(id);
             }
 
             LoadUsers();

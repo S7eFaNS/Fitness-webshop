@@ -19,11 +19,23 @@
             <li><a href="/Product" class="nav-link px-2 link-dark">Products</a></li>
             <li><a href="/ShoppingCart" class="nav-link px-2 link-dark">Shopping cart</a></li>
         </ul>
-
-        <div class="col-md-3 text-end">
+        @if (User?.Identity?.IsAuthenticated != true)
+        {
+            <div class="col-md-3 text-end">
+                <button type="button" class="btn btn-outline-primary me-2" onclick="location.href='SignIn';">Login</button>
+                <button type="button" class="btn btn-primary" onclick="location.href='SignUp';">Sign-up</button>
+            </div>
+        }
+        else
+        {
+            <div class="col-md-3 text-end">
+                <button type="button" class="btn btn-outline-primary me-2">Logout</button>
+            </div>
+        }
+        @*<div class="col-md-3 text-end">
             <button type="button" class="btn btn-outline-primary me-2" onclick="location.href='SignIn';">Login</button>
             <button type="button" class="btn btn-primary" onclick="location.href='SignUp';">Sign-up</button>
-        </div>
+        </div>*@
     </header>
     <div class="">
         <main role="main" class="pb-3">

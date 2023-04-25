@@ -1,4 +1,5 @@
 ﻿using ClassLibrary.Classes.User;
+using InterfaceLibrary.Interfaces;
 using ManagerLibrary.Repositories;
 using System;
 using System.Collections.Generic;
@@ -8,44 +9,22 @@ using System.Threading.Tasks;
 
 namespace ManagerLibrary.ManagerClasses
 {
-    public class AuthenticationService
+    public class AuthenticationService : IAuthenticationService
     {
-        private UserRepository userRepository = new UserRepository();
+        private readonly IUserRepository repository;
 
-        public AuthenticationService()
-        { }
+        public AuthenticationService(IUserRepository repository)
+        {
+            this.repository = repository;
+        }
 
-        //public bool Authenticate(string email, string password, out User authenticatedUser)
-        //{
-        //    authenticatedUser = null;
-        //    User user = new User();
-        //    user.Email = email;
-        //    user.Password = password;
-        //    bool result = userRepository.AuthenticateUser(user);
+        public User? CheckLogin(string email, string password) => repository.CheckLogin(email, password);
 
-        //    if (result)
-        //    {
-        //        authenticatedUser = user;
-        //        return true;
-        //    }
-        //    else
-        //    {
-        //        return false;
-        //    }
-        //}
 
-        //public bool Login(string email, string password)
-        //{
-        //    if (userRepository.CheckLogin(email, password))
-        //    {
-        //        return true;
-        //    }
-        //    else
-        //    {
-        //        return false;
-        //    }
 
-        //}
+
+
+
 
         //public bool RegisterVisitor(string firstName, string lastName, string email, string password, string roleString, int age, string imageUrl)
         //{

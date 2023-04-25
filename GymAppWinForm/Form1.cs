@@ -1,10 +1,14 @@
 using ClassLibrary;
 using GymAppWinForm.UserControl_Pages;
+using InterfaceLibrary.Interfaces;
+using ManagerLibrary.ManagerClasses;
 
 namespace GymAppWinForm
 {
     public partial class Form1 : Form
     {
+        private IUserManager userManager;
+
         public Form1()
         {
             InitializeComponent();

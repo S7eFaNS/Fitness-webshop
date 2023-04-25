@@ -12,9 +12,12 @@ namespace ManagerLibrary.ManagerClasses
 {
     public class UserManager : IUserManager
     {
-        private readonly UserRepository repository = new UserRepository();
+        private readonly IUserRepository repository;
 
-        public UserManager() { }
+        public UserManager(IUserRepository repository)
+        {
+            this.repository = repository;
+        }
 
         public User CreateUserInstance(List<object> userElements)
         {
@@ -72,7 +75,5 @@ namespace ManagerLibrary.ManagerClasses
             User user = repository.GetUserById(id);
             return repository.DeleteUser(user);
         }
-
-
     }
 }

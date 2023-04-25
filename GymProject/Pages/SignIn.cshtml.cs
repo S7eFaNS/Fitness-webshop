@@ -1,6 +1,10 @@
 using ClassLibrary.Classes.User;
+using GymProject.ViewModels;
+using InterfaceLibrary.Interfaces;
 using ManagerLibrary.ManagerClasses;
+using ManagerLibrary.Repositories;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Diagnostics;
@@ -13,45 +17,81 @@ namespace GymProject.Pages
     public class SignInModel : PageModel
     {
         [BindProperty]
-        public User user { get; set; }
+        public UserViewModel LoggingUser { get; set; }
+        [BindProperty]
+        public bool KeepMeLoggedIn { get; set; }
+
+        public readonly InterfaceLibrary.Interfaces.IAuthenticationService authenticationService = new ManagerLibrary.ManagerClasses.AuthenticationService(new UserRepository());
         public string? ErrorMessage { get; set; }
+        public string? RequestId { get; private set; }
 
-        private readonly ILogger<SignInModel> _logger;
 
-        public SignInModel(ILogger<SignInModel> logger)
+        public bool IsUserLoggedIn()
         {
-            _logger = logger;
-        }
-
-        public void OnGet()
-        {
-
-        }
-
-        public async Task<IActionResult> OnPostAsync()
-        {
-            if (!ModelState.IsValid)
+            string? userEmail = HttpContext.Session.GetString("UserEmail");
+            if (userEmail != null)
             {
-                ErrorMessage = "Please fill in all of the boxes above";
+                return true;
+            }
+
+            userEmail = Request.Cookies["UserEmail"];
+            string userId = Request.Cookies["UserID"];
+
+            if (userEmail != null && userId != null)
+            {
+                HttpContext.Session.SetString("UserEmail", userEmail);
+                HttpContext.Session.SetString("UserID", userId);
+                return true;
+            }
+            return false;
+        }
+
+        public IActionResult OnGet()
+        {
+            if (IsUserLoggedIn())
+            {
+                return RedirectToPage("/Profile");
+            }
+            return Page();
+        }
+
+        public IActionResult OnPost()
+        {
+            bool keepMeLoggedIn = false;
+
+            User? LoggedUser = authenticationService.CheckLogin(LoggingUser.Email, LoggingUser.Password);
+            
+            if (LoggedUser == null)
+            {
+                ErrorMessage = "Incorrect email or password";
                 return Page();
             }
 
-            if (user.Email == "admin@gmail.com" && user.Password == "password")
+            List<Claim> claims = new List<Claim>();
+            claims.Add(new Claim(ClaimTypes.Email, LoggedUser.Email));
+            claims.Add(new Claim(ClaimTypes.Role, LoggedUser.UserType.ToString()));
+
+            HttpContext.Session.SetString("UserEmail", LoggedUser.Email);
+            HttpContext.Session.SetString("UserID", LoggedUser.Id.ToString());
+
+            if (keepMeLoggedIn)
             {
-                var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.Email, user.Email),
-        };
-                var identity = new ClaimsIdentity(claims, "MyCookieAuth");
-                ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(identity);
-
-                await HttpContext.SignInAsync("MyCookieAuth", claimsPrincipal);
-
-                return RedirectToPage("/Index");
+                CookieOptions cOptions = new CookieOptions();
+                cOptions.Expires = DateTime.Now.AddDays(1);
+                Response.Cookies.Append("UserEmail", LoggedUser.Email, cOptions);
+                Response.Cookies.Append("UserID", LoggedUser.Id.ToString(), cOptions);
             }
 
-            ModelState.AddModelError("", "Invalid login attempt");
-            return Page();
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            HttpContext.SignInAsync(new ClaimsPrincipal(claimsIdentity));
+
+            string? returnUrl = Request.Query["ReturnUrl"];
+            if (string.IsNullOrEmpty(returnUrl))
+            {
+                return RedirectToPage("/Profile");
+            }
+
+            return RedirectToPage(returnUrl);
         }
 
     }
