@@ -206,7 +206,7 @@ namespace ManagerLibrary.Repositories
                                 user.LastName = (string)reader["last_name"];
                                 user.Email = (string)reader["email"];
                                 user.Password = (string)reader["password"];
-                                user.UserType = (UserType)Convert.ToInt32(reader["user_type"]);
+                                user.UserType = Enum.Parse<UserType>((string)reader["user_type"]);
                             }
                         }
                     }
@@ -242,8 +242,8 @@ namespace ManagerLibrary.Repositories
                                 LastName = (string)reader["last_name"],
                                 Email = (string)reader["email"],
                                 Password = (string)reader["password"],
-                                UserType = (UserType)Convert.ToInt32(reader["user_type"])
-                                    };
+                                UserType = Enum.Parse<UserType>((string)reader["user_type"])
+                                };
                             }
                         }
                     }

@@ -77,7 +77,7 @@ namespace GymProject.Pages
             if (keepMeLoggedIn)
             {
                 CookieOptions cOptions = new CookieOptions();
-                cOptions.Expires = DateTime.Now.AddDays(1);
+                cOptions.Expires = DateTime.Now.AddDays(5);
                 Response.Cookies.Append("UserEmail", LoggedUser.Email, cOptions);
                 Response.Cookies.Append("UserID", LoggedUser.Id.ToString(), cOptions);
             }
