@@ -8,13 +8,16 @@ namespace ClassLibrary.Classes.User
 {
     public class Customer : User
     {
+        public int Age { get; set; }
+
         public Customer() { }
 
-        public Customer(int id, string firstName, string lastName, string email, string password, UserType userType)
+        public Customer(int id, string firstName, string lastName, int age, string email, string password, UserType userType)
         {
             Id = id;
             FirstName = firstName;
             LastName = lastName;
+            Age = age;
             Email = email;
             Password = password;
             UserType = userType;

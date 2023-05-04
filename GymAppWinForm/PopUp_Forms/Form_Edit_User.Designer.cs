@@ -43,6 +43,10 @@
             this.label5 = new System.Windows.Forms.Label();
             this.comboBox_userType = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.tb_age = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.tb_username = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -181,6 +185,44 @@
             this.label6.TabIndex = 13;
             this.label6.Text = "Role:";
             // 
+            // tb_age
+            // 
+            this.tb_age.BackColor = System.Drawing.Color.Silver;
+            this.tb_age.Location = new System.Drawing.Point(309, 43);
+            this.tb_age.Name = "tb_age";
+            this.tb_age.Size = new System.Drawing.Size(60, 27);
+            this.tb_age.TabIndex = 15;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.BackColor = System.Drawing.Color.Silver;
+            this.label7.ForeColor = System.Drawing.Color.Black;
+            this.label7.Location = new System.Drawing.Point(264, 46);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(39, 20);
+            this.label7.TabIndex = 14;
+            this.label7.Text = "Age:";
+            // 
+            // tb_username
+            // 
+            this.tb_username.BackColor = System.Drawing.Color.Silver;
+            this.tb_username.Location = new System.Drawing.Point(185, 238);
+            this.tb_username.Name = "tb_username";
+            this.tb_username.Size = new System.Drawing.Size(482, 27);
+            this.tb_username.TabIndex = 17;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.BackColor = System.Drawing.Color.Silver;
+            this.label8.ForeColor = System.Drawing.Color.Black;
+            this.label8.Location = new System.Drawing.Point(96, 241);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(78, 20);
+            this.label8.TabIndex = 16;
+            this.label8.Text = "Username:";
+            // 
             // Form_Edit_User
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -188,6 +230,10 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.tb_username);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.tb_age);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.comboBox_userType);
             this.Controls.Add(this.tb_id);
@@ -227,5 +273,9 @@
         private Label label5;
         private ComboBox comboBox_userType;
         private Label label6;
+        private TextBox tb_age;
+        private Label label7;
+        private TextBox tb_username;
+        private Label label8;
     }
 }

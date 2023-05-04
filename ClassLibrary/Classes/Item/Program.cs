@@ -8,9 +8,10 @@ namespace ClassLibrary.Classes.Item
 {
     public class Program : Item
     {
+        public string ProgramLink { get; set; }
         public Program() { }
 
-        public Program(int id, string itemName, double itemPrice, string itemDescription, double itemQuantity, ItemType itemType)
+        public Program(int id, string itemName, double itemPrice, string itemDescription, double itemQuantity, ItemType itemType, string programLink)
         {
             Id = id;
             ItemName = itemName;
@@ -18,6 +19,7 @@ namespace ClassLibrary.Classes.Item
             ItemDescription = itemDescription;
             ItemQuantity = itemQuantity;
             ItemType = itemType;
+            ProgramLink = programLink;
         }
     }
 }
