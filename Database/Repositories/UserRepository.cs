@@ -25,46 +25,6 @@ namespace ManagerLibrary.Repositories
             _ConnectionString = dbConn.ConnectionString;
         }
 
-        //public List<User> GetUsers()
-        //{
-        //    List<User> users = new List<User>();
-
-        //    using (SqlConnection connection = new SqlConnection(_ConnectionString))
-        //    {
-        //        try
-        //        {
-        //            connection.Open();
-        //            string query = "SELECT * FROM Users";
-
-        //            using (SqlCommand command = new SqlCommand(query, connection))
-        //            {
-        //                using (SqlDataReader reader = command.ExecuteReader())
-        //                {
-        //                    while (reader.Read())
-        //                    {
-        //                        User user = new User()
-        //                        {
-        //                            Id = reader.GetInt32(0),
-        //                            GetFirstName = reader.GetString(1),
-        //                            GetLastName = reader.GetString(2),
-        //                            GetEmail = reader.GetString(3),
-        //                            GetPassword= reader.GetString(4),
-        //                            GetUserType = (UserType)Enum.Parse(typeof(UserType), reader.GetString(5))
-        //                        };
-        //                        users.Add(user);
-        //                    };
-
-        //                }
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            return users;
-        //        }
-        //    }
-
-        //    return users;
-        //}
         public List<User> GetUsers()
         {
             List<User> users = new List<User>();
@@ -128,7 +88,6 @@ namespace ManagerLibrary.Repositories
                     return false;
                 }
             }
-
         }
 
         public bool UpdateUser(User user)
@@ -143,7 +102,7 @@ namespace ManagerLibrary.Repositories
                     $"last_name = '{user.LastName}'," +
                     $"email = '{user.Email}'," +
                     $"password = {user.Password}," +
-                    $"user_type = {(int)user.UserType}," +
+                    $"user_type = {user.UserType}," +
                     $"WHERE id = {user.Id};";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
@@ -219,6 +178,313 @@ namespace ManagerLibrary.Repositories
                 }
             }
         }
+
+        public User GetUserByEmail(string email)
+        {
+            using (SqlConnection connection = new SqlConnection(_ConnectionString))
+            {
+                User user = new User();
+
+                try
+                {
+                    connection.Open();
+                    string query = $"SELECT * FROM Users " +
+                        $"WHERE email = '{email}'";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                user.Id = reader.GetInt32(0);
+                                user.FirstName = reader.GetString(1);
+                                user.LastName = reader.GetString(2);
+                                user.Email = reader.GetString(3);
+                                user.Password = reader.GetString(4);
+                                user.UserType = (UserType)Enum.Parse(typeof(UserType), reader.GetString(5));
+                            }
+                        }
+                    }
+                    return user;
+                }
+                catch (Exception ex)
+                {
+                    return user;
+                }
+            }
+        }
+
+        public bool CreateAdmin(Admin admin)
+        {
+            using (SqlConnection connection = new SqlConnection(_ConnectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    string query = $"INSERT INTO Admins (id) " +
+                        $"VALUES('{admin.Id}')";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+            }
+        }
+
+        public bool DeleteAdmin(Admin admin)
+        {
+            using (SqlConnection connection = new SqlConnection(_ConnectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    string query = $"DELETE FROM Admins WHERE id = {admin.Id};";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+            }
+        }
+
+        public Admin GetAdminById(int adminId)
+        {
+            using (SqlConnection connection = new SqlConnection(_ConnectionString))
+            {
+                Admin admin = new Admin();
+                try
+                {
+                    connection.Open();
+                    string query = $"SELECT Users.id, Users.email, Users.first_name, Users.last_name" +
+                        $"FROM Users " +
+                        $"INNER JOIN Admins ON Users.id = Admins.id " +
+                        $"WHERE Users.id = {adminId}";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                admin.Id = reader.GetInt32(0);
+                                admin.FirstName = reader.GetString(1);
+                                admin.LastName = reader.GetString(2);
+                                admin.Email = reader.GetString(3);
+                            }
+                        }
+                    }
+                    return admin;
+                }
+                catch (Exception ex)
+                {
+                    return admin;
+                }
+            }
+        }
+
+        public List<Admin> GetAdmins()
+        {
+            using (SqlConnection connection = new SqlConnection(_ConnectionString))
+            {
+                List<Admin> admins = new List<Admin>();
+
+                try
+                {
+                    connection.Open();
+                    string query = $"SELECT Users.id, Users.email, Users.first_name, Users.last_name" +
+                        $"FROM Users " +
+                        $"INNER JOIN Admins ON Users.id = Admins.id";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                Admin admin = new Admin();
+
+                                admin.Id = reader.GetInt32(0);
+                                admin.FirstName= reader.GetString(1);
+                                admin.LastName= reader.GetString(2);
+                                admin.Email = reader.GetString(3);
+
+                                admins.Add(admin);
+                            }
+                        }
+                    }
+                    return admins;
+                }
+                catch (Exception ex)
+                {
+                    return admins;
+                }
+            }
+        }
+
+        public bool CreateCustomer(Customer customer)
+        {
+            using (SqlConnection connection = new SqlConnection(_ConnectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    string query = $"INSERT INTO Customers(id, age) " +
+                        $"VALUES('{customer.Id}', '{customer.Age}')";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+            }
+        }
+
+        public bool UpdateCustomer(Customer customer)
+        {
+            using (SqlConnection connection = new SqlConnection(_ConnectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    string query = $"UPDATE Customers " +
+                    $"SET age = '{customer.Age}', " +
+                    $"WHERE id = {customer.Id};";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+            }
+
+        }
+
+        public bool DeleteCustomer(Customer customer)
+        {
+            using (SqlConnection connection = new SqlConnection(_ConnectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    string query = $"DELETE FROM Customers WHERE id = {customer.Id};";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+            }
+        }
+
+        public Customer GetCustomerById(int customerId)
+        {
+            using (SqlConnection connection = new SqlConnection(_ConnectionString))
+            {
+                Customer customer = new Customer();
+
+                try
+                {
+                    connection.Open();
+                    string query = $"SELECT Users.id, Users.first_name, Users.last_name, Users.email, Customers.age" +
+                        $"FROM Users " +
+                        $"INNER JOIN Customers ON Users.id = {customerId}; ";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                customer.Id = reader.GetInt32(0);
+                                customer.FirstName = reader.GetString(1);
+                                customer.LastName = reader.GetString(2);
+                                customer.Email = reader.GetString(3);
+                                customer.Age = reader.GetInt32(4);
+                            }
+                        }
+                    }
+                    return customer;
+                }
+                catch (Exception ex)
+                {
+                    return customer;
+                }
+            }
+        }
+
+        public List<Customer> GetCustomers()
+        {
+            using (SqlConnection connection = new SqlConnection(_ConnectionString))
+            {
+                List<Customer> customers = new List<Customer>();
+
+                try
+                {
+                    connection.Open();
+                    string query = $"SELECT Users.id, Users.first_name, Users.last_name, Users.email, Visitors.age" +
+                        $"FROM Users " +
+                        $"INNER JOIN Customers ON Users.id = Customers.id; ";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                Customer customer = new Customer();
+
+                                customer.Id = reader.GetInt32(0);
+                                customer.FirstName = reader.GetString(1);
+                                customer.LastName = reader.GetString(2);
+                                customer.Email = reader.GetString(3);
+                                customer.Age = reader.GetInt32(4);
+
+                                customers.Add(customer);
+                            }
+                        }
+                    }
+                    return customers;
+                }
+                catch (Exception ex)
+                {
+                    return customers;
+                }
+            }
+        }
+
         public User? CheckLogin(string email, string password)
         {
             using (SqlConnection connection = new SqlConnection(_ConnectionString))
