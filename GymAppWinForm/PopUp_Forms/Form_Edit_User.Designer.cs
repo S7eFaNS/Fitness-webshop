@@ -41,12 +41,10 @@
             this.btn_cancel_user_changes = new System.Windows.Forms.Button();
             this.tb_id = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.comboBox_userType = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.tb_age = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.tb_username = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
+            this.tb_age = new System.Windows.Forms.TextBox();
+            this.tb_UserType = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -166,15 +164,6 @@
             this.label5.TabIndex = 10;
             this.label5.Text = "ID:";
             // 
-            // comboBox_userType
-            // 
-            this.comboBox_userType.BackColor = System.Drawing.Color.Silver;
-            this.comboBox_userType.FormattingEnabled = true;
-            this.comboBox_userType.Location = new System.Drawing.Point(516, 38);
-            this.comboBox_userType.Name = "comboBox_userType";
-            this.comboBox_userType.Size = new System.Drawing.Size(151, 28);
-            this.comboBox_userType.TabIndex = 12;
-            // 
             // label6
             // 
             this.label6.AutoSize = true;
@@ -184,14 +173,6 @@
             this.label6.Size = new System.Drawing.Size(42, 20);
             this.label6.TabIndex = 13;
             this.label6.Text = "Role:";
-            // 
-            // tb_age
-            // 
-            this.tb_age.BackColor = System.Drawing.Color.Silver;
-            this.tb_age.Location = new System.Drawing.Point(309, 43);
-            this.tb_age.Name = "tb_age";
-            this.tb_age.Size = new System.Drawing.Size(60, 27);
-            this.tb_age.TabIndex = 15;
             // 
             // label7
             // 
@@ -204,24 +185,21 @@
             this.label7.TabIndex = 14;
             this.label7.Text = "Age:";
             // 
-            // tb_username
+            // tb_age
             // 
-            this.tb_username.BackColor = System.Drawing.Color.Silver;
-            this.tb_username.Location = new System.Drawing.Point(185, 238);
-            this.tb_username.Name = "tb_username";
-            this.tb_username.Size = new System.Drawing.Size(482, 27);
-            this.tb_username.TabIndex = 17;
+            this.tb_age.BackColor = System.Drawing.Color.Silver;
+            this.tb_age.Location = new System.Drawing.Point(309, 43);
+            this.tb_age.Name = "tb_age";
+            this.tb_age.Size = new System.Drawing.Size(60, 27);
+            this.tb_age.TabIndex = 15;
             // 
-            // label8
+            // tb_UserType
             // 
-            this.label8.AutoSize = true;
-            this.label8.BackColor = System.Drawing.Color.Silver;
-            this.label8.ForeColor = System.Drawing.Color.Black;
-            this.label8.Location = new System.Drawing.Point(96, 241);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(78, 20);
-            this.label8.TabIndex = 16;
-            this.label8.Text = "Username:";
+            this.tb_UserType.BackColor = System.Drawing.Color.Silver;
+            this.tb_UserType.Location = new System.Drawing.Point(516, 38);
+            this.tb_UserType.Name = "tb_UserType";
+            this.tb_UserType.Size = new System.Drawing.Size(75, 27);
+            this.tb_UserType.TabIndex = 16;
             // 
             // Form_Edit_User
             // 
@@ -230,12 +208,10 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.tb_username);
-            this.Controls.Add(this.label8);
+            this.Controls.Add(this.tb_UserType);
             this.Controls.Add(this.tb_age);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.comboBox_userType);
             this.Controls.Add(this.tb_id);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.btn_cancel_user_changes);
@@ -271,11 +247,9 @@
         private Button btn_cancel_user_changes;
         private TextBox tb_id;
         private Label label5;
-        private ComboBox comboBox_userType;
         private Label label6;
-        private TextBox tb_age;
         private Label label7;
-        private TextBox tb_username;
-        private Label label8;
+        private TextBox tb_age;
+        private TextBox tb_UserType;
     }
 }

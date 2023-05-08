@@ -34,7 +34,7 @@ namespace ManagerLibrary.Repositories
                 try
                 {
                     connection.Open();
-                    string query = "SELECT * FROM Users";
+                    string query = "SELECT * FROM [User]";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
@@ -73,8 +73,15 @@ namespace ManagerLibrary.Repositories
                 try
                 {
                     connection.Open();
-                    string query = $"INSERT INTO Users(first_name, last_name, email, password, user_type)" +
-                        $"VALUES('{user.FirstName}', '{user.LastName}', '{user.Email}', {user.Password}, '{user.UserType}', {(int)user.UserType}')";
+                    string query = $"INSERT INTO [User] (first_name, last_name, email, password, user_type) " +
+                                   $"VALUES('{user.FirstName}', '{user.LastName}', '{user.Email}', '{user.Password}', '{user.UserType}'); " +
+                                   $"DECLARE @UserID int = SCOPE_IDENTITY(); " +
+                                   $"INSERT INTO [Admins] (id) VALUES (@UserID);";
+
+                    if (user is Customer customer)
+                    {
+                        query += $"INSERT INTO [Customers] (id, age) VALUES (@UserID, {customer.Age});";
+                    }
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
@@ -89,6 +96,32 @@ namespace ManagerLibrary.Repositories
                 }
             }
         }
+
+        //public bool CreateUser(User user)
+        //{
+        //    using (SqlConnection connection = new SqlConnection(_ConnectionString))
+        //    {
+        //        try
+        //        {
+        //            connection.Open();
+        //            string query = $"INSERT INTO [User](first_name, last_name, email, password, user_type)" +
+        //                $"VALUES('{user.FirstName}', '{user.LastName}', '{user.Email}', '{user.Password}', '{user.UserType}')" +
+        //                $"SELECT SCOPE_IDENTITY()";
+
+        //            int userId;
+        //            using (SqlCommand command = new SqlCommand(query, connection))
+        //            {
+        //                userId = (int)command.ExecuteScalar();
+        //            }
+
+        //            return true;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //}
 
         public bool UpdateUser(User user)
         {
@@ -97,17 +130,34 @@ namespace ManagerLibrary.Repositories
                 try
                 {
                     connection.Open();
-                    string query = $"UPDATE Users " +
-                    $"SET first_name = '{user.FirstName}'," +
-                    $"last_name = '{user.LastName}'," +
-                    $"email = '{user.Email}'," +
-                    $"password = {user.Password}," +
-                    $"user_type = {user.UserType}," +
-                    $"WHERE id = {user.Id};";
+
+                    string query;
+                  
+                        query = $"UPDATE [User] " +
+                            $"SET first_name = '{user.FirstName}', " +
+                            $"last_name = '{user.LastName}', " +
+                            $"email = '{user.Email}', " +
+                            $"password = '{user.Password}' " +
+                            $"WHERE id = {user.Id};";
+                    
+                    
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         command.ExecuteNonQuery();
+                    }
+
+                    if (user is Customer)
+                    {
+                        Customer customer = (Customer)user;
+                        query = $"UPDATE [Customers] " +
+                                $"SET age = {customer.Age} " +
+                                $"WHERE id = {customer.Id};";
+
+                        using (SqlCommand command = new SqlCommand(query, connection))
+                        {
+                            command.ExecuteNonQuery();
+                        }
                     }
 
                     return true;
@@ -119,6 +169,36 @@ namespace ManagerLibrary.Repositories
             }
         }
 
+
+        //public bool UpdateUser(User user)
+        //{
+        //    using (SqlConnection connection = new SqlConnection(_ConnectionString))
+        //    {
+        //        try
+        //        {
+        //            connection.Open();
+        //            string query = $"UPDATE [User] " +
+        //            $"SET first_name = '{user.FirstName}'," +
+        //            $"last_name = '{user.LastName}'," +
+        //            $"email = '{user.Email}'," +
+        //            $"password = '{user.Password}'," +
+        //            $"user_type = '{user.UserType}' " +
+        //            $"WHERE id = {user.Id};";
+
+        //            using (SqlCommand command = new SqlCommand(query, connection))
+        //            {
+        //                command.ExecuteNonQuery();
+        //            }
+
+        //            return true;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //}
+
         public bool DeleteUser(User user)
         {
             using (SqlConnection connection = new SqlConnection(_ConnectionString))
@@ -126,7 +206,7 @@ namespace ManagerLibrary.Repositories
                 try
                 {
                     connection.Open();
-                    string query = $"DELETE FROM Users WHERE id = {user.Id};";
+                    string query = $"DELETE FROM [User] WHERE id = {user.Id};";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
@@ -152,7 +232,7 @@ namespace ManagerLibrary.Repositories
                 {
                     connection.Open();
 
-                    string query = $"SELECT * FROM Users WHERE id={id}";
+                    string query = $"SELECT * FROM [User] WHERE id={id}";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
@@ -188,7 +268,7 @@ namespace ManagerLibrary.Repositories
                 try
                 {
                     connection.Open();
-                    string query = $"SELECT * FROM Users " +
+                    string query = $"SELECT * FROM [User] " +
                         $"WHERE email = '{email}'";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
@@ -215,29 +295,53 @@ namespace ManagerLibrary.Repositories
             }
         }
 
-        public bool CreateAdmin(Admin admin)
-        {
-            using (SqlConnection connection = new SqlConnection(_ConnectionString))
-            {
-                try
-                {
-                    connection.Open();
-                    string query = $"INSERT INTO Admins (id) " +
-                        $"VALUES('{admin.Id}')";
+        //public bool CreateAdmin(Admin admin)
+        //{
+        //    using (SqlConnection connection = new SqlConnection(_ConnectionString))
+        //    {
+        //        try
+        //        {
+        //            connection.Open();
+        //            string query = $"INSERT INTO [Admins] (id) " +
+        //                $"VALUES('{admin.Id}')";
 
-                    using (SqlCommand command = new SqlCommand(query, connection))
-                    {
-                        command.ExecuteNonQuery();
-                    }
+        //            using (SqlCommand command = new SqlCommand(query, connection))
+        //            {
+        //                command.ExecuteNonQuery();
+        //            }
 
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    return false;
-                }
-            }
-        }
+        //            return true;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //}
+
+        //public bool UpdateAdmin(Admin admin)
+        //{
+        //    using (SqlConnection connection = new SqlConnection(_ConnectionString))
+        //    {
+        //        try
+        //        {
+        //            connection.Open();
+        //            string query = $"UPDATE [Admins] " +
+        //            $"WHERE id = {admin.Id};";
+
+        //            using (SqlCommand command = new SqlCommand(query, connection))
+        //            {
+        //                command.ExecuteNonQuery();
+        //            }
+
+        //            return true;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //}
 
         public bool DeleteAdmin(Admin admin)
         {
@@ -246,7 +350,7 @@ namespace ManagerLibrary.Repositories
                 try
                 {
                     connection.Open();
-                    string query = $"DELETE FROM Admins WHERE id = {admin.Id};";
+                    string query = $"DELETE FROM [Admins] WHERE id = {admin.Id};";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
@@ -270,10 +374,10 @@ namespace ManagerLibrary.Repositories
                 try
                 {
                     connection.Open();
-                    string query = $"SELECT Users.id, Users.email, Users.first_name, Users.last_name" +
-                        $"FROM Users " +
-                        $"INNER JOIN Admins ON Users.id = Admins.id " +
-                        $"WHERE Users.id = {adminId}";
+                    string query = $"SELECT User.id, User.email, User.first_name, User.last_name" +
+                        $"FROM [User] " +
+                        $"INNER JOIN [Admins] ON User.id = Admins.id " +
+                        $"WHERE User.id = {adminId}";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
@@ -306,9 +410,9 @@ namespace ManagerLibrary.Repositories
                 try
                 {
                     connection.Open();
-                    string query = $"SELECT Users.id, Users.email, Users.first_name, Users.last_name" +
-                        $"FROM Users " +
-                        $"INNER JOIN Admins ON Users.id = Admins.id";
+                    string query = $"SELECT User.id, User.email, User.first_name, User.last_name" +
+                        $"FROM [User] " +
+                        $"INNER JOIN [Admins] ON User.id = Admins.id";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
@@ -336,55 +440,55 @@ namespace ManagerLibrary.Repositories
             }
         }
 
-        public bool CreateCustomer(Customer customer)
-        {
-            using (SqlConnection connection = new SqlConnection(_ConnectionString))
-            {
-                try
-                {
-                    connection.Open();
-                    string query = $"INSERT INTO Customers(id, age) " +
-                        $"VALUES('{customer.Id}', '{customer.Age}')";
+        //public bool CreateCustomer(Customer customer)
+        //{
+        //    using (SqlConnection connection = new SqlConnection(_ConnectionString))
+        //    {
+        //        try
+        //        {
+        //            connection.Open();
+        //            string query = $"INSERT INTO [Customers] (id, age) " +
+        //                $"VALUES('{customer.Id}', '{customer.Age}')";
 
-                    using (SqlCommand command = new SqlCommand(query, connection))
-                    {
-                        command.ExecuteNonQuery();
-                    }
+        //            using (SqlCommand command = new SqlCommand(query, connection))
+        //            {
+        //                command.ExecuteNonQuery();
+        //            }
 
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    return false;
-                }
-            }
-        }
+        //            return true;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //}
 
-        public bool UpdateCustomer(Customer customer)
-        {
-            using (SqlConnection connection = new SqlConnection(_ConnectionString))
-            {
-                try
-                {
-                    connection.Open();
-                    string query = $"UPDATE Customers " +
-                    $"SET age = '{customer.Age}', " +
-                    $"WHERE id = {customer.Id};";
+        //public bool UpdateCustomer(Customer customer)
+        //{
+        //    using (SqlConnection connection = new SqlConnection(_ConnectionString))
+        //    {
+        //        try
+        //        {
+        //            connection.Open();
+        //            string query = $"UPDATE [Customers] " +
+        //            $"SET age = '{customer.Age}', " +
+        //            $"WHERE id = {customer.Id};";
 
-                    using (SqlCommand command = new SqlCommand(query, connection))
-                    {
-                        command.ExecuteNonQuery();
-                    }
+        //            using (SqlCommand command = new SqlCommand(query, connection))
+        //            {
+        //                command.ExecuteNonQuery();
+        //            }
 
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    return false;
-                }
-            }
+        //            return true;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            return false;
+        //        }
+        //    }
 
-        }
+        //}
 
         public bool DeleteCustomer(Customer customer)
         {
@@ -393,7 +497,7 @@ namespace ManagerLibrary.Repositories
                 try
                 {
                     connection.Open();
-                    string query = $"DELETE FROM Customers WHERE id = {customer.Id};";
+                    string query = $"DELETE FROM [Customers] WHERE id = {customer.Id};";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
@@ -418,9 +522,9 @@ namespace ManagerLibrary.Repositories
                 try
                 {
                     connection.Open();
-                    string query = $"SELECT Users.id, Users.first_name, Users.last_name, Users.email, Customers.age" +
-                        $"FROM Users " +
-                        $"INNER JOIN Customers ON Users.id = {customerId}; ";
+                    string query = $"SELECT User.id, User.first_name, User.last_name, User.email, Customers.age" +
+                        $"FROM [User] " +
+                        $"INNER JOIN [Customers] ON User.id = {customerId}; ";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
@@ -454,9 +558,9 @@ namespace ManagerLibrary.Repositories
                 try
                 {
                     connection.Open();
-                    string query = $"SELECT Users.id, Users.first_name, Users.last_name, Users.email, Visitors.age" +
-                        $"FROM Users " +
-                        $"INNER JOIN Customers ON Users.id = Customers.id; ";
+                    string query = $"SELECT User.id, User.first_name, User.last_name, User.email, Visitors.age" +
+                        $"FROM [User] " +
+                        $"INNER JOIN [Customers] ON User.id = Customers.id; ";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
@@ -493,7 +597,7 @@ namespace ManagerLibrary.Repositories
                 {
                     connection.Open();
 
-                    string query = $"SELECT * FROM Users " +
+                    string query = $"SELECT * FROM [User] " +
                         $"WHERE email = '{email}' AND password = '{password}'";
 
                     using (SqlCommand command = new SqlCommand(query, connection))

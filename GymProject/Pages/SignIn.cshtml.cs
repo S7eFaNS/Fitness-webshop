@@ -48,6 +48,9 @@ namespace GymProject.Pages
 
         public IActionResult OnGet()
         {
+            HttpContext.Session.Clear();
+            HttpContext.SignOutAsync();
+
             if (IsUserLoggedIn())
             {
                 return RedirectToPage("/Profile");

@@ -76,21 +76,23 @@ namespace GymAppWinForm.UserControl_Pages
 
         private void btn_remove_user_Click(object sender, EventArgs e)
         {
-            DataGridViewRow selectedRow = data_grid_view_users.SelectedRows.Count > 0 ? data_grid_view_users.SelectedRows[0] : null;
+            //DataGridViewRow selectedRow = data_grid_view_users.SelectedRows.Count > 0 ? data_grid_view_users.SelectedRows[0] : null;
 
-            if (selectedRow != null)
-            {
-                int id = (int)selectedRow.Cells["ID"].Value;
-                userManager.DeleteUser(id);
-            }
+            //if (selectedRow != null)
+            //{
+            //    int id = (int)selectedRow.Cells["ID"].Value;
+            //    userManager.DeleteUser(id);
+            //}
 
-            LoadUsers();
+            //LoadUsers();
         }
 
         private void btn_add_user_Click(object sender, EventArgs e)
         {
-            Form_Add_User form_Add_User = new Form_Add_User();
+            Form_Add_User form_Add_User = new Form_Add_User(userManager);
             form_Add_User.ShowDialog();
+
+            LoadUsers();
         }
     }
 }
