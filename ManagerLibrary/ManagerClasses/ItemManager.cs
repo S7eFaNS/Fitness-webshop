@@ -5,52 +5,96 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using InterfaceLibrary.Interfaces;
 using ManagerLibrary.Repositories;
+using ClassLibrary.Classes.User;
+using InterfaceLibrary.IManagers;
+using InterfaceLibrary.IRepositories;
 
 namespace ManagerLibrary.ManagerClasses
 {
-    public class ItemManager /*: IItemManager*/
+    public class ItemManager : IItemManager
     {
+        private readonly IItemRepository itemRepository;
+
+        public ItemManager(IItemRepository itemRepository)
+        {
+            this.itemRepository = itemRepository;
+        }
+
         //private ItemCatalogue itemCatalogue;
-        //private ItemRepository itemRepository;
 
-        //public ItemManager(ItemCatalogue itemCatalogue, ItemRepository itemRepository)
-        //{
-        //    this.itemCatalogue = itemCatalogue;
-        //    this.itemRepository = itemRepository;
-        //}
+        public List<Item> GetItems()
+        {
+            return itemRepository.GetItems();
+        }
 
-        //public List<Item> GetAllItems()
-        //{
-        //    List<Item> itemList = itemCatalogue.GetItemList();
+        public Item GetItemsById(int id)
+        {
+            return itemRepository.GetItemById(id);
+        }
 
-        //    if (itemList.isEmpty())
-        //    {
-        //        itemList = itemRepository.GetAllItems();
-        //        itemCatalogue = new ItemCatalogue(itemList);
-        //    }
+        public bool CreateItem(Item item)
+        {
+            if (item is Program)
+            {
+                var program = item as Program;
+                return itemRepository.CreateItem(program);
+            }
+            else if (item is Supplement)
+            {
+                var supplement = item as Supplement;
+                return itemRepository.CreateItem(supplement);
+            }
+            else
+            {
+                throw new ArgumentException("Invalid item type");
+            }
+        }
 
-        //    return itemList;
-        //}
+        public bool UpdateItem(Item item)
+        {
+            if (item is Program)
+            {
+                var program = item as Program;
+                return itemRepository.UpdateItem(program);
+            }
+            else if (item is Supplement)
+            {
+                var supplement = item as Supplement;
+                return itemRepository.UpdateItem(supplement);
+            }
+            else
+            {
+                throw new ArgumentException("Invalid item type");
+            }
+        }
 
-        //public void AddItem(Item item)
-        //{
-        //    itemRepository.AddItem(item);
-        //    itemCatalogue.AddItem(item);
-        //}
+        public bool DeleteItem(int id)
+        {
+            Item item = itemRepository.GetItemById(id);
+            if (item == null)
+            {
+                throw new ArgumentException("Item not found");
+            }
+            else if (item.ItemType == ItemType.Program)
+            {
+                return itemRepository.DeleteItem(item);
+            }
+            else if (item.ItemType == ItemType.Supplement)
+            {
+                return itemRepository.DeleteItem(item);
+            }
+            else
+            {
+                throw new ArgumentException("Invalid item type");
+            }
 
-        //public void RemoveItem(int itemId)
-        //{
-        //    itemRepository.RemoveItem(itemId);
-        //    itemCatalogue.RemoveItem(itemId);
-        //}
-
-        //public void UpdateItem(Item item)
-        //{
-        //    itemRepository.UpdateItem(item);
-        //    itemCatalogue.UpdateItem(item);
-        //}
+            //public ItemManager(ItemCatalogue itemCatalogue, ItemRepository itemRepository)
+            //{
+            //    this.itemCatalogue = itemCatalogue;
+            //    this.itemRepository = itemRepository;
+            //}
+        }
     }
 }
 

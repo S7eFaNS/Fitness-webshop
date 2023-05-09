@@ -1,6 +1,5 @@
 using ClassLibrary.Classes.User;
 using GymProject.ViewModels;
-using InterfaceLibrary.Interfaces;
 using ManagerLibrary.ManagerClasses;
 using ManagerLibrary.Repositories;
 using Microsoft.AspNetCore.Authentication;
@@ -21,7 +20,7 @@ namespace GymProject.Pages
         [BindProperty]
         public bool KeepMeLoggedIn { get; set; }
 
-        public readonly InterfaceLibrary.Interfaces.IAuthenticationService authenticationService = new ManagerLibrary.ManagerClasses.AuthenticationService(new UserRepository());
+        public readonly InterfaceLibrary.IManagers.IAuthenticationService authenticationService = new ManagerLibrary.ManagerClasses.AuthenticationService(new UserRepository());
         public string? ErrorMessage { get; set; }
         public string? RequestId { get; private set; }
 

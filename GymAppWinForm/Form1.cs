@@ -1,6 +1,6 @@
 using ClassLibrary;
 using GymAppWinForm.UserControl_Pages;
-using InterfaceLibrary.Interfaces;
+using InterfaceLibrary.IManagers;
 using ManagerLibrary.ManagerClasses;
 
 namespace GymAppWinForm

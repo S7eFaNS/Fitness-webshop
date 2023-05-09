@@ -1,6 +1,6 @@
 ﻿using ClassLibrary.Classes.User;
 using Database.DataBase;
-using InterfaceLibrary.Interfaces;
+using InterfaceLibrary.IRepositories;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -75,12 +75,15 @@ namespace ManagerLibrary.Repositories
                     connection.Open();
                     string query = $"INSERT INTO [User] (first_name, last_name, email, password, user_type) " +
                                    $"VALUES('{user.FirstName}', '{user.LastName}', '{user.Email}', '{user.Password}', '{user.UserType}'); " +
-                                   $"DECLARE @UserID int = SCOPE_IDENTITY(); " +
-                                   $"INSERT INTO [Admins] (id) VALUES (@UserID);";
+                                   $"DECLARE @UserID int = SCOPE_IDENTITY(); ";
 
                     if (user is Customer customer)
                     {
-                        query += $"INSERT INTO [Customers] (id, age) VALUES (@UserID, {customer.Age});";
+                        query += $"INSERT INTO [Customer] (id, age) VALUES (@UserID, {customer.Age});";
+                    }
+                    else if(user is Admin admin)
+                    {
+                        query += $"INSERT INTO [Admin] (id) VALUES (@UserID);";
                     }
 
                     using (SqlCommand command = new SqlCommand(query, connection))
@@ -96,33 +99,6 @@ namespace ManagerLibrary.Repositories
                 }
             }
         }
-
-        //public bool CreateUser(User user)
-        //{
-        //    using (SqlConnection connection = new SqlConnection(_ConnectionString))
-        //    {
-        //        try
-        //        {
-        //            connection.Open();
-        //            string query = $"INSERT INTO [User](first_name, last_name, email, password, user_type)" +
-        //                $"VALUES('{user.FirstName}', '{user.LastName}', '{user.Email}', '{user.Password}', '{user.UserType}')" +
-        //                $"SELECT SCOPE_IDENTITY()";
-
-        //            int userId;
-        //            using (SqlCommand command = new SqlCommand(query, connection))
-        //            {
-        //                userId = (int)command.ExecuteScalar();
-        //            }
-
-        //            return true;
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            return false;
-        //        }
-        //    }
-        //}
-
         public bool UpdateUser(User user)
         {
             using (SqlConnection connection = new SqlConnection(_ConnectionString))
@@ -150,7 +126,7 @@ namespace ManagerLibrary.Repositories
                     if (user is Customer)
                     {
                         Customer customer = (Customer)user;
-                        query = $"UPDATE [Customers] " +
+                        query = $"UPDATE [Customer] " +
                                 $"SET age = {customer.Age} " +
                                 $"WHERE id = {customer.Id};";
 
@@ -168,37 +144,6 @@ namespace ManagerLibrary.Repositories
                 }
             }
         }
-
-
-        //public bool UpdateUser(User user)
-        //{
-        //    using (SqlConnection connection = new SqlConnection(_ConnectionString))
-        //    {
-        //        try
-        //        {
-        //            connection.Open();
-        //            string query = $"UPDATE [User] " +
-        //            $"SET first_name = '{user.FirstName}'," +
-        //            $"last_name = '{user.LastName}'," +
-        //            $"email = '{user.Email}'," +
-        //            $"password = '{user.Password}'," +
-        //            $"user_type = '{user.UserType}' " +
-        //            $"WHERE id = {user.Id};";
-
-        //            using (SqlCommand command = new SqlCommand(query, connection))
-        //            {
-        //                command.ExecuteNonQuery();
-        //            }
-
-        //            return true;
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            return false;
-        //        }
-        //    }
-        //}
-
         public bool DeleteUser(User user)
         {
             using (SqlConnection connection = new SqlConnection(_ConnectionString))
@@ -220,14 +165,13 @@ namespace ManagerLibrary.Repositories
                     return false;
                 }
             }
-
         }
 
         public User? GetUserById(int id)
         {
             using (SqlConnection connection = new SqlConnection(_ConnectionString))
             {
-                User user = new();
+                User? user = null;
                 try
                 {
                     connection.Open();
@@ -240,6 +184,7 @@ namespace ManagerLibrary.Repositories
                         {
                             if (reader.Read())
                             {
+                                user = new User();
                                 user.Id = (int)reader["Id"];
                                 user.FirstName = (string)reader["first_name"];
                                 user.LastName = (string)reader["last_name"];
@@ -258,6 +203,43 @@ namespace ManagerLibrary.Repositories
                 }
             }
         }
+
+
+        //public User? GetUserById(int id)
+        //{
+        //    using (SqlConnection connection = new SqlConnection(_ConnectionString))
+        //    {
+        //        User user = new();
+        //        try
+        //        {
+        //            connection.Open();
+
+        //            string query = $"SELECT * FROM [User] WHERE id={id}";
+
+        //            using (SqlCommand command = new SqlCommand(query, connection))
+        //            {
+        //                using (SqlDataReader reader = command.ExecuteReader())
+        //                {
+        //                    if (reader.Read())
+        //                    {
+        //                        user.Id = (int)reader["Id"];
+        //                        user.FirstName = (string)reader["first_name"];
+        //                        user.LastName = (string)reader["last_name"];
+        //                        user.Email = (string)reader["email"];
+        //                        user.Password = (string)reader["password"];
+        //                        user.UserType = Enum.Parse<UserType>((string)reader["user_type"]);
+        //                    }
+        //                }
+        //            }
+
+        //            return user;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            return user;
+        //        }
+        //    }
+        //}
 
         public User GetUserByEmail(string email)
         {
@@ -295,76 +277,6 @@ namespace ManagerLibrary.Repositories
             }
         }
 
-        //public bool CreateAdmin(Admin admin)
-        //{
-        //    using (SqlConnection connection = new SqlConnection(_ConnectionString))
-        //    {
-        //        try
-        //        {
-        //            connection.Open();
-        //            string query = $"INSERT INTO [Admins] (id) " +
-        //                $"VALUES('{admin.Id}')";
-
-        //            using (SqlCommand command = new SqlCommand(query, connection))
-        //            {
-        //                command.ExecuteNonQuery();
-        //            }
-
-        //            return true;
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            return false;
-        //        }
-        //    }
-        //}
-
-        //public bool UpdateAdmin(Admin admin)
-        //{
-        //    using (SqlConnection connection = new SqlConnection(_ConnectionString))
-        //    {
-        //        try
-        //        {
-        //            connection.Open();
-        //            string query = $"UPDATE [Admins] " +
-        //            $"WHERE id = {admin.Id};";
-
-        //            using (SqlCommand command = new SqlCommand(query, connection))
-        //            {
-        //                command.ExecuteNonQuery();
-        //            }
-
-        //            return true;
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            return false;
-        //        }
-        //    }
-        //}
-
-        public bool DeleteAdmin(Admin admin)
-        {
-            using (SqlConnection connection = new SqlConnection(_ConnectionString))
-            {
-                try
-                {
-                    connection.Open();
-                    string query = $"DELETE FROM [Admins] WHERE id = {admin.Id};";
-
-                    using (SqlCommand command = new SqlCommand(query, connection))
-                    {
-                        command.ExecuteNonQuery();
-                    }
-
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    return false;
-                }
-            }
-        }
 
         public Admin GetAdminById(int adminId)
         {
@@ -439,79 +351,7 @@ namespace ManagerLibrary.Repositories
                 }
             }
         }
-
-        //public bool CreateCustomer(Customer customer)
-        //{
-        //    using (SqlConnection connection = new SqlConnection(_ConnectionString))
-        //    {
-        //        try
-        //        {
-        //            connection.Open();
-        //            string query = $"INSERT INTO [Customers] (id, age) " +
-        //                $"VALUES('{customer.Id}', '{customer.Age}')";
-
-        //            using (SqlCommand command = new SqlCommand(query, connection))
-        //            {
-        //                command.ExecuteNonQuery();
-        //            }
-
-        //            return true;
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            return false;
-        //        }
-        //    }
-        //}
-
-        //public bool UpdateCustomer(Customer customer)
-        //{
-        //    using (SqlConnection connection = new SqlConnection(_ConnectionString))
-        //    {
-        //        try
-        //        {
-        //            connection.Open();
-        //            string query = $"UPDATE [Customers] " +
-        //            $"SET age = '{customer.Age}', " +
-        //            $"WHERE id = {customer.Id};";
-
-        //            using (SqlCommand command = new SqlCommand(query, connection))
-        //            {
-        //                command.ExecuteNonQuery();
-        //            }
-
-        //            return true;
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            return false;
-        //        }
-        //    }
-
-        //}
-
-        public bool DeleteCustomer(Customer customer)
-        {
-            using (SqlConnection connection = new SqlConnection(_ConnectionString))
-            {
-                try
-                {
-                    connection.Open();
-                    string query = $"DELETE FROM [Customers] WHERE id = {customer.Id};";
-
-                    using (SqlCommand command = new SqlCommand(query, connection))
-                    {
-                        command.ExecuteNonQuery();
-                    }
-
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    return false;
-                }
-            }
-        }
+        
 
         public Customer GetCustomerById(int customerId)
         {

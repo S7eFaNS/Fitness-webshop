@@ -5,10 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace InterfaceLibrary.Interfaces
+namespace InterfaceLibrary.IManagers
 {
     public interface IAuthenticationService
     {
         public User? CheckLogin(string email, string password);
+
+        public bool Register(Customer customer);
     }
 }

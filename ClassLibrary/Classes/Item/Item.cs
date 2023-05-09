@@ -7,23 +7,23 @@ using System.Reflection;
 
 namespace ClassLibrary.Classes.Item
 {
-    public abstract class Item
+    public class Item
     {
-        public int Id { get; set; }
+        public int ItemId { get; set; }
 
-        protected string ItemName { get; set; }
+        public string ItemName { get; set; }
 
-        protected double ItemPrice { get; set; }
+        public double ItemPrice { get; set; }
 
-        protected string ItemDescription { get; set; }
+        public string ItemDescription { get; set; }
 
-        protected double ItemQuantity { get; set; }
+        public int ItemQuantity { get; set; }
 
-        protected ItemType ItemType { get; set; }
+        public ItemType ItemType { get; set; }
 
-        public Item(int id, string itemName, double itemPrice, string itemDescription, double itemQuantity, ItemType itemType)
+        public Item(int id, string itemName, double itemPrice, string itemDescription, int itemQuantity, ItemType itemType)
         {
-            Id = id;
+            ItemId = id;
             ItemName = itemName;
             ItemPrice = itemPrice;
             ItemDescription = itemDescription;

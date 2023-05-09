@@ -1,5 +1,5 @@
 ﻿using ClassLibrary.Classes.User;
-using InterfaceLibrary.Interfaces;
+using InterfaceLibrary.IManagers;
 using ManagerLibrary.ManagerClasses;
 using System;
 using System.Collections.Generic;
@@ -17,16 +17,14 @@ namespace GymAppWinForm
 {
     public partial class Form_Edit_User : Form
     {
-        string Mode { get; set; }
         private int userId;
         private User user;
         private readonly IUserManager userManager;
 
-        public Form_Edit_User(IUserManager userManager, string mode, int id)
+        public Form_Edit_User(IUserManager userManager,  int id)
         {
             InitializeComponent();
             this.userManager = userManager;
-            Mode = mode;
             FillInData(id);
             userId = id;
         }
@@ -73,7 +71,6 @@ namespace GymAppWinForm
 
             if (user.UserType == UserType.Admin)
             {
-                // Update the Admin object with the new information
                 Admin admin = new Admin();
                 admin.Id= Convert.ToInt32(tb_id.Text);
                 admin.FirstName = tb_first_name.Text;
@@ -81,12 +78,10 @@ namespace GymAppWinForm
                 admin.Email = tb_email.Text;
                 admin.Password = tb_password.Text;
 
-                // Call the UpdateAdmin method to update the Admin object in the database
                 success = userManager.UpdateUser(admin);
             }
             else if (user.UserType == UserType.Customer)
             {
-                // Update the Customer object with the new information
                 Customer customer = (Customer)user;
                 customer.Id= Convert.ToInt32(tb_id.Text) ;
                 customer.FirstName = tb_first_name.Text;
@@ -95,7 +90,6 @@ namespace GymAppWinForm
                 customer.Email = tb_email.Text;
                 customer.Password = tb_password.Text;
 
-                // Call the UpdateCustomer method to update the Customer object in the database
                 success = userManager.UpdateUser(customer);
             }
 

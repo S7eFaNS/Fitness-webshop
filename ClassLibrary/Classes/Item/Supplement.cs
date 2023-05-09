@@ -10,9 +10,9 @@ namespace ClassLibrary.Classes.Item
     {
         public Supplement() { }
 
-        public Supplement(int id, string itemName, double itemPrice, string itemDescription, double itemQuantity, ItemType itemType)
+        public Supplement(int id, string itemName, double itemPrice, string itemDescription, int itemQuantity, ItemType itemType)
         {
-            Id = id;
+            ItemId = id;
             ItemName = itemName;
             ItemPrice = itemPrice;
             ItemDescription = itemDescription;

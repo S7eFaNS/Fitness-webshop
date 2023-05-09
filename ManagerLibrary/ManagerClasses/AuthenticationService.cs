@@ -1,5 +1,6 @@
 ﻿using ClassLibrary.Classes.User;
-using InterfaceLibrary.Interfaces;
+using InterfaceLibrary.IManagers;
+using InterfaceLibrary.IRepositories;
 using ManagerLibrary.Repositories;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,10 @@ namespace ManagerLibrary.ManagerClasses
 
         public User? CheckLogin(string email, string password) => repository.CheckLogin(email, password);
 
-
+        public bool Register(Customer customer)
+        {
+            return repository.CreateUser(customer);
+        }
 
 
 

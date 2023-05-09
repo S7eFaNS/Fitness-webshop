@@ -1,5 +1,6 @@
 ﻿using ClassLibrary.Classes.User;
-using InterfaceLibrary.Interfaces;
+using InterfaceLibrary.IManagers;
+using InterfaceLibrary.IRepositories;
 using ManagerLibrary.ManagerClasses;
 using ManagerLibrary.Repositories;
 using System;
@@ -57,7 +58,7 @@ namespace GymAppWinForm.UserControl_Pages
             {
                 int id = (int)selectedRow.Cells["Id"].Value;
 
-                Form_Edit_User frm = new Form_Edit_User(userManager, "Update", id);
+                Form_Edit_User frm = new Form_Edit_User(userManager, id);
                 frm.ShowDialog();
             }
             else
@@ -76,15 +77,14 @@ namespace GymAppWinForm.UserControl_Pages
 
         private void btn_remove_user_Click(object sender, EventArgs e)
         {
-            //DataGridViewRow selectedRow = data_grid_view_users.SelectedRows.Count > 0 ? data_grid_view_users.SelectedRows[0] : null;
+            DataGridViewRow selectedRow = data_grid_view_users.SelectedRows.Count > 0 ? data_grid_view_users.SelectedRows[0] : null;
 
-            //if (selectedRow != null)
-            //{
-            //    int id = (int)selectedRow.Cells["ID"].Value;
-            //    userManager.DeleteUser(id);
-            //}
-
-            //LoadUsers();
+            if (selectedRow != null)
+            {
+                int id = (int)selectedRow.Cells["id"].Value;
+                userManager.DeleteUser(id);
+            }
+            LoadUsers();
         }
 
         private void btn_add_user_Click(object sender, EventArgs e)
