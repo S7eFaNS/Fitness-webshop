@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace ClassLibrary.Classes.Item
 {
-    public class Program : Item
+    public class Programs : Item
     {
         public string ProgramLink { get; set; }
-        public Program() { }
+        public Programs() { }
 
-        public Program(int id, string itemName, double itemPrice, string itemDescription, int itemQuantity, ItemType itemType, string programLink)
+        public Programs(int id, string itemName, double itemPrice, string itemDescription, int itemQuantity, ItemType itemType, string programLink)
         {
             ItemId = id;
             ItemName = itemName;

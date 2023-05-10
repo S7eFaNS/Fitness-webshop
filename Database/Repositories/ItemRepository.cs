@@ -47,9 +47,9 @@ namespace ManagerLibrary.Repositories
                                 {
                                     ItemId = reader.GetInt32(0),
                                     ItemName = reader.GetString(1),
-                                    ItemPrice = Convert.ToDouble(reader.GetString(2)),
+                                    ItemPrice = Convert.ToInt32(reader.GetDecimal(2)),
                                     ItemDescription = reader.GetString(3),
-                                    ItemQuantity = Convert.ToInt32(reader.GetString(4)),
+                                    ItemQuantity = reader.GetInt32(4),
                                     ItemType = (ItemType)Enum.Parse(typeof(ItemType), reader.GetString(5))
                                 };
                                 items.Add(item);
@@ -77,13 +77,13 @@ namespace ManagerLibrary.Repositories
                                    $"VALUES('{item.ItemName}', '{item.ItemPrice}', '{item.ItemDescription}', '{item.ItemQuantity}', '{item.ItemType}'); " +
                                    $"DECLARE @ItemId int = SCOPE_IDENTITY(); ";
 
-                    if (item is Program program)
+                    if (item is Programs program)
                     {
-                        query += $"INSERT INTO [Program] (item_id, program_link) VALUES (@ItemId, {program.ProgramLink});";
+                        query += $"INSERT INTO [Program] (item_id, program_link) VALUES (@ItemId, '{program.ProgramLink}'); ";
                     }
                     else if (item is Supplement supplement)
                     {
-                        query += $"INSERT INTO [Supplement] (item_id) VALUES (@ItemId);";
+                        query += $"INSERT INTO [Supplement] (item_id) VALUES (@ItemId); ";
                     }
 
                     using (SqlCommand command = new SqlCommand(query, connection))
@@ -124,9 +124,9 @@ namespace ManagerLibrary.Repositories
                         command.ExecuteNonQuery();
                     }
 
-                    if (item is Program)
+                    if (item is Programs)
                     {
-                        Program program = (Program)item;
+                        Programs program = (Programs)item;
                         query = $"UPDATE [Program] " +
                                 $"SET program_link = {program.ProgramLink} " +
                                 $"WHERE item_id = {program.ItemId};";

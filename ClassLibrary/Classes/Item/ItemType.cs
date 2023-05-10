@@ -8,7 +8,7 @@ namespace ClassLibrary.Classes.Item
 {
     public enum ItemType
     {
-        Supplement,
-        Program
+        Program,
+        Supplement
     }
 }

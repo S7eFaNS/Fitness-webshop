@@ -44,10 +44,10 @@ namespace GymAppWinForm.UserControl_Pages
             data_grid_view_users.Columns["LastName"].Width = 195;
             data_grid_view_users.Columns["Email"].Width = 195;
 
-            data_grid_view_users.Columns["Id"].DisplayIndex = 0;
-            data_grid_view_users.Columns["FirstName"].DisplayIndex = 1;
-            data_grid_view_users.Columns["LastName"].DisplayIndex = 2;
-            data_grid_view_users.Columns["Email"].DisplayIndex = 3;
+            //data_grid_view_users.Columns["Id"].DisplayIndex = 0;
+            //data_grid_view_users.Columns["FirstName"].DisplayIndex = 1;
+            //data_grid_view_users.Columns["LastName"].DisplayIndex = 2;
+            //data_grid_view_users.Columns["Email"].DisplayIndex = 3;
         }
 
         private void btn_edit_user_Click(object sender, EventArgs e)

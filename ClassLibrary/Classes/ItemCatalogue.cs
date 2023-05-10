@@ -4,44 +4,49 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClassLibrary.Classes
-{
+//namespace ClassLibrary.Classes.Item
+//{
     //public class ItemCatalogue
     //{
-    //    private List<Item> itemCatalogueList;
-    //    private int nextItemId;
+        //private List<Item> itemList;
 
-    //    public ItemCatalogue()
-    //    {
-    //        itemCatalogueList = new List<Item>();
-    //        nextItemId = 1;
-    //    }
+        //public ItemCatalogue(List<Item> itemList)
+        //{
+        //    this.itemList = itemList;
+        //}
 
-    //    public List<Item> ItemCatalogueList
-    //    {
-    //        get { return itemCatalogueList; }
-    //    }
+        //public List<Item> GetItemList()
+        //{
+        //    return itemList;
+        //}
 
-    //    public void AddItem(Item item)
-    //    {
-    //        item.GetId = nextItemId;
-    //        itemCatalogueList.Add(item);
-    //        nextItemId++;
-    //    }
+        //public void AddItem(Item item)
+        //{
+        //    itemList.Add(item);
+        //}
 
-    //    public void RemoveItem(Item item)
-    //    {
-    //        itemCatalogueList.Remove(item);
-    //    }
+        //public void RemoveItem(int itemId)
+        //{
+        //    for (int i = 0; i < itemList.Count; i++)
+        //    {
+        //        if (itemList[i].Id() == itemId)
+        //        {
+        //            itemList.RemoveAt(i);
+        //            break;
+        //        }
+        //    }
+        //}
 
-    //    public List<Item> SearchItems(string keyword)
-    //    {
-    //        return itemCatalogueList.FindAll(item => item.GetItemName.Contains(keyword));
-    //    }
-
-    //    public Item GetItemById(int itemId)
-    //    {
-    //        return itemCatalogueList.Find(item => item.GetId == itemId);
-    //    }
-    //}
-}
+        //public void UpdateItem(Item item)
+        //{
+        //    for (int i = 0; i < itemList.Count; i++)
+        //    {
+        //        if (itemList[i].Id() == item.Id())
+        //        {
+        //            itemList[i] = item;
+        //            break;
+        //        }
+        //    }
+        //}
+//    }
+//}

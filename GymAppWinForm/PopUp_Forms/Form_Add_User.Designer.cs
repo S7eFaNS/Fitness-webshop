@@ -29,8 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_Add_User));
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
             this.btn_cancel_user_changes = new System.Windows.Forms.Button();
             this.btn_save_user_changes = new System.Windows.Forms.Button();
             this.tb_password = new System.Windows.Forms.TextBox();
@@ -42,25 +40,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
-            // 
-            // textBox5
-            // 
-            this.textBox5.BackColor = System.Drawing.Color.Silver;
-            this.textBox5.Location = new System.Drawing.Point(204, 67);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(60, 27);
-            this.textBox5.TabIndex = 23;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.BackColor = System.Drawing.Color.Silver;
-            this.label5.ForeColor = System.Drawing.Color.Black;
-            this.label5.Location = new System.Drawing.Point(171, 70);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(27, 20);
-            this.label5.TabIndex = 22;
-            this.label5.Text = "ID:";
             // 
             // btn_cancel_user_changes
             // 
@@ -167,8 +146,6 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.textBox5);
-            this.Controls.Add(this.label5);
             this.Controls.Add(this.btn_cancel_user_changes);
             this.Controls.Add(this.btn_save_user_changes);
             this.Controls.Add(this.tb_password);
@@ -187,9 +164,6 @@
         }
 
         #endregion
-
-        private TextBox textBox5;
-        private Label label5;
         private Button btn_cancel_user_changes;
         private Button btn_save_user_changes;
         private TextBox tb_password;

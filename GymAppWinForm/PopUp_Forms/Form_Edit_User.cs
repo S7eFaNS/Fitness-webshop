@@ -17,7 +17,6 @@ namespace GymAppWinForm
 {
     public partial class Form_Edit_User : Form
     {
-        private int userId;
         private User user;
         private readonly IUserManager userManager;
 
@@ -26,7 +25,6 @@ namespace GymAppWinForm
             InitializeComponent();
             this.userManager = userManager;
             FillInData(id);
-            userId = id;
         }
 
         public void FillInData(int Id)

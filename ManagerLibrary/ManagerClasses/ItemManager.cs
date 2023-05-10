@@ -35,9 +35,9 @@ namespace ManagerLibrary.ManagerClasses
 
         public bool CreateItem(Item item)
         {
-            if (item is Program)
+            if (item is Programs)
             {
-                var program = item as Program;
+                var program = item as Programs;
                 return itemRepository.CreateItem(program);
             }
             else if (item is Supplement)
@@ -53,9 +53,9 @@ namespace ManagerLibrary.ManagerClasses
 
         public bool UpdateItem(Item item)
         {
-            if (item is Program)
+            if (item is Programs)
             {
-                var program = item as Program;
+                var program = item as Programs;
                 return itemRepository.UpdateItem(program);
             }
             else if (item is Supplement)
