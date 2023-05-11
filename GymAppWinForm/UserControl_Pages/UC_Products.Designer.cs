@@ -29,24 +29,15 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UC_Products));
-            this.search_product_delete = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.btn_edit_product = new System.Windows.Forms.Button();
-            this.tb_search_users = new System.Windows.Forms.TextBox();
+            this.tb_search_items = new System.Windows.Forms.TextBox();
             this.btn_remove_product = new System.Windows.Forms.Button();
             this.btn_add_product = new System.Windows.Forms.Button();
             this.data_grid_view_items = new System.Windows.Forms.DataGridView();
+            this.cb_item_filter = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.data_grid_view_items)).BeginInit();
             this.SuspendLayout();
-            // 
-            // search_product_delete
-            // 
-            this.search_product_delete.Image = ((System.Drawing.Image)(resources.GetObject("search_product_delete.Image")));
-            this.search_product_delete.Location = new System.Drawing.Point(1091, 99);
-            this.search_product_delete.Name = "search_product_delete";
-            this.search_product_delete.Size = new System.Drawing.Size(68, 69);
-            this.search_product_delete.TabIndex = 13;
-            this.search_product_delete.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
@@ -76,14 +67,16 @@
             this.btn_edit_product.UseVisualStyleBackColor = false;
             this.btn_edit_product.Click += new System.EventHandler(this.btn_edit_product_Click);
             // 
-            // tb_search_users
+            // tb_search_items
             // 
-            this.tb_search_users.BackColor = System.Drawing.Color.Silver;
-            this.tb_search_users.Location = new System.Drawing.Point(781, 99);
-            this.tb_search_users.Multiline = true;
-            this.tb_search_users.Name = "tb_search_users";
-            this.tb_search_users.Size = new System.Drawing.Size(378, 69);
-            this.tb_search_users.TabIndex = 9;
+            this.tb_search_items.BackColor = System.Drawing.Color.Silver;
+            this.tb_search_items.Font = new System.Drawing.Font("Century Gothic", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.tb_search_items.Location = new System.Drawing.Point(781, 99);
+            this.tb_search_items.Multiline = true;
+            this.tb_search_items.Name = "tb_search_items";
+            this.tb_search_items.Size = new System.Drawing.Size(378, 69);
+            this.tb_search_items.TabIndex = 9;
+            this.tb_search_items.TextChanged += new System.EventHandler(this.tb_search_users_TextChanged);
             // 
             // btn_remove_product
             // 
@@ -137,18 +130,37 @@
             this.data_grid_view_items.Size = new System.Drawing.Size(675, 501);
             this.data_grid_view_items.TabIndex = 3;
             // 
+            // cb_item_filter
+            // 
+            this.cb_item_filter.BackColor = System.Drawing.Color.Silver;
+            this.cb_item_filter.ForeColor = System.Drawing.Color.Black;
+            this.cb_item_filter.FormattingEnabled = true;
+            this.cb_item_filter.Items.AddRange(new object[] {
+            "NO FILTER",
+            "Price Ascending",
+            "Price Descending",
+            "Quantity Ascending",
+            "Quantity Descending",
+            "Supplements only",
+            "Programs only"});
+            this.cb_item_filter.Location = new System.Drawing.Point(584, 48);
+            this.cb_item_filter.Name = "cb_item_filter";
+            this.cb_item_filter.Size = new System.Drawing.Size(151, 31);
+            this.cb_item_filter.TabIndex = 15;
+            this.cb_item_filter.SelectedIndexChanged += new System.EventHandler(this.cb_item_filter_SelectedIndexChanged);
+            // 
             // UC_Products
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.Black;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.Controls.Add(this.cb_item_filter);
             this.Controls.Add(this.data_grid_view_items);
             this.Controls.Add(this.btn_add_product);
-            this.Controls.Add(this.search_product_delete);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btn_edit_product);
-            this.Controls.Add(this.tb_search_users);
+            this.Controls.Add(this.tb_search_items);
             this.Controls.Add(this.btn_remove_product);
             this.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.ForeColor = System.Drawing.Color.Black;
@@ -162,13 +174,12 @@
         }
 
         #endregion
-
-        private Button search_product_delete;
         private Label label1;
         private Button btn_edit_product;
-        private TextBox tb_search_users;
+        private TextBox tb_search_items;
         private Button btn_remove_product;
         private Button btn_add_product;
         private DataGridView data_grid_view_items;
+        private ComboBox cb_item_filter;
     }
 }

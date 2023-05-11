@@ -18,7 +18,8 @@ namespace GymAppWinForm.UserControl_Pages
 {
     public partial class UC_User : UserControl
     {
-        private readonly IUserManager userManager;
+        //private readonly IUserManager userManager;
+        private readonly UserManager userManager;
 
         //public UC_User(User currentUser)
         //{
@@ -43,6 +44,7 @@ namespace GymAppWinForm.UserControl_Pages
             data_grid_view_users.Columns["FirstName"].Width = 195;
             data_grid_view_users.Columns["LastName"].Width = 195;
             data_grid_view_users.Columns["Email"].Width = 195;
+            cb_user_filter.SelectedIndex = 0;
 
             //data_grid_view_users.Columns["Id"].DisplayIndex = 0;
             //data_grid_view_users.Columns["FirstName"].DisplayIndex = 1;
@@ -65,7 +67,8 @@ namespace GymAppWinForm.UserControl_Pages
             {
                 MessageBox.Show($"There were no rows selected.");
             }
-
+            tb_search_users.Clear();
+            cb_user_filter.SelectedIndex = 0;
             LoadUsers();
         }
 
@@ -73,6 +76,8 @@ namespace GymAppWinForm.UserControl_Pages
         {
             Form_Purchase_History form_Purchase_History = new Form_Purchase_History();
             form_Purchase_History.ShowDialog();
+            tb_search_users.Clear();
+            cb_user_filter.SelectedIndex = 0;
         }
 
         private void btn_remove_user_Click(object sender, EventArgs e)
@@ -84,6 +89,8 @@ namespace GymAppWinForm.UserControl_Pages
                 int id = (int)selectedRow.Cells["id"].Value;
                 userManager.DeleteUser(id);
             }
+            tb_search_users.Clear();
+            cb_user_filter.SelectedIndex = 0;
             LoadUsers();
         }
 
@@ -91,8 +98,46 @@ namespace GymAppWinForm.UserControl_Pages
         {
             Form_Add_User form_Add_User = new Form_Add_User(userManager);
             form_Add_User.ShowDialog();
-
+            tb_search_users.Clear();
+            cb_user_filter.SelectedIndex = 0;
             LoadUsers();
+        }
+
+        private void tb_search_users_TextChanged(object sender, EventArgs e)
+        {
+            List<User> users;
+            if (string.IsNullOrWhiteSpace(tb_search_users.Text))
+            {
+                users = userManager.GetUsers();
+            }
+            else
+            {
+                users = userManager.SearchUsers(tb_search_users.Text);
+            }
+            data_grid_view_users.DataSource = users;
+            data_grid_view_users.Columns["Id"].Width = 35;
+            data_grid_view_users.Columns["FirstName"].Width = 195;
+            data_grid_view_users.Columns["LastName"].Width = 195;
+            data_grid_view_users.Columns["Email"].Width = 195;
+            cb_user_filter.SelectedIndex = 0;
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            List<User> users = userManager.GetUsers();
+            if (cb_user_filter.SelectedIndex == 1) //Admins only
+            {
+                users = users.Where(user => user.UserType == UserType.Admin).ToList();
+            }
+            else if (cb_user_filter.SelectedIndex == 2) //Customers only
+            {
+                users = users.Where(user => user.UserType == UserType.Customer).ToList();
+            }
+            data_grid_view_users.DataSource = users;
+            data_grid_view_users.Columns["Id"].Width = 35;
+            data_grid_view_users.Columns["FirstName"].Width = 195;
+            data_grid_view_users.Columns["LastName"].Width = 195;
+            data_grid_view_users.Columns["Email"].Width = 195;
         }
     }
 }

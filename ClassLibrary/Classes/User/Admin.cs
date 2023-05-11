@@ -9,7 +9,10 @@ namespace ClassLibrary.Classes.User
     public class Admin : User
     {
 
-        public Admin() { }
+        public Admin() 
+        {
+            UserType= UserType.Admin;
+        }
 
         public Admin(int id,string firstName, string lastName, string email, string password, UserType userType)
         {
@@ -18,7 +21,7 @@ namespace ClassLibrary.Classes.User
             LastName = lastName;
             Email = email;
             Password = password;
-            UserType = userType;
+            UserType = UserType.Admin;
         }
     }
 }

@@ -14,6 +14,7 @@ namespace InterfaceLibrary.IManagers
         public bool CreateItem(Item item);
         public bool UpdateItem(Item item);
         public bool DeleteItem(int id);
+        List<Item> SearchItems(string searchQuery);
 
         //public void AddItem(Item item);
 

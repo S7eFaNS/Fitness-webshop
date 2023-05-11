@@ -7,8 +7,6 @@ namespace GymAppWinForm
 {
     public partial class Form1 : Form
     {
-        private IUserManager userManager;
-
         public Form1()
         {
             InitializeComponent();

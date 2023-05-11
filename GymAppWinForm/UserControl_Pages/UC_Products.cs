@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -17,7 +18,8 @@ namespace GymAppWinForm
 {
     public partial class UC_Products : UserControl
     {
-        private readonly IItemManager itemManager;
+        //private readonly IItemManager itemManager;
+        private readonly ItemManager itemManager;
 
         public UC_Products()
         {
@@ -36,6 +38,7 @@ namespace GymAppWinForm
             data_grid_view_items.Columns["ItemPrice"].Width = 125;
             data_grid_view_items.Columns["ItemDescription"].Width = 250;
             data_grid_view_items.Columns["ItemQuantity"].Width = 150;
+            cb_item_filter.SelectedIndex = 0;
 
             //data_grid_view_items.Columns["Id"].DisplayIndex = 0;
             //data_grid_view_items.Columns["FirstName"].DisplayIndex = 1;
@@ -48,6 +51,8 @@ namespace GymAppWinForm
             Form_Add_Product form_Add_Product = new Form_Add_Product(itemManager);
             form_Add_Product.ShowDialog();
 
+            tb_search_items.Clear();
+            cb_item_filter.SelectedIndex = 0;
             LoadItems();
         }
 
@@ -66,7 +71,8 @@ namespace GymAppWinForm
             {
                 MessageBox.Show($"There were no rows selected.");
             }
-
+            tb_search_items.Clear();
+            cb_item_filter.SelectedIndex = 0;
             LoadItems();
         }
 
@@ -79,7 +85,64 @@ namespace GymAppWinForm
                 int id = (int)selectedRow.Cells["ItemId"].Value;
                 itemManager.DeleteItem(id);
             }
+            tb_search_items.Clear();
+            cb_item_filter.SelectedIndex = 0;
             LoadItems();
+        }
+
+        private void tb_search_users_TextChanged(object sender, EventArgs e)
+        {
+            List<Item> items;
+            if (string.IsNullOrWhiteSpace(tb_search_items.Text))
+            {
+                items = itemManager.GetItems();
+            }
+            else
+            {
+                items = itemManager.SearchItems(tb_search_items.Text);
+            }
+            data_grid_view_items.DataSource = items;
+            data_grid_view_items.Columns["ItemId"].Width = 80;
+            data_grid_view_items.Columns["ItemName"].Width = 195;
+            data_grid_view_items.Columns["ItemPrice"].Width = 125;
+            data_grid_view_items.Columns["ItemDescription"].Width = 250;
+            data_grid_view_items.Columns["ItemQuantity"].Width = 150;
+            cb_item_filter.SelectedIndex = 0;
+        }
+
+        private void cb_item_filter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            List<Item> items = itemManager.GetItems();
+            if (cb_item_filter.SelectedIndex == 1) // Price ASC
+            {
+                items.Sort((x, y) => x.ItemPrice.CompareTo(y.ItemPrice));
+            }
+            else if (cb_item_filter.SelectedIndex == 2) // Price DESC
+            {
+                items.Sort((x, y) => y.ItemPrice.CompareTo(x.ItemPrice));
+            }
+            else if (cb_item_filter.SelectedIndex == 3) // Quantity ASC
+            {
+                items.Sort((x, y) => x.ItemQuantity.CompareTo(y.ItemQuantity));
+            }
+            else if (cb_item_filter.SelectedIndex == 4) // Quantity DESC
+            {
+                items.Sort((x, y) => y.ItemQuantity.CompareTo(x.ItemQuantity));
+            }
+            else if (cb_item_filter.SelectedIndex == 5) // Supplements only
+            {
+                items = items.Where(item => item.ItemType == ItemType.Supplement).ToList();
+            }
+            else if (cb_item_filter.SelectedIndex == 6) // Programs only
+            {
+                items = items.Where(item => item.ItemType == ItemType.Program).ToList();
+            }
+            data_grid_view_items.DataSource = items;
+            data_grid_view_items.Columns["ItemId"].Width = 80;
+            data_grid_view_items.Columns["ItemName"].Width = 195;
+            data_grid_view_items.Columns["ItemPrice"].Width = 125;
+            data_grid_view_items.Columns["ItemDescription"].Width = 250;
+            data_grid_view_items.Columns["ItemQuantity"].Width = 150;
         }
     }
 }

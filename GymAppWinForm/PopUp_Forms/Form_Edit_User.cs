@@ -18,9 +18,11 @@ namespace GymAppWinForm
     public partial class Form_Edit_User : Form
     {
         private User user;
-        private readonly IUserManager userManager;
+        //private readonly IUserManager userManager;
+        private readonly UserManager userManager;
 
-        public Form_Edit_User(IUserManager userManager,  int id)
+
+        public Form_Edit_User(/*IUserManager*/ UserManager userManager,  int id)
         {
             InitializeComponent();
             this.userManager = userManager;
@@ -37,17 +39,21 @@ namespace GymAppWinForm
             tb_last_name.Text = user.LastName;
             tb_email.Text = user.Email;
             tb_password.Text = user.Password;
+            tb_password.ReadOnly= true;
             tb_UserType.Text = user.UserType.ToString();
             tb_UserType.ReadOnly = true;
 
-            if (user is Customer)
+            if (user.UserType == UserType.Customer)
             {
-                tb_age.Visible = true;
-                tb_age.Text = ((Customer)user).Age.ToString();
+                Customer customer = user as Customer;
+                if (customer != null)
+                {
+                    tb_age.Text = customer.Age.ToString();
+                }
             }
             else
             {
-                tb_age.Visible = false;
+                tb_age.Visible= false;
             }
         }
 
@@ -74,19 +80,17 @@ namespace GymAppWinForm
                 admin.FirstName = tb_first_name.Text;
                 admin.LastName = tb_last_name.Text;
                 admin.Email = tb_email.Text;
-                admin.Password = tb_password.Text;
 
                 success = userManager.UpdateUser(admin);
             }
             else if (user.UserType == UserType.Customer)
             {
-                Customer customer = (Customer)user;
+                Customer customer = new Customer();
                 customer.Id= Convert.ToInt32(tb_id.Text) ;
                 customer.FirstName = tb_first_name.Text;
                 customer.LastName = tb_last_name.Text;
                 customer.Age = Convert.ToInt32(tb_age.Text);
                 customer.Email = tb_email.Text;
-                customer.Password = tb_password.Text;
 
                 success = userManager.UpdateUser(customer);
             }

@@ -12,7 +12,7 @@ using InterfaceLibrary.IRepositories;
 
 namespace ManagerLibrary.ManagerClasses
 {
-    public class ItemManager : IItemManager
+    public class ItemManager /*: IItemManager*/
     {
         private readonly IItemRepository itemRepository;
 
@@ -31,6 +31,11 @@ namespace ManagerLibrary.ManagerClasses
         public Item GetItemsById(int id)
         {
             return itemRepository.GetItemById(id);
+        }
+
+        public List<Item> SearchItems(string searchQuery)
+        {
+            return itemRepository.SearchItems(searchQuery);
         }
 
         public bool CreateItem(Item item)

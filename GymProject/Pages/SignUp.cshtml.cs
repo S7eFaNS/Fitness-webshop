@@ -14,13 +14,14 @@ namespace GymProject.Pages
         public Customer customer { get; set; }
         public string PagerTitle { get; private set; }
 
-        public readonly InterfaceLibrary.IManagers.IAuthenticationService authenticationService;
+        public readonly ManagerLibrary.ManagerClasses.AuthenticationService authenticationService;
 
         public SignUpModel()
         {
             PagerTitle = "Please sign up";
             authenticationService = new ManagerLibrary.ManagerClasses.AuthenticationService(new UserRepository());
             customer = new Customer();
+            //customer.UserType = UserType.Customer;
         }
 
         public bool IsUserLoggedIn()

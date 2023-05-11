@@ -13,6 +13,7 @@ namespace InterfaceLibrary.IRepositories
         bool CreateItem(Item item);
         bool UpdateItem(Item item);
         bool DeleteItem(Item item);
-        Item? GetItemById(int id);
+        Item GetItemById(int id);
+        List<Item> SearchItems(string searchQuery);
     }
 }

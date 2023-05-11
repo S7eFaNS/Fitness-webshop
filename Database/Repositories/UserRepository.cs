@@ -3,6 +3,7 @@ using Database.DataBase;
 using InterfaceLibrary.IRepositories;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -73,8 +74,13 @@ namespace ManagerLibrary.Repositories
                 try
                 {
                     connection.Open();
-                    string query = $"INSERT INTO [User] (first_name, last_name, email, password, user_type) " +
-                                   $"VALUES('{user.FirstName}', '{user.LastName}', '{user.Email}', '{user.Password}', '{user.UserType}'); " +
+
+                    string randomSalt = BCrypt.Net.BCrypt.GenerateSalt();
+                    string hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password, randomSalt);
+                    user.Password = hashedPassword;
+
+                    string query = $"INSERT INTO [User] (first_name, last_name, email, password, user_type, password_salt) " +
+                                   $"VALUES('{user.FirstName}', '{user.LastName}', '{user.Email}', '{hashedPassword}', '{user.UserType/*(user is Customer ?  user.UserType = UserType.Customer : user.UserType = UserType.Admin)*/  }', '{randomSalt}'); " +
                                    $"DECLARE @UserID int = SCOPE_IDENTITY(); ";
 
                     if (user is Customer customer)
@@ -112,8 +118,7 @@ namespace ManagerLibrary.Repositories
                         query = $"UPDATE [User] " +
                             $"SET first_name = '{user.FirstName}', " +
                             $"last_name = '{user.LastName}', " +
-                            $"email = '{user.Email}', " +
-                            $"password = '{user.Password}' " +
+                            $"email = '{user.Email}' " +
                             $"WHERE id = {user.Id};";
                     
                     
@@ -166,7 +171,6 @@ namespace ManagerLibrary.Repositories
                 }
             }
         }
-
         public User? GetUserById(int id)
         {
             using (SqlConnection connection = new SqlConnection(_ConnectionString))
@@ -195,6 +199,30 @@ namespace ManagerLibrary.Repositories
                         }
                     }
 
+                    if (user.UserType == UserType.Customer)
+                    {
+                        query = $"SELECT [User].*, Customer.age FROM [User] INNER JOIN Customer ON [User].id = Customer.id WHERE [User].id = {id}";
+
+                        using (SqlCommand command = new SqlCommand(query, connection))
+                        {
+                            using (SqlDataReader reader = command.ExecuteReader())
+                            {
+                                if (reader.Read())
+                                {
+                                    user = new Customer();
+                                    int age = (int)reader["age"];
+                                    ((Customer)user).Age = age;
+                                }
+                                user.Id = (int)reader["Id"];
+                                user.FirstName = (string)reader["first_name"];
+                                user.LastName = (string)reader["last_name"];
+                                user.Email = (string)reader["email"];
+                                user.Password = (string)reader["password"];
+                                user.UserType = Enum.Parse<UserType>((string)reader["user_type"]);
+                            }
+                        }
+                    }
+
                     return user;
                 }
                 catch (Exception ex)
@@ -203,43 +231,6 @@ namespace ManagerLibrary.Repositories
                 }
             }
         }
-
-
-        //public User? GetUserById(int id)
-        //{
-        //    using (SqlConnection connection = new SqlConnection(_ConnectionString))
-        //    {
-        //        User user = new();
-        //        try
-        //        {
-        //            connection.Open();
-
-        //            string query = $"SELECT * FROM [User] WHERE id={id}";
-
-        //            using (SqlCommand command = new SqlCommand(query, connection))
-        //            {
-        //                using (SqlDataReader reader = command.ExecuteReader())
-        //                {
-        //                    if (reader.Read())
-        //                    {
-        //                        user.Id = (int)reader["Id"];
-        //                        user.FirstName = (string)reader["first_name"];
-        //                        user.LastName = (string)reader["last_name"];
-        //                        user.Email = (string)reader["email"];
-        //                        user.Password = (string)reader["password"];
-        //                        user.UserType = Enum.Parse<UserType>((string)reader["user_type"]);
-        //                    }
-        //                }
-        //            }
-
-        //            return user;
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            return user;
-        //        }
-        //    }
-        //}
 
         public User GetUserByEmail(string email)
         {
@@ -277,19 +268,20 @@ namespace ManagerLibrary.Repositories
             }
         }
 
-
-        public Admin GetAdminById(int adminId)
+        public List<User> SearchUsers(string searchQuery)
         {
+            List<User> matchedUsers = new List<User>();
+
             using (SqlConnection connection = new SqlConnection(_ConnectionString))
             {
-                Admin admin = new Admin();
                 try
                 {
                     connection.Open();
-                    string query = $"SELECT User.id, User.email, User.first_name, User.last_name" +
-                        $"FROM [User] " +
-                        $"INNER JOIN [Admins] ON User.id = Admins.id " +
-                        $"WHERE User.id = {adminId}";
+                    string query = $"SELECT * FROM [User] " +
+                        $"WHERE id LIKE '%{searchQuery}%' OR " +
+                        $"first_name LIKE '%{searchQuery}%' OR " +
+                        $"last_name LIKE '%{searchQuery}%' OR " +
+                        $"email LIKE '%{searchQuery}%'";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
@@ -297,148 +289,67 @@ namespace ManagerLibrary.Repositories
                         {
                             while (reader.Read())
                             {
-                                admin.Id = reader.GetInt32(0);
-                                admin.FirstName = reader.GetString(1);
-                                admin.LastName = reader.GetString(2);
-                                admin.Email = reader.GetString(3);
+                                User user = new User
+                                {
+                                    Id = reader.GetInt32(0),
+                                    FirstName = reader.GetString(1),
+                                    LastName = reader.GetString(2),
+                                    Email = reader.GetString(3),
+                                    Password = reader.GetString(4),
+                                    UserType = (UserType)Enum.Parse(typeof(UserType), reader.GetString(5))
+                                };
+                                matchedUsers.Add(user);
                             }
                         }
                     }
-                    return admin;
                 }
                 catch (Exception ex)
                 {
-                    return admin;
+                    return matchedUsers;
                 }
             }
+            return matchedUsers;
         }
 
-        public List<Admin> GetAdmins()
+        public string GetSalt(string email)
         {
             using (SqlConnection connection = new SqlConnection(_ConnectionString))
             {
-                List<Admin> admins = new List<Admin>();
-
                 try
                 {
                     connection.Open();
-                    string query = $"SELECT User.id, User.email, User.first_name, User.last_name" +
-                        $"FROM [User] " +
-                        $"INNER JOIN [Admins] ON User.id = Admins.id";
+                    SqlCommand cmd = new SqlCommand("SELECT password_salt FROM [User] WHERE email = @email", connection);
+                    cmd.Parameters.AddWithValue("@email", email);
 
-                    using (SqlCommand command = new SqlCommand(query, connection))
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
                     {
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                Admin admin = new Admin();
-
-                                admin.Id = reader.GetInt32(0);
-                                admin.FirstName= reader.GetString(1);
-                                admin.LastName= reader.GetString(2);
-                                admin.Email = reader.GetString(3);
-
-                                admins.Add(admin);
-                            }
-                        }
+                        return reader.GetString("password_salt");
                     }
-                    return admins;
-                }
-                catch (Exception ex)
-                {
-                    return admins;
-                }
-            }
-        }
-        
-
-        public Customer GetCustomerById(int customerId)
-        {
-            using (SqlConnection connection = new SqlConnection(_ConnectionString))
-            {
-                Customer customer = new Customer();
-
-                try
-                {
-                    connection.Open();
-                    string query = $"SELECT User.id, User.first_name, User.last_name, User.email, Customers.age" +
-                        $"FROM [User] " +
-                        $"INNER JOIN [Customers] ON User.id = {customerId}; ";
-
-                    using (SqlCommand command = new SqlCommand(query, connection))
+                    else
                     {
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                customer.Id = reader.GetInt32(0);
-                                customer.FirstName = reader.GetString(1);
-                                customer.LastName = reader.GetString(2);
-                                customer.Email = reader.GetString(3);
-                                customer.Age = reader.GetInt32(4);
-                            }
-                        }
+                        return String.Empty;
                     }
-                    return customer;
                 }
-                catch (Exception ex)
+                catch (SqlException)
                 {
-                    return customer;
+                    return String.Empty;
                 }
             }
         }
 
-        public List<Customer> GetCustomers()
-        {
-            using (SqlConnection connection = new SqlConnection(_ConnectionString))
-            {
-                List<Customer> customers = new List<Customer>();
-
-                try
-                {
-                    connection.Open();
-                    string query = $"SELECT User.id, User.first_name, User.last_name, User.email, Visitors.age" +
-                        $"FROM [User] " +
-                        $"INNER JOIN [Customers] ON User.id = Customers.id; ";
-
-                    using (SqlCommand command = new SqlCommand(query, connection))
-                    {
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                Customer customer = new Customer();
-
-                                customer.Id = reader.GetInt32(0);
-                                customer.FirstName = reader.GetString(1);
-                                customer.LastName = reader.GetString(2);
-                                customer.Email = reader.GetString(3);
-                                customer.Age = reader.GetInt32(4);
-
-                                customers.Add(customer);
-                            }
-                        }
-                    }
-                    return customers;
-                }
-                catch (Exception ex)
-                {
-                    return customers;
-                }
-            }
-        }
-
-        public User? CheckLogin(string email, string password)
+            public User? CheckLogin(string email, string password)
         {
             using (SqlConnection connection = new SqlConnection(_ConnectionString))
             {
                  try
                 {
-                    connection.Open();
+                    string salt = GetSalt(email);
+                    string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password, salt);
 
+                    connection.Open();
                     string query = $"SELECT * FROM [User] " +
-                        $"WHERE email = '{email}' AND password = '{password}'";
+                        $"WHERE email = '{email}' AND password = '{hashedPassword}'";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {

@@ -10,17 +10,26 @@ namespace ClassLibrary.Classes.User
     {
         public int Age { get; set; }
 
-        public Customer() { }
-
-        public Customer(int id, string firstName, string lastName, int age, string email, string password, UserType userType)
+        public Customer() 
         {
-            Id = id;
-            FirstName = firstName;
-            LastName = lastName;
-            Age = age;
-            Email = email;
-            Password = password;
-            UserType = userType;
+            UserType = UserType.Customer;
         }
+
+        public Customer(int id, string firstName, string lastName, string email, string password, int age)
+        : base(id, firstName, lastName, email, password, UserType.Customer)
+        {
+            Age = age;
+        }
+
+        //public Customer(int id, string firstName, string lastName, int age, string email, string password, UserType userType)
+        //{
+        //    Id = id;
+        //    FirstName = firstName;
+        //    LastName = lastName;
+        //    Age = age;
+        //    Email = email;
+        //    Password = password;
+        //    UserType = UserType.Customer;
+        //}
     }
 }

@@ -31,13 +31,13 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UC_User));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btn_add_user = new System.Windows.Forms.Button();
-            this.search_users_delete = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.btn_edit_user = new System.Windows.Forms.Button();
             this.tb_search_users = new System.Windows.Forms.TextBox();
             this.btn_remove_user = new System.Windows.Forms.Button();
             this.data_grid_view_users = new System.Windows.Forms.DataGridView();
+            this.cb_user_filter = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.data_grid_view_users)).BeginInit();
             this.SuspendLayout();
             // 
@@ -56,15 +56,6 @@
             this.btn_add_user.Text = "Add";
             this.btn_add_user.UseVisualStyleBackColor = false;
             this.btn_add_user.Click += new System.EventHandler(this.btn_add_user_Click);
-            // 
-            // search_users_delete
-            // 
-            this.search_users_delete.Image = ((System.Drawing.Image)(resources.GetObject("search_users_delete.Image")));
-            this.search_users_delete.Location = new System.Drawing.Point(1054, 99);
-            this.search_users_delete.Name = "search_users_delete";
-            this.search_users_delete.Size = new System.Drawing.Size(68, 32);
-            this.search_users_delete.TabIndex = 23;
-            this.search_users_delete.UseVisualStyleBackColor = true;
             // 
             // button1
             // 
@@ -113,10 +104,13 @@
             // tb_search_users
             // 
             this.tb_search_users.BackColor = System.Drawing.Color.Silver;
+            this.tb_search_users.Font = new System.Drawing.Font("Century Gothic", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.tb_search_users.Location = new System.Drawing.Point(744, 99);
+            this.tb_search_users.Multiline = true;
             this.tb_search_users.Name = "tb_search_users";
-            this.tb_search_users.Size = new System.Drawing.Size(378, 32);
+            this.tb_search_users.Size = new System.Drawing.Size(378, 57);
             this.tb_search_users.TabIndex = 19;
+            this.tb_search_users.TextChanged += new System.EventHandler(this.tb_search_users_TextChanged);
             // 
             // btn_remove_user
             // 
@@ -162,15 +156,30 @@
             this.data_grid_view_users.Size = new System.Drawing.Size(624, 474);
             this.data_grid_view_users.TabIndex = 3;
             // 
+            // cb_user_filter
+            // 
+            this.cb_user_filter.BackColor = System.Drawing.Color.Silver;
+            this.cb_user_filter.ForeColor = System.Drawing.Color.Black;
+            this.cb_user_filter.FormattingEnabled = true;
+            this.cb_user_filter.Items.AddRange(new object[] {
+            "No Filter",
+            "Admins",
+            "Customers"});
+            this.cb_user_filter.Location = new System.Drawing.Point(564, 58);
+            this.cb_user_filter.Name = "cb_user_filter";
+            this.cb_user_filter.Size = new System.Drawing.Size(151, 31);
+            this.cb_user_filter.TabIndex = 25;
+            this.cb_user_filter.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
             // UC_User
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.Black;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.Controls.Add(this.cb_user_filter);
             this.Controls.Add(this.data_grid_view_users);
             this.Controls.Add(this.btn_add_user);
-            this.Controls.Add(this.search_users_delete);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btn_edit_user);
@@ -189,12 +198,12 @@
 
         #endregion
         private Button btn_add_user;
-        private Button search_users_delete;
         private Button button1;
         private Label label1;
         private Button btn_edit_user;
         private TextBox tb_search_users;
         private Button btn_remove_user;
         private DataGridView data_grid_view_users;
+        private ComboBox cb_user_filter;
     }
 }

@@ -15,9 +15,11 @@ namespace GymAppWinForm
 {
     public partial class Form_Add_User : Form
     {
-        private readonly IUserManager userManager;
+        //private readonly IUserManager userManager;
+        private readonly UserManager userManager;
 
-        public Form_Add_User(IUserManager userManager)
+
+        public Form_Add_User(/*IUserManager*/ UserManager userManager)
         {
             InitializeComponent();
             this.userManager = userManager;

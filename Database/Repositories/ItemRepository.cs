@@ -128,7 +128,7 @@ namespace ManagerLibrary.Repositories
                     {
                         Programs program = (Programs)item;
                         query = $"UPDATE [Program] " +
-                                $"SET program_link = {program.ProgramLink} " +
+                                $"SET program_link = '{program.ProgramLink}' " +
                                 $"WHERE item_id = {program.ItemId};";
 
                         using (SqlCommand command = new SqlCommand(query, connection))
@@ -189,7 +189,7 @@ namespace ManagerLibrary.Repositories
                                 item = new Item();
                                 item.ItemId = (int)reader["item_id"];
                                 item.ItemName = (string)reader["item_name"];
-                                item.ItemPrice = (double)reader["item_price"];
+                                item.ItemPrice = Convert.ToDouble(reader["item_price"]);
                                 item.ItemDescription = (string)reader["item_description"];
                                 item.ItemQuantity = (int)reader["item_quantity"];
                                 item.ItemType = Enum.Parse<ItemType>((string)reader["item_type"]);
@@ -197,6 +197,29 @@ namespace ManagerLibrary.Repositories
                         }
                     }
 
+                    if (item.ItemType == ItemType.Program)
+                    {
+                        query = $"SELECT [Product].*, Program.program_link FROM Product INNER JOIN Program ON [Product].item_id = Program.item_id WHERE [Product].item_id = {id}";
+
+                        using (SqlCommand command = new SqlCommand(query, connection))
+                        {
+                            using (SqlDataReader reader = command.ExecuteReader())
+                            {
+                                if (reader.Read())
+                                {
+                                    item = new Programs();
+                                    string programLink = (string)reader["program_link"];
+                                    ((Programs)item).ProgramLink = programLink;
+                                }
+                                    item.ItemId = (int)reader["item_id"];
+                                    item.ItemName = (string)reader["item_name"];
+                                    item.ItemPrice = Convert.ToDouble(reader["item_price"]);
+                                    item.ItemDescription = (string)reader["item_description"];
+                                    item.ItemQuantity = (int)reader["item_quantity"];
+                                    item.ItemType = Enum.Parse<ItemType>((string)reader["item_type"]);
+                            }
+                        }
+                    }
                     return item;
                 }
                 catch (Exception ex)
@@ -205,6 +228,46 @@ namespace ManagerLibrary.Repositories
                 }
             }
         }
+        public List<Item> SearchItems(string searchQuery)
+        {
+            List<Item> matchedItems = new List<Item>();
 
+            using (SqlConnection connection = new SqlConnection(_ConnectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    string query = $"SELECT * FROM [Product] " +
+                        $"WHERE item_id LIKE '%{searchQuery}%' OR " +
+                        $"item_name LIKE '%{searchQuery}%' OR " +
+                        $"item_price LIKE '%{searchQuery}%'";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                Item item = new Item()
+                                {
+                                    ItemId = reader.GetInt32(0),
+                                    ItemName = reader.GetString(1),
+                                    ItemPrice = Convert.ToInt32(reader.GetDecimal(2)),
+                                    ItemDescription = reader.GetString(3),
+                                    ItemQuantity = reader.GetInt32(4),
+                                    ItemType = (ItemType)Enum.Parse(typeof(ItemType), reader.GetString(5))
+                                };
+                                matchedItems.Add(item);
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return matchedItems;
+                }
+            }
+            return matchedItems;
+        }
     }
 }

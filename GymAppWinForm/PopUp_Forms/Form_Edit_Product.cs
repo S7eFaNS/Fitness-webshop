@@ -18,9 +18,10 @@ namespace GymAppWinForm
     public partial class Form_Edit_Product : Form
     {
         private Item item;
-        private readonly IItemManager itemManager;
+        //private readonly IItemManager itemManager;
+        private readonly ItemManager itemManager;
 
-        public Form_Edit_Product(IItemManager itemManager, int id)
+        public Form_Edit_Product(/*IItemManager*/ ItemManager itemManager, int id)
         {
             InitializeComponent();
             this.itemManager = itemManager;
@@ -35,17 +36,19 @@ namespace GymAppWinForm
             tb_item_id.Text = item.ItemId.ToString();
             tb_item_id.ReadOnly = true;
             tb_item_name.Text = item.ItemName;
-            tb_item_price.Text = item.ItemPrice.ToString();
+            tb_item_price.Text = Convert.ToDouble(item.ItemPrice).ToString();
             tb_item_quantity.Text = item.ItemQuantity.ToString();
             tb_item_description.Text = item.ItemDescription;
             tb_item_type.Text = item.ItemType.ToString();
             tb_item_type.ReadOnly = true;
 
-            if (item is Programs)
+            if (item.ItemType == ItemType.Program)
             {
-                tb_program_link.Visible = true;
-                var program = (Programs)item;
-                tb_program_link.Text = program.ProgramLink.ToString();
+                Programs program = item as Programs;
+                if (program != null)
+                {
+                    tb_program_link.Text = program.ProgramLink.ToString();
+                }
             }
             else
             {
@@ -82,6 +85,7 @@ namespace GymAppWinForm
                 program.ItemPrice = Convert.ToDouble(tb_item_price.Text);
                 program.ItemDescription = tb_item_description.Text;
                 program.ItemQuantity = Convert.ToInt32(tb_item_quantity.Text);
+                program.ProgramLink= tb_program_link.Text;
 
                 success = itemManager.UpdateItem(program);
             }

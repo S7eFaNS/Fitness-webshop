@@ -20,7 +20,7 @@ namespace GymProject.Pages
         [BindProperty]
         public bool KeepMeLoggedIn { get; set; }
 
-        public readonly InterfaceLibrary.IManagers.IAuthenticationService authenticationService = new ManagerLibrary.ManagerClasses.AuthenticationService(new UserRepository());
+        public readonly ManagerLibrary.ManagerClasses.AuthenticationService authenticationService = new ManagerLibrary.ManagerClasses.AuthenticationService(new UserRepository());
         public string? ErrorMessage { get; set; }
         public string? RequestId { get; private set; }
 

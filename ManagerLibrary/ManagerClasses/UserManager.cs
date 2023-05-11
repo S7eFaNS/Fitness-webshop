@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ManagerLibrary.ManagerClasses
 {
-    public class UserManager : IUserManager
+    public class UserManager /*: IUserManager*/
     {
         private readonly IUserRepository repository;
 
@@ -33,6 +33,11 @@ namespace ManagerLibrary.ManagerClasses
         public User GetUserByEmail(string email)
         {
             return repository.GetUserByEmail(email);
+        }
+
+        public List<User> SearchUsers(string searchQuery)
+        {
+            return repository.SearchUsers(searchQuery);
         }
 
         //public User GiveUserRole(User user)

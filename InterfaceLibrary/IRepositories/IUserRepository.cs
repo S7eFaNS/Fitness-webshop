@@ -12,19 +12,11 @@ namespace InterfaceLibrary.IRepositories
         User GetUserById(int id);
         List<User> GetUsers();
         User GetUserByEmail(string email);
-
-        //User
         bool CreateUser(User user);
         bool DeleteUser(User user);
         bool UpdateUser(User user);
-
-        //Admin
-        Admin GetAdminById(int adminId);
-        List<Admin> GetAdmins();
-
-        //Customer
-        Customer GetCustomerById(int customerId);
-        List<Customer> GetCustomers();
+        List<User> SearchUsers(string searchQuery);
+        string GetSalt(string email);
 
         //Login
         User? CheckLogin(string email, string password);

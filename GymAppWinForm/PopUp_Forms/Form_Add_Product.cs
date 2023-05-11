@@ -16,9 +16,10 @@ namespace GymAppWinForm
 {
     public partial class Form_Add_Product : Form
     {
-        private readonly IItemManager itemManager;
+        //private readonly IItemManager itemManager;
+        private readonly ItemManager itemManager;
 
-        public Form_Add_Product(IItemManager itemManager)
+        public Form_Add_Product(/*IItemManager*/ ItemManager itemManager)
         {
             InitializeComponent();
             this.itemManager = itemManager;
@@ -38,7 +39,6 @@ namespace GymAppWinForm
                 supplement.ItemDescription = tb_item_description.Text;
                 supplement.ItemQuantity = Convert.ToInt32(tb_item_quantity.Text);
                 supplement.ItemType = ItemType.Supplement;
-                //supplement.ItemType = (ItemType)cb_item_type.SelectedItem;
                 if (itemManager.CreateItem(supplement))
                 {
                     DialogResult = DialogResult.OK;
@@ -58,7 +58,6 @@ namespace GymAppWinForm
                 program.ItemQuantity = Convert.ToInt32(tb_item_quantity.Text);
                 program.ProgramLink = tb_program_link.Text;
                 program.ItemType = ItemType.Program;    
-                //program.ItemType = (ItemType)cb_item_type.SelectedItem;
                 if (itemManager.CreateItem(program))
                 {
                     DialogResult = DialogResult.OK;
