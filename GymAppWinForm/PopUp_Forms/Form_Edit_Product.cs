@@ -64,43 +64,64 @@ namespace GymAppWinForm
                 Close();
                 return;
             }
-            bool success = false;
 
-            if (item.ItemType == ItemType.Supplement)
+            try
             {
-                Supplement supplement = new Supplement();
-                supplement.ItemId = Convert.ToInt32(tb_item_id.Text);
-                supplement.ItemName = tb_item_name.Text;
-                supplement.ItemPrice = Convert.ToDouble(tb_item_price.Text);
-                supplement.ItemDescription = tb_item_description.Text;
-                supplement.ItemQuantity = Convert.ToInt32(tb_item_quantity.Text);
+                bool success = false;
 
-                success = itemManager.UpdateItem(supplement);
+                if (item.ItemType == ItemType.Supplement)
+                {
+                    Supplement supplement = new Supplement();
+                    supplement.ItemId = Convert.ToInt32(tb_item_id.Text);
+                    supplement.ItemName = tb_item_name.Text;
+                    supplement.ItemPrice = Convert.ToDouble(tb_item_price.Text);
+                    supplement.ItemDescription = tb_item_description.Text;
+                    supplement.ItemQuantity = Convert.ToInt32(tb_item_quantity.Text);
+                    try
+                    {
+                        success = itemManager.UpdateItem(supplement);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Failed to update the selected Supplement \n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else if (item.ItemType == ItemType.Program)
+                {
+                    Programs program = new Programs();
+                    program.ItemId = Convert.ToInt32(tb_item_id.Text);
+                    program.ItemName = tb_item_name.Text;
+                    program.ItemPrice = Convert.ToDouble(tb_item_price.Text);
+                    program.ItemDescription = tb_item_description.Text;
+                    program.ItemQuantity = Convert.ToInt32(tb_item_quantity.Text);
+                    program.ProgramLink = tb_program_link.Text;
+
+                    try
+                    {
+                        success = itemManager.UpdateItem(program);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Failed to update the selected Program \n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+
+                if (success)
+                {
+                    DialogResult = DialogResult.OK;
+                }
+                else
+                {
+                    DialogResult = DialogResult.Cancel;
+                }
+                Close();
             }
-            else if (item.ItemType == ItemType.Program)
+            catch (Exception ex)
             {
-                Programs program = new Programs();
-                program.ItemId = Convert.ToInt32(tb_item_id.Text);
-                program.ItemName = tb_item_name.Text;
-                program.ItemPrice = Convert.ToDouble(tb_item_price.Text);
-                program.ItemDescription = tb_item_description.Text;
-                program.ItemQuantity = Convert.ToInt32(tb_item_quantity.Text);
-                program.ProgramLink= tb_program_link.Text;
-
-                success = itemManager.UpdateItem(program);
+                MessageBox.Show("Failed to update the selected Product \n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            if (success)
-            {
-                DialogResult = DialogResult.OK;
-            }
-            else
-            {
-                DialogResult = DialogResult.Cancel;
-            }
-
-            Close();
         }
+
 
         private void btn_cancel_editing_product_Click(object sender, EventArgs e)
         {

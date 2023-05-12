@@ -31,46 +31,56 @@ namespace GymAppWinForm
 
         private void btn_save_new_product_Click(object sender, EventArgs e)
         {
-            if (cb_item_type.SelectedIndex == (int)ItemType.Supplement)
+            try
             {
-                Supplement supplement = new Supplement();
-                supplement.ItemName = tb_item_name.Text;
-                supplement.ItemPrice = Convert.ToDouble(tb_item_price.Text);
-                supplement.ItemDescription = tb_item_description.Text;
-                supplement.ItemQuantity = Convert.ToInt32(tb_item_quantity.Text);
-                supplement.ItemType = ItemType.Supplement;
-                if (itemManager.CreateItem(supplement))
+
+                if (cb_item_type.SelectedIndex == (int)ItemType.Supplement)
                 {
-                    DialogResult = DialogResult.OK;
-                    Close();
+                    Supplement supplement = new Supplement();
+                    supplement.ItemName = tb_item_name.Text;
+                    supplement.ItemPrice = Convert.ToDouble(tb_item_price.Text);
+                    supplement.ItemDescription = tb_item_description.Text;
+                    supplement.ItemQuantity = Convert.ToInt32(tb_item_quantity.Text);
+                    supplement.ItemType = ItemType.Supplement;
+                    try
+                    {
+                        if (itemManager.CreateItem(supplement))
+                        {
+                            DialogResult = DialogResult.OK;
+                            Close();
+                        }
+                    }
+                    catch (Exception ex) 
+                    {
+                        MessageBox.Show("Failed to create a Supplement \n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
-                else
+                else if (cb_item_type.SelectedIndex == (int)ItemType.Program)
                 {
-                    MessageBox.Show("Failed to create a supplement.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Programs program = new Programs();
+                    program.ItemName = tb_item_name.Text;
+                    program.ItemPrice = Convert.ToDouble(tb_item_price.Text);
+                    program.ItemDescription = tb_item_description.Text;
+                    program.ItemQuantity = Convert.ToInt32(tb_item_quantity.Text);
+                    program.ProgramLink = tb_program_link.Text;
+                    program.ItemType = ItemType.Program; 
+                    try
+                    {
+                        if (itemManager.CreateItem(program))
+                        {
+                            DialogResult = DialogResult.OK;
+                            Close();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Failed to create a Program \n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
-            else if (cb_item_type.SelectedIndex == (int)ItemType.Program)
+            catch (Exception ex)
             {
-                Programs program = new Programs();
-                program.ItemName = tb_item_name.Text;
-                program.ItemPrice = Convert.ToDouble(tb_item_price.Text);
-                program.ItemDescription = tb_item_description.Text;
-                program.ItemQuantity = Convert.ToInt32(tb_item_quantity.Text);
-                program.ProgramLink = tb_program_link.Text;
-                program.ItemType = ItemType.Program;    
-                if (itemManager.CreateItem(program))
-                {
-                    DialogResult = DialogResult.OK;
-                    Close();
-                }
-                else
-                {
-                    MessageBox.Show("Failed to create a program.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            else
-            {
-                MessageBox.Show("Failed to create an item.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Failed to create a Product \n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error) ;
             }
         }
 

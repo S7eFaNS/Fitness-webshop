@@ -8,6 +8,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -27,23 +28,46 @@ namespace GymAppWinForm
 
         private void btn_save_user_changes_Click(object sender, EventArgs e)
         {
+            string emailPattern = @"^.+@.+\..+$";
+            string namePattern = @"^[A-Z][a-z]*$";
+
+            if (!Regex.IsMatch(tb_email.Text, emailPattern))
+            {
+                MessageBox.Show("Invalid email address.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (!Regex.IsMatch(tb_first_name.Text, namePattern))
+            {
+                MessageBox.Show("Invalid first name.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (!Regex.IsMatch(tb_last_name.Text, namePattern))
+            {
+                MessageBox.Show("Invalid last name.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Create admin object with validated input
             Admin admin = new Admin
             {
-                FirstName = tb_first_name.Text,
-                LastName = tb_last_name.Text,
-                Email = tb_email.Text,
-                Password = tb_password.Text
+                FirstName = char.ToUpper(tb_first_name.Text[0]) + tb_first_name.Text.Substring(1),
+                LastName = char.ToUpper(tb_last_name.Text[0]) + tb_last_name.Text.Substring(1),
+                Email = tb_email.Text.ToLower(),
+                Password = tb_password.Text.ToLower()
             };
 
-            if (userManager.CreateUser(admin))
+            try
             {
-                userManager.AdminCreated += UserManager_AdminCreated;
-                DialogResult = DialogResult.OK;
-                Close();
+                if (userManager.CreateUser(admin))
+                {
+                    DialogResult = DialogResult.OK;x
+                    userManager.AdminCreated += UserManager_AdminCreated;
+                    Close();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Failed to create admin.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Failed to create admin \n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

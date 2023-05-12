@@ -6,8 +6,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
@@ -76,24 +78,52 @@ namespace GymAppWinForm
             if (user.UserType == UserType.Admin)
             {
                 Admin admin = new Admin();
-                admin.Id= Convert.ToInt32(tb_id.Text);
-                admin.FirstName = tb_first_name.Text;
-                admin.LastName = tb_last_name.Text;
-                admin.Email = tb_email.Text;
+                admin.Id = Convert.ToInt32(tb_id.Text);
+                admin.FirstName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(tb_first_name.Text.Trim().ToLower());
+                admin.LastName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(tb_last_name.Text.Trim().ToLower());
+                admin.Email = tb_email.Text.Trim();
 
-                success = userManager.UpdateUser(admin);
+                if (!Regex.IsMatch(admin.Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+                {
+                    MessageBox.Show("Invalid email format.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                try
+                {
+                    success = userManager.UpdateUser(admin);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Failed to update admin \n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             else if (user.UserType == UserType.Customer)
             {
                 Customer customer = new Customer();
-                customer.Id= Convert.ToInt32(tb_id.Text) ;
-                customer.FirstName = tb_first_name.Text;
-                customer.LastName = tb_last_name.Text;
+                customer.Id = Convert.ToInt32(tb_id.Text);
+                customer.FirstName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(tb_first_name.Text.Trim().ToLower());
+                customer.LastName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(tb_last_name.Text.Trim().ToLower());
                 customer.Age = Convert.ToInt32(tb_age.Text);
-                customer.Email = tb_email.Text;
+                customer.Email = tb_email.Text.Trim();
 
-                success = userManager.UpdateUser(customer);
+                // Validate email format
+                if (!Regex.IsMatch(customer.Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+                {
+                    MessageBox.Show("Invalid email format.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                try
+                {
+                    success = userManager.UpdateUser(customer);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Failed to update customer \n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
+
             if (success)
             {
                 userManager.UserEdited += UserManager_UserEdited;
@@ -105,6 +135,8 @@ namespace GymAppWinForm
             }
             Close();
         }
+
+
         private void UserManager_UserEdited(object sender, EventArgs e)
         {
             MessageBox.Show("User was successfully edited.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
