@@ -37,6 +37,7 @@ namespace GymAppWinForm
 
             if (userManager.CreateUser(admin))
             {
+                userManager.AdminCreated += UserManager_AdminCreated;
                 DialogResult = DialogResult.OK;
                 Close();
             }
@@ -44,6 +45,12 @@ namespace GymAppWinForm
             {
                 MessageBox.Show("Failed to create admin.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void UserManager_AdminCreated(object sender, EventArgs e)
+        {
+            MessageBox.Show("Admin created successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            userManager.AdminCreated -= UserManager_AdminCreated;
         }
 
         private void btn_cancel_user_changes_Click(object sender, EventArgs e)

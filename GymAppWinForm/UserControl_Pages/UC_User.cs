@@ -86,12 +86,21 @@ namespace GymAppWinForm.UserControl_Pages
 
             if (selectedRow != null)
             {
-                int id = (int)selectedRow.Cells["id"].Value;
-                userManager.DeleteUser(id);
+                {
+                    int id = (int)selectedRow.Cells["id"].Value;
+                    userManager.UserDeleted += UserManager_UserDeleted;
+                    userManager.DeleteUser(id);
+                }
             }
             tb_search_users.Clear();
             cb_user_filter.SelectedIndex = 0;
             LoadUsers();
+        }
+
+        private void UserManager_UserDeleted(object sender, EventArgs e)
+        {
+            MessageBox.Show("User was successfully removed.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            userManager.UserDeleted -= UserManager_UserDeleted;
         }
 
         private void btn_add_user_Click(object sender, EventArgs e)

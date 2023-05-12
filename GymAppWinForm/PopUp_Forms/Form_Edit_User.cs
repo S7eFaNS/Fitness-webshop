@@ -94,17 +94,22 @@ namespace GymAppWinForm
 
                 success = userManager.UpdateUser(customer);
             }
-
             if (success)
             {
+                userManager.UserEdited += UserManager_UserEdited;
                 DialogResult = DialogResult.OK;
             }
             else
             {
                 DialogResult = DialogResult.Cancel;
             }
-
             Close();
+        }
+        private void UserManager_UserEdited(object sender, EventArgs e)
+        {
+            MessageBox.Show("User was successfully edited.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            userManager.UserEdited -= UserManager_UserEdited;
         }
 
         private void btn_cancel_user_changes_Click(object sender, EventArgs e)

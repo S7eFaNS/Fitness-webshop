@@ -8,12 +8,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static ClassLibrary.Classes.Delegates.Delegate;
 
 namespace ManagerLibrary.ManagerClasses
 {
     public class UserManager /*: IUserManager*/
     {
         private readonly IUserRepository repository;
+        
+        public event AdminCreatedEventHandler AdminCreated;
+        public event UserEditedEventHandler UserEdited;
+        public event UserDeletedEventHandler UserDeleted;
 
         public UserManager(IUserRepository repository)
         {
@@ -55,10 +60,18 @@ namespace ManagerLibrary.ManagerClasses
 
         public bool CreateUser(User user)
         {
+
             if (user is Admin)
             {
                 var admin = user as Admin;
-                return repository.CreateUser(admin);
+                bool created = repository.CreateUser(admin);
+
+                if (created)
+                {
+                    OnAdminCreated(EventArgs.Empty);
+                }
+
+                return created;
             }
             else if (user is Customer)
             {
@@ -71,17 +84,30 @@ namespace ManagerLibrary.ManagerClasses
             }
         }
 
+
         public bool UpdateUser(User user)
         {
             if (user is Admin)
             {
                 var admin = user as Admin;
-                return repository.UpdateUser(admin);
+                bool edited = repository.UpdateUser(admin);
+
+                if(edited)
+                {
+                    OnUserEdited(EventArgs.Empty);
+                }
+                return edited;
             }
             else if (user is Customer)
             {
                 var customer = user as Customer;
-                return repository.UpdateUser(customer);
+                bool edited = repository.UpdateUser(customer);
+
+                if (edited)
+                {
+                    OnUserEdited(EventArgs.Empty);
+                }
+                return edited;
             }
             else
             {
@@ -98,16 +124,41 @@ namespace ManagerLibrary.ManagerClasses
             }
             else if (user.UserType == UserType.Admin)
             {
-                return repository.DeleteUser(user);
+                bool deleted = repository.DeleteUser(user);
+
+                if (deleted)
+                {
+                    OnUserDeleted(EventArgs.Empty);
+                }
+                return deleted;
             }
             else if (user.UserType == UserType.Customer)
             {
-                return repository.DeleteUser(user);
+                bool deleted = repository.DeleteUser(user);
+
+                if (deleted)
+                {
+                    OnUserDeleted(EventArgs.Empty);
+                }
+                return deleted;
             }
             else
             {
                 throw new ArgumentException("Invalid user type");
             }
+        }
+
+        protected virtual void OnAdminCreated(EventArgs e)
+        {
+            AdminCreated?.Invoke(this, e);
+        }
+        protected virtual void OnUserDeleted(EventArgs e)
+        {
+            UserDeleted?.Invoke(this, e);
+        }
+        protected virtual void OnUserEdited(EventArgs e)
+        {
+            UserEdited?.Invoke(this, e);
         }
     }
 }
