@@ -1,4 +1,81 @@
 ﻿@page
+@using ClassLibrary.Classes.Item;
 @model GymProject.Pages.ProductModel
 @{
+	ViewData["Title"] = "Product";
 }
+<div>
+    <div class="row">
+        <div class="col-md-3 order-2 order-md-1">
+            <form method="post" asp-page-handler="search">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="searchQuery" placeholder="Search...">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="submit">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-7 order-1 order-md-2">
+            <div class="btn-group" style="margin-left: 10px;">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Price
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="SortByPriceLowToHigh">Price: Low to High</a>
+                        <a class="dropdown-item" href="SortByPriceHighToLow">Price: High to Low</a>
+                    </div>
+                </div>
+                <div class="dropdown" style="margin-left: 10px;">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Type
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#">Programs</a>
+                        <a class="dropdown-item" href="#">Supplements</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+<div class="container">
+    <div class="row justify-content-between">
+    @{
+        if (Model.Items == null)
+        {
+            <p>No items found.</p>
+        }
+        else if (Model.Items.Count == 0)
+        {
+            <p>No items found.</p>  
+        }
+        else
+        {
+            try
+            {
+                foreach (var item in Model.Items)
+                {
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                        <div class="card">
+                            <img class="card-img-top" src="~/images/products/trenbolone.jpg" alt="@item.ItemName">
+                            <div class="card-body">
+                                <h5 class="card-title">@item.ItemName</h5>
+                                <p class="card-text">@item.ItemDescription</p>
+                                <p class="card-text">@item.ItemPrice.ToString("$0.00")</p>
+                                <a href="#" class="btn btn-primary">Add to Cart</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            catch(Exception ex)
+            {
+                <p>An error occurred while displaying items: @ex.Message</p>
+            }
+        }
+    }
+    </div>
+</div>

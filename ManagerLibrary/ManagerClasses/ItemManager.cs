@@ -15,6 +15,7 @@ namespace ManagerLibrary.ManagerClasses
     public class ItemManager /*: IItemManager*/
     {
         private readonly IItemRepository itemRepository;
+        private UserRepository userRepository;
 
         public ItemManager(IItemRepository itemRepository)
         {

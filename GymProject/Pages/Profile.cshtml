@@ -1,4 +1,15 @@
 ﻿@page
 @model GymProject.Pages.ProfileModel
-@{
+
+<h1>Profile</h1>
+
+@if (User.Identity.IsAuthenticated)
+{
+        <p>First Name: @Model.FirstName</p>
+        <p>Last Name: @Model.LastName</p>
+        <p>Email: @Model.Email</p>
+}
+else
+{
+        <p>You must be logged in to view your profile.</p>
 }

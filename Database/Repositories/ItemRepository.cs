@@ -54,7 +54,6 @@ namespace ManagerLibrary.Repositories
                                 };
                                 items.Add(item);
                             };
-
                         }
                     }
                 }

@@ -60,7 +60,7 @@ namespace GymAppWinForm
             {
                 if (userManager.CreateUser(admin))
                 {
-                    DialogResult = DialogResult.OK;x
+                    DialogResult = DialogResult.OK;
                     userManager.AdminCreated += UserManager_AdminCreated;
                     Close();
                 }
