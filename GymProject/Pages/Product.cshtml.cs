@@ -7,9 +7,13 @@ namespace GymProject.Pages
 {
     public class ProductModel : PageModel
     {
-        public List<Item> Items { get; set; }
+        public List<Item> Supplements { get; set; }
+        public List<Item> Programs { get; set; }
         public readonly ManagerLibrary.ManagerClasses.ItemManager itemManager;
-        
+        public string Sort { get; set; }
+        public string Type { get; set; }
+
+
         public ProductModel()
         {
             itemManager = new ManagerLibrary.ManagerClasses.ItemManager(new ItemRepository());
@@ -18,31 +22,43 @@ namespace GymProject.Pages
 
         public void OnGet()
         {
-            Items = itemManager.GetItems();
+
+            var supplements = itemManager.GetSupplements();
+
+            var programs = itemManager.GetPrograms();
+
+            Supplements = supplements;
+
+            Programs = programs;
         }
 
-        public void OnPost(string searchQuery)
+
+        public void OnPost(string searchQuery, string sort)
         {
             if (!string.IsNullOrEmpty(searchQuery))
             {
-                Items = itemManager.SearchItems(searchQuery);
+                var searchResults = itemManager.SearchItems(searchQuery);
+                Supplements = searchResults.Where(item => item.ItemType == ItemType.Supplement).ToList();
+                Programs = searchResults.Where(item => item.ItemType == ItemType.Program).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(sort))
+            {
+                List<Item> filteredSupplements = itemManager.GetSupplements();
+                List<Item> filteredPrograms = itemManager.GetPrograms();
+                if (sort == "lowToHigh")
+                {
+                    filteredSupplements = filteredSupplements.OrderBy(item => item.ItemPrice).ToList();
+                    filteredPrograms = filteredPrograms.OrderBy(item => item.ItemPrice).ToList();
+                }
+                else if (sort == "highToLow")
+                {
+                    filteredSupplements = filteredSupplements.OrderByDescending(item => item.ItemPrice).ToList();
+                    filteredPrograms = filteredPrograms.OrderByDescending(item => item.ItemPrice).ToList();
+                }
+                Supplements = filteredSupplements;
+                Programs = filteredPrograms;
             }
         }
-
-        //public void OnPostSortByPriceLowToHigh()
-        //{
-        //    if (Items != null && Items.Count > 0)
-        //    {
-        //        Items = Items.OrderBy(x => x.ItemPrice).ToList();
-        //    }
-        //}
-
-        //public void OnPostSortByPriceHighToLow()
-        //{
-        //    if (Items != null && Items.Count > 0)
-        //    {
-        //        Items = Items.OrderByDescending(x => x.ItemPrice).ToList();
-        //    }
-        //}
     }
 }

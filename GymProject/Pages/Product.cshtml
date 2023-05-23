@@ -17,65 +17,89 @@
             </form>
         </div>
         <div class="col-md-7 order-1 order-md-2">
-            <div class="btn-group" style="margin-left: 10px;">
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Price
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="SortByPriceLowToHigh">Price: Low to High</a>
-                        <a class="dropdown-item" href="SortByPriceHighToLow">Price: High to Low</a>
-                    </div>
-                </div>
-                <div class="dropdown" style="margin-left: 10px;">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Type
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">Programs</a>
-                        <a class="dropdown-item" href="#">Supplements</a>
-                    </div>
-                </div>
-            </div>
+            <form method="post">
+                <select name="sort">
+                    <option selected disabled>Select filter</option>
+                    <option value="lowToHigh">Low to High</option>
+                    <option value="highToLow">High to Low</option>
+                </select>
+                <button type="submit">Apply Filter</button>
+            </form>
         </div>
+
+                @*<div class="btn-group" style="margin-left: 10px;">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Price
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <button type="submit" formaction="/Product" formmethod="post" value="lowToHigh" class="dropdown-item">Low to High</button>
+                            <button type="submit" formaction="/Product" formmethod="post" value="highToLow" class="dropdown-item">High to Low</button>
+                        </div>
+                    </div>
+                </div>*@
     </div>
 </div>
 <hr>
 <div class="container">
     <div class="row justify-content-between">
-    @{
-        if (Model.Items == null)
-        {
-            <p>No items found.</p>
-        }
-        else if (Model.Items.Count == 0)
-        {
-            <p>No items found.</p>  
-        }
-        else
-        {
-            try
+        @{
+            if (Model.Supplements == null || Model.Programs == null)
             {
-                foreach (var item in Model.Items)
+                <p>No items found.</p>
+            }
+            else if (Model.Supplements.Count == 0 && Model.Programs.Count == 0)
+            {
+                <p>No items found.</p>
+            }
+            else
+            {
+                try
                 {
-                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-                        <div class="card">
-                            <img class="card-img-top" src="~/images/products/trenbolone.jpg" alt="@item.ItemName">
-                            <div class="card-body">
-                                <h5 class="card-title">@item.ItemName</h5>
-                                <p class="card-text">@item.ItemDescription</p>
-                                <p class="card-text">@item.ItemPrice.ToString("$0.00")</p>
-                                <a href="#" class="btn btn-primary">Add to Cart</a>
+                    if (Model.Supplements.Count > 0)
+                    {
+                        <h1>Supplements</h1>
+                        foreach (var supplement in Model.Supplements)
+                        {
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                                <div class="card">
+                                    <img class="card-img-top" src="~/images/products/trenbolone.jpg" alt="@supplement.ItemName">
+                                    <div class="card-body">
+                                        <h5 class="card-title">@supplement.ItemName</h5>
+                                        <p class="card-text">@supplement.ItemDescription</p>
+                                        <p class="card-text">@supplement.ItemPrice.ToString("$0.00")</p>
+                                        <a href="#" class="btn btn-primary">Add to Cart</a>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
+                        }
+                    }
+                    <hr style="border: 5px solid #000; margin: 20px 0;">
+                    <h1>Programs</h1>
+                    if (Model.Programs.Count > 0)
+                    {
+                        foreach (var program in Model.Programs)
+                        {
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                                <div class="card">
+                                    <img class="card-img-top" src="~/images/products/trenbolone.jpg" alt="@program.ItemName">
+                                    <div class="card-body">
+                                        <h5 class="card-title">@program.ItemName</h5>
+                                        <p class="card-text">@program.ItemDescription</p>
+                                        <p class="card-text">@program.ItemPrice.ToString("$0.00")</p>
+                                        <a href="#" class="btn btn-primary">Add to Cart</a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    <p>An error occurred while displaying items: @ex.Message</p>
                 }
             }
-            catch(Exception ex)
-            {
-                <p>An error occurred while displaying items: @ex.Message</p>
-            }
         }
-    }
     </div>
 </div>
+

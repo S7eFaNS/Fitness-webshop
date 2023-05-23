@@ -10,6 +10,8 @@ namespace InterfaceLibrary.IRepositories
     public interface IItemRepository
     {
         List<Item> GetItems();
+        List<Item> GetSupplements();
+        List<Item> GetPrograms();
         bool CreateItem(Item item);
         bool UpdateItem(Item item);
         bool DeleteItem(Item item);

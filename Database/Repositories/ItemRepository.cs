@@ -65,6 +65,82 @@ namespace ManagerLibrary.Repositories
             return items;
         }
 
+        public List<Item> GetSupplements()
+        {
+            List<Item> supplements = new List<Item>();
+            using (SqlConnection connection = new SqlConnection(_ConnectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    string query = $"SELECT * FROM [Product] WHERE item_type = '{ItemType.Supplement}';" ;
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                Item supplement = new Item()
+                                {
+                                    ItemId = reader.GetInt32(0),
+                                    ItemName = reader.GetString(1),
+                                    ItemPrice = Convert.ToInt32(reader.GetDecimal(2)),
+                                    ItemDescription = reader.GetString(3),
+                                    ItemQuantity = reader.GetInt32(4),
+                                    ItemType = (ItemType)Enum.Parse(typeof(ItemType), reader.GetString(5))
+                                };
+                                supplements.Add(supplement);
+                            };
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return supplements;
+                }
+            }
+            return supplements;
+        }
+
+        public List<Item> GetPrograms()
+        {
+            List<Item> programs = new List<Item>();
+            using (SqlConnection connection = new SqlConnection(_ConnectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    string query = $"SELECT * FROM [Product] WHERE item_type = '{ItemType.Program}';";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                Item program = new Item()
+                                {
+                                    ItemId = reader.GetInt32(0),
+                                    ItemName = reader.GetString(1),
+                                    ItemPrice = Convert.ToInt32(reader.GetDecimal(2)),
+                                    ItemDescription = reader.GetString(3),
+                                    ItemQuantity = reader.GetInt32(4),
+                                    ItemType = (ItemType)Enum.Parse(typeof(ItemType), reader.GetString(5))
+                                };
+                                programs.Add(program);
+                            };
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return programs;
+                }
+            }
+            return programs;
+        }
+
         public bool CreateItem(Item item)
         {
             using (SqlConnection connection = new SqlConnection(_ConnectionString))

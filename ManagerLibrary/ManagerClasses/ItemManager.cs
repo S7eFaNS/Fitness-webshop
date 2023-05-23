@@ -15,7 +15,6 @@ namespace ManagerLibrary.ManagerClasses
     public class ItemManager /*: IItemManager*/
     {
         private readonly IItemRepository itemRepository;
-        private UserRepository userRepository;
 
         public ItemManager(IItemRepository itemRepository)
         {
@@ -27,6 +26,16 @@ namespace ManagerLibrary.ManagerClasses
         public List<Item> GetItems()
         {
             return itemRepository.GetItems();
+        }
+
+        public List<Item> GetSupplements()
+        {
+            return itemRepository.GetSupplements();
+        }
+
+        public List<Item> GetPrograms()
+        {
+            return itemRepository.GetPrograms();
         }
 
         public Item GetItemsById(int id)
