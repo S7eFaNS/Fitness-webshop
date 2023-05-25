@@ -9,6 +9,8 @@ namespace GymProject.Pages
         public async Task<IActionResult> OnGetAsync()
         {
             await HttpContext.SignOutAsync();
+            Response.Cookies.Delete("UserEmail");
+            Response.Cookies.Delete("UserID");
             return RedirectToPage("/SignIn");
         }
     }

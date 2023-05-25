@@ -49,7 +49,6 @@ namespace GymProject.Pages
         {
             HttpContext.Session.Clear();
             HttpContext.SignOutAsync();
-
             if (IsUserLoggedIn())
             {
                 return RedirectToPage("/Profile");
@@ -59,7 +58,7 @@ namespace GymProject.Pages
 
         public IActionResult OnPost()
         {
-            bool keepMeLoggedIn = false;
+            //bool keepMeLoggedIn = false;
 
             User? LoggedUser = authenticationService.CheckLogin(LoggingUser.Email, LoggingUser.Password);
             
@@ -76,7 +75,7 @@ namespace GymProject.Pages
             HttpContext.Session.SetString("UserEmail", LoggedUser.Email);
             HttpContext.Session.SetString("UserID", LoggedUser.Id.ToString());
 
-            if (keepMeLoggedIn)
+            if (KeepMeLoggedIn)
             {
                 CookieOptions cOptions = new CookieOptions();
                 cOptions.Expires = DateTime.Now.AddDays(5);
