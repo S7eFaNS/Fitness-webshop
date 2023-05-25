@@ -19,19 +19,18 @@
             <li><a href="/Product" class="nav-link px-2 link-dark">Products</a></li>
             <li><a href="/ShoppingCart" class="nav-link px-2 link-dark">Shopping cart</a></li>
         </ul>
-        @if (User?.Identity?.IsAuthenticated != true)
+        @if (User?.Identity?.IsAuthenticated == true || Context.Request.Cookies["UserEmail"] != null)
         {
             <div class="col-md-3 text-end">
-                <button type="button" class="btn btn-outline-primary me-2" onclick="location.href='SignIn';">Login</button>
-                <button type="button" class="btn btn-primary" onclick="location.href='SignUp';">Sign-up</button>
+                <a type="button" class="btn btn-outline-primary me-2" asp-page="Profile">Profile</a>
             </div>
         }
         else
         {
             <div class="col-md-3 text-end">
-                <a type="button" class="btn btn-outline-primary me-2" asp-page="Logout">Logout</a>
+                <button type="button" class="btn btn-outline-primary me-2" onclick="location.href='SignIn';">Login</button>
+                <button type="button" class="btn btn-primary" onclick="location.href='SignUp';">Sign-up</button>
             </div>
-
         }
         @*<div class="col-md-3 text-end">
             <button type="button" class="btn btn-outline-primary me-2" onclick="location.href='SignIn';">Login</button>

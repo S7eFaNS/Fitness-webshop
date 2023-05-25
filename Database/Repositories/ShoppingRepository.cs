@@ -25,28 +25,60 @@ namespace Database.Repositories
             _ConnectionString = dbConn.ConnectionString;
         }
 
-        public bool PlaceOrder(User user, Item item, string address)
-        {
+        public bool PlaceOrder(User user, List<Item> items, string address, double totalPrice)
+        { 
+
             using (SqlConnection connection = new SqlConnection(_ConnectionString))
             {
                 try
                 {
                     connection.Open();
-                    string query = $"INSERT INTO [Order] (id, item_id, quantity, total_price, shipping_address, date_time) " +
-                           $"VALUES('{user.Id}', '{item.ItemId}', '{item.ItemQuantity}', '{null}', '{address}', '{DateTime.Now}'); " +
-                           $"DECLARE @order_id int = SCOPE_IDENTITY(); " +
-                           $"UPDATE Product SET quantity = CASE " +
-                           $"WHEN quantity >= {item.ItemQuantity} THEN quantity - {item.ItemQuantity} " +
-                           $"ELSE 0 " +
-                           $"END " +
-                           $"WHERE item_id = {item.ItemId};";
-
-                    using (SqlCommand command = new SqlCommand(query, connection))
+                    string queryFirst = "INSERT INTO UserItem(user_id, item_id)" +
+                        "VALUES(@user_id, @item_id)";
+                    using (SqlCommand command = new SqlCommand(queryFirst, connection))
                     {
-                        command.ExecuteNonQuery();
+                        command.Parameters.AddWithValue("@user_id", user.Id);
+                        for(int i = 0; i < items.Count; i++)
+                        {
+                            command.Parameters["@item_id"].Value = Int32.Parse(items[i].ItemId.ToString());
+                            command.ExecuteNonQuery();
+                        }
+                    }
+                    string querySecond = $"INSERT INTO [Order] (id, item_id, quantity, total_price, shipping_address, date_time) " +
+                      $"VALUES(@id, @item_id, @quantity, @total_price, @shipping_address, @date_time); " +
+                      $"DECLARE @order_id int = SCOPE_IDENTITY(); ";
+                    using (SqlCommand command = new SqlCommand(querySecond, connection))
+                    {
+                        command.Parameters.AddWithValue("@id", user.Id);
+                        command.Parameters.AddWithValue("@total_price", totalPrice);
+                        command.Parameters.AddWithValue("@shipping_address", address);
+                        command.Parameters.AddWithValue("@date_time", DateTime.Now);
+                        for(int i = 0; i < items.Count; i++)
+                        {
+                            command.Parameters["@item_id"].Value = Int32.Parse(items[i].ItemId.ToString());
+                            command.Parameters["@quantity"].Value = Int32.Parse(items[i].ItemQuantity.ToString());
+                            command.ExecuteNonQuery();
+                        }
                     }
 
-                    return true;
+                    string queryThird =  
+                           $"UPDATE Product SET quantity = CASE " +
+                           $"WHEN quantity >= @quantity THEN quantity - @quantity " +
+                           $"ELSE 0 " +
+                           $"END " +
+                           $"WHERE item_id = @item_id;";
+                    using (SqlCommand command = new SqlCommand(queryThird, connection))
+                    {
+                        for(int i = 0; i < items.Count; i++)
+                        {
+                            command.Parameters["@quantity"].Value = Int32.Parse(items[i].ItemQuantity.ToString());
+                            command.Parameters["@item_id"].Value = Int32.Parse(items[i].ItemId.ToString());
+                            command.ExecuteNonQuery();
+                        }
+                    }
+
+
+                        return true;
                 }
                 catch (Exception ex)
                 {

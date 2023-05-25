@@ -17,7 +17,7 @@ namespace ClassLibrary.Classes.Item
             ItemPrice = itemPrice;
             ItemDescription = itemDescription;
             ItemQuantity = itemQuantity;
-            ItemType = itemType;
+            ItemType = ItemType.Supplement;
         }
     }
 }

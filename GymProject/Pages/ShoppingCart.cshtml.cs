@@ -48,7 +48,7 @@ namespace GymProject.Pages
                     {
                         ItemId = product.ItemId,
                         ItemName = product.ItemName,
-                        ItemQuantity = product.ItemQuantity,
+                        ItemQuantity =+ 1,
                         ItemPrice = product.ItemPrice
                     });
                 }
@@ -59,7 +59,7 @@ namespace GymProject.Pages
                 }
                 SessionHelper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
             }
-            return RedirectToPage("ShoppingCart");
+            return RedirectToPage("Product");
         }
 
         private int ExistingItem(List<Item> cart , int id)
@@ -83,7 +83,7 @@ namespace GymProject.Pages
             double totalPrice = 0;
             foreach (Item item in selectedItems)
             {
-                totalPrice += item.ItemPrice * item.ItemQuantity;
+                totalPrice += item.ItemPrice;
             }
             return totalPrice;
         }

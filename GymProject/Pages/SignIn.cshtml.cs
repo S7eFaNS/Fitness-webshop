@@ -11,8 +11,6 @@ using System.Security.Claims;
 
 namespace GymProject.Pages
 {
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-
     public class SignInModel : PageModel
     {
         [BindProperty]

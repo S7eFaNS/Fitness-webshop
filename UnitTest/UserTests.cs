@@ -51,7 +51,7 @@ namespace UnitTest
         [TestMethod]
         public void TestCreateUser()
         {
-            var fakeDataUser = new FakeDataUser();
+            FakeDataUser fakeDataUser = new FakeDataUser();
             var user = new User(5, "testUser5", "testUser5", "test@user5", "testuser5", UserType.Admin);
 
             var result = fakeDataUser.CreateUser(user);

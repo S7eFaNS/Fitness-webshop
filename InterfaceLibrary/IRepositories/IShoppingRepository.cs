@@ -10,6 +10,6 @@ namespace InterfaceLibrary.IRepositories
 {
     public interface IShoppingRepository
     {
-        bool PlaceOrder(User user, Item item, string address);
+        bool PlaceOrder(User user, List<Item> items, string address, double totalPrice);
     }
 }

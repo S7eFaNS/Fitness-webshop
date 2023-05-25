@@ -17,17 +17,24 @@
           <span class="badge bg-primary rounded-pill">3</span>
         </h4>
         <ul class="list-group mb-3">
-            @if(Model.MyCart.Count != 0)
-            {
+                    @if (Model.MyCart != null)
+                    {
                 @foreach (var item in Model.MyCart)
                 {
                     <li class="list-group-item d-flex justify-content-between lh-sm">
                         <div>
                             <h6 class="my-0">@item.ItemName</h6>
-                            <small class="text-muted">@item.ItemQuantity</small>
-                            <small class="text-muted">@item.ItemPrice</small>
+                            <div id="itemContainer">
+                                <small class="text-muted">
+                                    Quantity: <span id="itemQuantity">@item.ItemQuantity</span>
+                                </small>
+                                <button type="button" class="btn btn-sm btn-outline-primary mx-2" onclick="decreaseQuantity()">-</button>
+                                <button type="button" class="btn btn-sm btn-outline-primary" onclick="increaseQuantity()">+</button>
+                            </div>
+
+                            <small class="text-muted" id="PricePerItem">Price per item: $@item.ItemPrice</small>
                         </div>
-                        <span class="text-muted">$@(item.ItemPrice * item.ItemQuantity)</span>
+                        <span class="text-muted" id="ItemPrice">$@(item.ItemPrice * item.ItemQuantity)</span>
                     </li>
                 }
             }
@@ -115,4 +122,5 @@
       </div>
     </div>
   </main>
+	<script src="~/js/index.js"></script>
 </div>
