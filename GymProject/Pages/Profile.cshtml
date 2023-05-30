@@ -5,8 +5,6 @@
 
 @if (User.Identity.IsAuthenticated)
 {
-        <p>First Name: @Model.FirstName</p>
-        <p>Last Name: @Model.LastName</p>
         <p>Email: @Model.Email</p>
         <div class="col-md-3 text-end">
             <a type="button" class="btn btn-outline-primary me-2" asp-page="Logout">Logout</a>

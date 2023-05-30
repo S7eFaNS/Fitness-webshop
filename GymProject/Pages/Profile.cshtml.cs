@@ -13,9 +13,15 @@ namespace GymProject.Pages
         {
             if (User.Identity.IsAuthenticated)
             {
-                FirstName = User.FindFirstValue(ClaimTypes.GivenName);
-                LastName = User.FindFirstValue(ClaimTypes.Surname);
                 Email = User.FindFirstValue(ClaimTypes.Email);
+            }
+            else
+            {
+                if (Request.Cookies.TryGetValue("UserEmail", out string userEmail) &&
+                    Request.Cookies.TryGetValue("UserID", out string userId))
+                {
+                    Email = userEmail;
+                }
             }
         }
     }

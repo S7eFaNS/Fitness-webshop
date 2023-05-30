@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+
 
 namespace GymProject.Pages
 {
@@ -8,7 +10,7 @@ namespace GymProject.Pages
     {
         public async Task<IActionResult> OnGetAsync()
         {
-            await HttpContext.SignOutAsync();
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme); 
             Response.Cookies.Delete("UserEmail");
             Response.Cookies.Delete("UserID");
             return RedirectToPage("/SignIn");

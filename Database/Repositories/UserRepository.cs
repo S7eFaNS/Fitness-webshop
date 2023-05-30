@@ -236,26 +236,27 @@ namespace ManagerLibrary.Repositories
         {
             using (SqlConnection connection = new SqlConnection(_ConnectionString))
             {
-                User user = new User();
+                User? user = null;
 
                 try
                 {
                     connection.Open();
-                    string query = $"SELECT * FROM [User] " +
-                        $"WHERE email = '{email}'";
+                    string query = $"SELECT * FROM [User] WHERE email=@Email";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
+                        command.Parameters.AddWithValue("@Email", email);
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
-                            while (reader.Read())
+                            if (reader.Read())
                             {
-                                user.Id = reader.GetInt32(0);
-                                user.FirstName = reader.GetString(1);
-                                user.LastName = reader.GetString(2);
-                                user.Email = reader.GetString(3);
-                                user.Password = reader.GetString(4);
-                                user.UserType = (UserType)Enum.Parse(typeof(UserType), reader.GetString(5));
+                                user = new User();
+                                user.Id = (int)reader["Id"];
+                                user.FirstName = (string)reader["first_name"];
+                                user.LastName = (string)reader["last_name"];
+                                user.Email = (string)reader["email"];
+                                user.Password = (string)reader["password"];
+                                user.UserType = Enum.Parse<UserType>((string)reader["user_type"]);
                             }
                         }
                     }

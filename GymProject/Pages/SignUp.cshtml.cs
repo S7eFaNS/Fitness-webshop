@@ -24,35 +24,13 @@ namespace GymProject.Pages
             //customer.UserType = UserType.Customer;
         }
 
-        public bool IsUserLoggedIn()
-        {
-            string? userEmail = HttpContext.Session.GetString("UserEmail");
-            if (userEmail != null)
-            {
-                return true;
-            }
-
-            userEmail = Request.Cookies["UserEmail"];
-            string userId = Request.Cookies["UserID"];
-
-            if (userEmail != null && userId != null)
-            {
-                HttpContext.Session.SetString("UserEmail", userEmail);
-                HttpContext.Session.SetString("UserID", userId);
-                return true;
-            }
-            return false;
-        }
-
         public IActionResult OnGet()
         {
-            //HttpContext.Session.Clear();
-            //HttpContext.SignOutAsync();
-
-            if (IsUserLoggedIn())
+            if (User.Identity.IsAuthenticated)
             {
                 return RedirectToPage("/Profile");
             }
+
             return Page();
         }
 

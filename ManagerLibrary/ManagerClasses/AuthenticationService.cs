@@ -23,7 +23,19 @@ namespace ManagerLibrary.ManagerClasses
 
         public bool Register(Customer customer)
         {
+            bool emailExists = CheckUserByEmail(customer.Email);
+            if (emailExists)
+            {
+                return false;
+            }
             return repository.CreateUser(customer);
         }
+
+        public bool CheckUserByEmail(string email)
+        {
+            User existingUser = repository.GetUserByEmail(email);
+            return existingUser != null;
+        }
+
     }
 }

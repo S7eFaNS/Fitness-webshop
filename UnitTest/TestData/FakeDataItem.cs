@@ -46,8 +46,12 @@ namespace UnitTest.TestData
             if(index >= 0) 
             {
                 items.RemoveAt(index);
+                return true;
             }
-            return true;
+            else
+            {
+                throw new ArgumentOutOfRangeException("Index not found");
+            }
         }
 
         public bool UpdateItem(Item item)
@@ -63,7 +67,7 @@ namespace UnitTest.TestData
 
         public List<Item> SearchItems(string searchQuery)
         {
-            List<Item> foundItems = new();
+            List<Item> foundItems = new List<Item>();
             foreach (var item in items)
             {
                 if (item.ItemName.Contains(searchQuery) ||
@@ -73,8 +77,15 @@ namespace UnitTest.TestData
                     foundItems.Add(item);
                 }
             }
+
+            if (foundItems.Count == 0)
+            {
+                throw new Exception("No items found matching the search criteria.");
+            }
+
             return foundItems;
         }
+
 
         public List<Item> GetPrograms()
         {

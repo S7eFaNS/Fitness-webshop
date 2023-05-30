@@ -1,5 +1,6 @@
 ﻿using ClassLibrary.Classes.Item;
 using ClassLibrary.Classes.User;
+using InterfaceLibrary.IManagers;
 using ManagerLibrary.ManagerClasses;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,17 @@ namespace UnitTest
             int returnedItemId = itemManager.GetItemsById(1).ItemId;
 
             Assert.AreEqual(returnedItemId, 1);
+        }
+
+        [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void TestGetItemByIdFail()
+        {
+            ItemManager itemManager = new ItemManager(new FakeDataItem());
+
+            Item item1 = itemManager.GetItemsById(12);
+            Item item2 = itemManager.GetItems()[12];
+
+            Assert.AreEqual(item1, item2);
         }
 
         [TestMethod]
@@ -70,6 +82,19 @@ namespace UnitTest
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void TestDeleteItemFail()
+        {
+            var fakeDataItem = new FakeDataItem();
+            var item = new Item(8, "testItem8", 80, "testDataItem8", 80, ItemType.Supplement);
+            var itemList = fakeDataItem.GetItems()[1];
+
+            fakeDataItem.DeleteItem(item);
+
+            Assert.AreNotEqual(itemList, fakeDataItem.GetItems()[3]);
+        }
+
+        [TestMethod]
         public void SearchItems()
         {
             var fakeDataItem = new FakeDataItem();
@@ -82,6 +107,17 @@ namespace UnitTest
 
             bool isItem2Found = result.Any(i => i.ItemName == item2.ItemName);
             Assert.IsTrue(isItem2Found);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void TestSearchItemsFail()
+        {
+            var fakeDataItem = new FakeDataItem();
+
+            var result = fakeDataItem.SearchItems("nonexistentItem");
+
+            Assert.AreEqual(0, result.Count);
         }
     }
 }

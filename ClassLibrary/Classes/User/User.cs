@@ -31,5 +31,46 @@ namespace ClassLibrary.Classes.User
             UserType = userType;
         }
         public User() { }
+
+        //public int Id 
+        //{
+        //    get { return id; }
+        //    private set { id = value; }
+        //}
+        //public string FirstName
+        //{
+        //    get { return firstName; }
+        //    private set { firstName = value; }
+        //}
+        //public string LastName
+        //{
+        //    get { return lastName; }
+        //    private set { lastName = value; }
+        //}
+        //public string Email
+        //{
+        //    get { return email; }
+        //    private set { email = value; }
+        //}
+        //public string Password
+        //{
+        //    get { return password; }
+        //    private set { password = value; }
+        //}
+
+
+        //zaobikalqm encapsulation i setvam password kum private set passworda.
+        //Po toq nachin moga da setna password.
+        //public void SetPassword(string password)
+        //{
+        //    Password = password;
+        //}
+
+        //public UserType UserType
+        //{
+        //    get { return userType; }
+        //    protected set { userType = value; }
+        //}
+
     }
 }

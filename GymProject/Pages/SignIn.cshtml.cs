@@ -15,74 +15,54 @@ namespace GymProject.Pages
     {
         [BindProperty]
         public UserViewModel LoggingUser { get; set; }
-        [BindProperty]
-        public bool KeepMeLoggedIn { get; set; }
 
         public readonly ManagerLibrary.ManagerClasses.AuthenticationService authenticationService = new ManagerLibrary.ManagerClasses.AuthenticationService(new UserRepository());
         public string? ErrorMessage { get; set; }
         public string? RequestId { get; private set; }
 
-
-        public bool IsUserLoggedIn()
-        {
-            string? userEmail = HttpContext.Session.GetString("UserEmail");
-            if (userEmail != null)
-            {
-                return true;
-            }
-
-            userEmail = Request.Cookies["UserEmail"];
-            string userId = Request.Cookies["UserID"];
-
-            if (userEmail != null && userId != null)
-            {
-                HttpContext.Session.SetString("UserEmail", userEmail);
-                HttpContext.Session.SetString("UserID", userId);
-                return true;
-            }
-            return false;
-        }
-
         public IActionResult OnGet()
         {
-            HttpContext.Session.Clear();
-            HttpContext.SignOutAsync();
-            if (IsUserLoggedIn())
+            if (User.Identity.IsAuthenticated)
             {
                 return RedirectToPage("/Profile");
             }
+
             return Page();
         }
 
         public IActionResult OnPost()
         {
-            //bool keepMeLoggedIn = false;
+            User? loggedUser = authenticationService.CheckLogin(LoggingUser.Email, LoggingUser.Password);
 
-            User? LoggedUser = authenticationService.CheckLogin(LoggingUser.Email, LoggingUser.Password);
-            
-            if (LoggedUser == null)
+            if (loggedUser == null)
             {
                 ErrorMessage = "Incorrect email or password";
                 return Page();
             }
 
             List<Claim> claims = new List<Claim>();
-            claims.Add(new Claim(ClaimTypes.Email, LoggedUser.Email));
-            claims.Add(new Claim(ClaimTypes.Role, LoggedUser.UserType.ToString()));
-
-            HttpContext.Session.SetString("UserEmail", LoggedUser.Email);
-            HttpContext.Session.SetString("UserID", LoggedUser.Id.ToString());
-
-            if (KeepMeLoggedIn)
-            {
-                CookieOptions cOptions = new CookieOptions();
-                cOptions.Expires = DateTime.Now.AddDays(5);
-                Response.Cookies.Append("UserEmail", LoggedUser.Email, cOptions);
-                Response.Cookies.Append("UserID", LoggedUser.Id.ToString(), cOptions);
-            }
+            claims.Add(new Claim(ClaimTypes.Email, loggedUser.Email));
+            claims.Add(new Claim(ClaimTypes.Role, loggedUser.UserType.ToString()));
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            HttpContext.SignInAsync(new ClaimsPrincipal(claimsIdentity));
+
+            var authProperties = new AuthenticationProperties();
+
+            if (!Request.Form.ContainsKey("RememberMe"))
+            {
+                authProperties.ExpiresUtc = DateTime.UtcNow.AddMinutes(10);
+                authProperties.IsPersistent = false;
+            }
+            else
+            {
+                authProperties.ExpiresUtc = DateTime.UtcNow.AddDays(5);
+                authProperties.IsPersistent = true;
+            }
+
+            HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity),
+                    authProperties);
 
             string? returnUrl = Request.Query["ReturnUrl"];
             if (string.IsNullOrEmpty(returnUrl))
@@ -92,6 +72,7 @@ namespace GymProject.Pages
 
             return RedirectToPage(returnUrl);
         }
+
 
     }
 }

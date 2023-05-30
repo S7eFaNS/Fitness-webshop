@@ -16,6 +16,10 @@ namespace GymProject.Pages
         public readonly ShoppingCartManager shoppingCartManager = new ShoppingCartManager(new ShoppingRepository());
         public readonly ManagerLibrary.ManagerClasses.ItemManager itemManager = new ItemManager(new ItemRepository());
         public List<Item> MyCart = new List<Item>();
+        [BindProperty]
+        public int Quantity { get; set; }
+        [BindProperty]
+        public int Id { get; set; }
         public double Total { get; set; }
 
         public void OnGet()
@@ -74,9 +78,27 @@ namespace GymProject.Pages
             return -1;
         }
 
-        public void OnPost() { 
-            
+        public void OnPost() {
+            MyCart = SessionHelper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
         }
+
+        public void OnPostQuantity()
+        {
+            if (Quantity >= 1)
+            {
+                List<Item> cart = SessionHelper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
+
+                Item itemToUpdate = cart.FirstOrDefault(item => item.ItemId == Id);
+
+                if (itemToUpdate != null)
+                {
+                    itemToUpdate.ItemQuantity = Quantity + 1;
+
+                    SessionHelper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
+                }
+            }
+        }
+
 
         public double TotalPrice(List<Item> selectedItems)
         {

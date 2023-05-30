@@ -11,17 +11,12 @@ namespace ClassLibrary.Classes.User
 
         public Admin() 
         {
-            UserType= UserType.Admin;
+            UserType = UserType.Admin;
         }
 
-        public Admin(int id,string firstName, string lastName, string email, string password, UserType userType)
+        public Admin(int id, string firstName, string lastName, string email, string password)
+        : base(id, firstName, lastName, email, password, UserType.Admin)
         {
-            Id = id;
-            FirstName = firstName;
-            LastName = lastName;
-            Email = email;
-            Password = password;
-            UserType = UserType.Admin;
         }
     }
 }

@@ -27,7 +27,14 @@ namespace ManagerLibrary.ManagerClasses
 
         public List<User> GetUsers()
         {
-            return repository.GetUsers();
+            List<User> users = repository.GetUsers();
+
+            if (users.Count != 4)
+            {
+                throw new ArgumentException("Invalid number of users.");
+            }
+
+            return users;
         }
 
         public User GetUserById(int id)

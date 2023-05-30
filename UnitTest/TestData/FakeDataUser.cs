@@ -42,6 +42,10 @@ namespace UnitTest.TestData
             {
                 users.RemoveAt(index);
             }
+            else
+            {
+                return false;
+            }
             return true;
         }
 
@@ -51,6 +55,10 @@ namespace UnitTest.TestData
             if (index >= 0)
             {
                 users[index] = user;
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException("Index not found");
             }
             return true;
         }
@@ -77,6 +85,10 @@ namespace UnitTest.TestData
                 {
                     foundUsers.Add(user);
                 }
+            }
+            if (foundUsers.Count == 0)
+            {
+                throw new Exception("No items found matching the search criteria.");
             }
             return foundUsers;
         }

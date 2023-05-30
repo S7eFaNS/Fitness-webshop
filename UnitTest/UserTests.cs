@@ -18,13 +18,10 @@ namespace UnitTest
         [TestMethod]
         public void TestGetUsers()
         {
-            //Arrange
             UserManager userManager = new(new FakeDataUser());
 
-            //Act
             List<User> returnedUsers = userManager.GetUsers();
 
-            //Assert
             Assert.AreEqual(returnedUsers.Count, 4);
         }
 
@@ -38,6 +35,19 @@ namespace UnitTest
             Assert.AreEqual(returnedUserId, 1);
         }
 
+        [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void TestGetUserByIdFail()
+        {
+            UserManager userManager = new UserManager(new FakeDataUser());
+
+            User user1 = userManager.GetUserById(12);
+            User user2 = userManager.GetUsers()[12];
+
+            Assert.AreEqual(user1, user2);
+        }
+
+
+
         [TestMethod]
         public void TestGetUserByEmail()
         {
@@ -47,6 +57,16 @@ namespace UnitTest
 
             Assert.AreEqual(testUserEmail, "test@user1");
         }
+
+
+        [TestMethod]
+        public void TestGetUserByEmail_WrongEmail()
+        {
+            UserManager userManager = new UserManager(new FakeDataUser());
+
+            Assert.ThrowsException<NullReferenceException>(() => userManager.GetUserByEmail("wrongemail@example.com").Email);
+        }
+
 
         [TestMethod]
         public void TestCreateUser()
@@ -70,6 +90,19 @@ namespace UnitTest
 
             Assert.IsTrue(result);
         }
+
+        [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void TestUpdateUserFail()
+        {
+            var fakeDataUser = new FakeDataUser();
+            User user = new User(8, "updatedUser", "updatedUser", "updated@test.com", "updateduser", UserType.Admin);
+            User userList = fakeDataUser.GetUsers()[1];
+
+            fakeDataUser.UpdateUser(user);
+
+            Assert.AreNotEqual(userList, fakeDataUser.GetUsers()[3]);
+        }
+
 
         [TestMethod]
         public void TestDeleteUser()
@@ -98,7 +131,16 @@ namespace UnitTest
             Assert.IsTrue(isUser2Found);
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void TestSearchUserFail()
+        {
+            var fakeDataUser = new FakeDataUser();
 
+            var result = fakeDataUser.SearchUsers("nonexistentUser");
+
+            Assert.AreEqual(0, result.Count);
+        }
 
     }
 }
