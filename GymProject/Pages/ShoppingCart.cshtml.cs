@@ -66,6 +66,8 @@ namespace GymProject.Pages
             return RedirectToPage("Product");
         }
 
+
+        //move to back end
         private int ExistingItem(List<Item> cart , int id)
         {
             for(int i = 0; i < cart.Count; i++)
@@ -78,11 +80,11 @@ namespace GymProject.Pages
             return -1;
         }
 
-        public void OnPost() {
-            MyCart = SessionHelper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
-        }
-
-        public void OnPostQuantity()
+        //public void OnPost() {
+        //    MyCart = SessionHelper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
+        //}
+        
+        public IActionResult OnPostQuantity(string action)
         {
             if (Quantity >= 1)
             {
@@ -92,22 +94,37 @@ namespace GymProject.Pages
 
                 if (itemToUpdate != null)
                 {
-                    itemToUpdate.ItemQuantity = Quantity + 1;
+                    if (action == "increase")
+                    {
+                        itemToUpdate.ItemQuantity++;
+                    }
+                    else if (action == "decrease")
+                    {
+                        if (itemToUpdate.ItemQuantity > 1)
+                        {
+                            itemToUpdate.ItemQuantity--;
+                        }
+                        else
+                        {
+                            cart.Remove(itemToUpdate);
+                        }
+                    }
 
                     SessionHelper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
                 }
             }
+            return RedirectToPage("ShoppingCart");
         }
 
 
-        public double TotalPrice(List<Item> selectedItems)
-        {
-            double totalPrice = 0;
-            foreach (Item item in selectedItems)
-            {
-                totalPrice += item.ItemPrice;
-            }
-            return totalPrice;
-        }
+        //public double TotalPrice(List<Item> selectedItems)
+        //{
+        //    double totalPrice = 0;
+        //    foreach (Item item in selectedItems)
+        //    {
+        //        totalPrice += item.ItemPrice;
+        //    }
+        //    return totalPrice;
+        //}
     }
 }

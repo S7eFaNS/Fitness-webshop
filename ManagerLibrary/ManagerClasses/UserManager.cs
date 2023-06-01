@@ -28,12 +28,6 @@ namespace ManagerLibrary.ManagerClasses
         public List<User> GetUsers()
         {
             List<User> users = repository.GetUsers();
-
-            if (users.Count != 4)
-            {
-                throw new ArgumentException("Invalid number of users.");
-            }
-
             return users;
         }
 
@@ -51,19 +45,6 @@ namespace ManagerLibrary.ManagerClasses
         {
             return repository.SearchUsers(searchQuery);
         }
-
-        //public User GiveUserRole(User user)
-        //{
-        //    switch (user.UserType.ToString())
-        //    {
-        //        case "Admin":
-        //            return repository.GetAdminById(user.Id);
-        //        case "Customer":
-        //            return repository.GetCustomerById(user.Id);
-        //        default:
-        //            throw new ArgumentException("Invalid input type");
-        //    }
-        //}
 
         public bool CreateUser(User user)
         {

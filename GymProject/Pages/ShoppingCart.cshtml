@@ -15,7 +15,6 @@
           <div class="col-md-5 col-lg-4 order-md-last">
             <h4 class="d-flex justify-content-between align-items-center mb-3">
               <span class="text-primary">Your cart</span>
-              <span class="badge bg-primary rounded-pill">3</span>
             </h4>
             <ul class="list-group mb-3">
                         @if (Model.MyCart != null)
@@ -25,17 +24,17 @@
                         <li class="list-group-item d-flex justify-content-between lh-sm">
                             <div>
                                 <h6 class="my-0">@item.ItemName</h6>
-                                        <form method="post" asp-page-handler="Quantity">
-                                            <input type="hidden" value="@item.ItemId" asp-for="@Model.Id" />
-                                            <div id="itemContainer">
-                                                <small class="text-muted">
-                                                    Quantity: <input id="itemQuantity" value="@item.ItemQuantity" asp-for="@Model.Quantity" />
-                                                </small>
-                                                <button id="buttonIncrease" class="btn btn-primary increase-quantity">+</button>
-                                                <button id="buttonDecrease" class="btn btn-primary decrease-quantity">-</button>
-                                            </div>
-                                        </form>
-
+                                <form method="post" asp-page-handler="Quantity">
+                                    <input type="hidden" name="Id" value="@item.ItemId" />
+                                    <input type="hidden" name="Quantity" value="@item.ItemQuantity" />
+                                    <button type="submit" name="action" value="decrease" class="btn btn-primary">-</button>
+                                </form>
+                                <span class="quantity">Quantity: @item.ItemQuantity</span>
+                                    <form method="post" asp-page-handler="Quantity">
+                                    <input type="hidden" name="Id" value="@item.ItemId" />
+                                    <input type="hidden" name="Quantity" value="@item.ItemQuantity" />
+                                    <button type="submit" name="action" value="increase" class="btn btn-primary">+</button>
+                                </form>
                                 <small class="text-muted" id="PricePerItem">Price per item: $@item.ItemPrice</small>
                             </div>
                             <span class="text-muted" id="ItemPrice">$@(item.ItemPrice * item.ItemQuantity)</span>

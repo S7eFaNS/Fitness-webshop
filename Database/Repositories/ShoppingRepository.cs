@@ -25,6 +25,32 @@ namespace Database.Repositories
             _ConnectionString = dbConn.ConnectionString;
         }
 
+        public List<int> GetPurchasedItemIdsByUser(int userId)
+        {
+            List<int> itemIds = new List<int>();
+
+            using (SqlConnection connection= new SqlConnection( _ConnectionString))
+            {
+                connection.Open();
+                string query = "SELECT item_id FROM UserItem WHERE user_id = @user_id";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@user_id", userId);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int itemId = reader.GetInt32(0);
+                            itemIds.Add(itemId);
+                        }
+                    }
+                }
+            }
+            return itemIds;
+        }
+
         public bool PlaceOrder(User user, List<Item> items, string address, double totalPrice)
         { 
 

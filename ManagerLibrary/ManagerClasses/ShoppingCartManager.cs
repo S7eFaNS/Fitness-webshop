@@ -18,6 +18,8 @@ namespace ManagerLibrary.ManagerClasses
             this.shoppingRepository = shoppingRepository;
         }
 
+
+
         public bool PlaceOrder(User user, List<Item> items, string address, double totalPrice)
         {
             return shoppingRepository.PlaceOrder(user, items, address, totalPrice);

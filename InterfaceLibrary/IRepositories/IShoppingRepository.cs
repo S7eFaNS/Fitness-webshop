@@ -11,5 +11,7 @@ namespace InterfaceLibrary.IRepositories
     public interface IShoppingRepository
     {
         bool PlaceOrder(User user, List<Item> items, string address, double totalPrice);
+
+        List<int> GetPurchasedItemIdsByUser(int userId);
     }
 }

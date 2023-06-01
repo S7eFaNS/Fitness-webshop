@@ -103,12 +103,6 @@ namespace ManagerLibrary.ManagerClasses
             {
                 throw new ArgumentException("Invalid item type");
             }
-
-            //public ItemManager(ItemCatalogue itemCatalogue, ItemRepository itemRepository)
-            //{
-            //    this.itemCatalogue = itemCatalogue;
-            //    this.itemRepository = itemRepository;
-            //}
         }
     }
 }
