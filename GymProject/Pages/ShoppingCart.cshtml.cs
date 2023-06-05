@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
 using System.Data;
+using System.Security.Claims;
 
 namespace GymProject.Pages
 {
@@ -29,6 +30,7 @@ namespace GymProject.Pages
         public void OnGet()
         {
             MyCart = SessionHelper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
+            Total = shoppingCartAlgorithms.CalculateTotalPrice(MyCart);
         }
 
         public IActionResult OnGetBuy(int id)
@@ -69,14 +71,6 @@ namespace GymProject.Pages
             }
             return RedirectToPage("Product");
         }
-
-
-        //move to back end
-
-
-        //public void OnPost() {
-        //    MyCart = SessionHelper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
-        //}
         
         public IActionResult OnPostQuantity(string action)
         {
@@ -103,32 +97,23 @@ namespace GymProject.Pages
                             cart.Remove(itemToUpdate);
                         }
                     }
-
                     SessionHelper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
                 }
+                Total = shoppingCartAlgorithms.CalculateTotalPrice(cart);
             }
             return RedirectToPage("ShoppingCart");
         }
 
         public IActionResult OnPostPlaceOrder(string address)
         {
-            User user = shoppingCartAlgorithms.GetUserFromAuthentication(Id);
+            string userEmail = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+            User user = shoppingCartAlgorithms.GetUserFromAuthentication(userEmail);
             List <Item> cart = SessionHelper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
-            double totalPrice = shoppingCartAlgorithms.CalculateTotalPrice(cart);
+            Total = shoppingCartAlgorithms.CalculateTotalPrice(cart);
             
-            bool orderPlaced = shoppingCartManager.PlaceOrder(user, cart, address, totalPrice);
+            bool orderPlaced = shoppingCartManager.PlaceOrder(user, cart, address, Total);
             
             return RedirectToPage("Profile");
         }
-
-        //public double TotalPrice(List<Item> selectedItems)
-        //{
-        //    double totalPrice = 0;
-        //    foreach (Item item in selectedItems)
-        //    {
-        //        totalPrice += item.ItemPrice;
-        //    }
-        //    return totalPrice;
-        //}
     }
 }

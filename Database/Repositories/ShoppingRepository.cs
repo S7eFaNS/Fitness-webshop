@@ -59,37 +59,54 @@ namespace Database.Repositories
                 try
                 {
                     connection.Open();
-                    string queryFirst = "INSERT INTO UserItem(user_id, item_id)" +
-                        "VALUES(@user_id, @item_id)";
+
+                    string queryFirst = "INSERT INTO UserItem (user_id, item_id) " +
+                        "VALUES (@user_id, @item_id); " +
+                        "DECLARE @id int = SCOPE_IDENTITY();";
+
                     using (SqlCommand command = new SqlCommand(queryFirst, connection))
                     {
                         command.Parameters.AddWithValue("@user_id", user.Id);
-                        for(int i = 0; i < items.Count; i++)
+
+                        for (int i = 0; i < items.Count; i++)
                         {
-                            command.Parameters["@item_id"].Value = Int32.Parse(items[i].ItemId.ToString());
+                            command.Parameters.Clear();
+                            command.Parameters.AddWithValue("@user_id", user.Id);
+                            command.Parameters.AddWithValue("@item_id", items[i].ItemId);
                             command.ExecuteNonQuery();
                         }
                     }
-                    string querySecond = $"INSERT INTO [Order] (id, item_id, quantity, total_price, shipping_address, date_time) " +
-                      $"VALUES(@id, @item_id, @quantity, @total_price, @shipping_address, @date_time); " +
-                      $"DECLARE @order_id int = SCOPE_IDENTITY(); ";
+
+                    string querySecond = "DECLARE @order_id int; " +
+                        "INSERT INTO [Order] (id, item_id, quantity, total_price, shipping_address, date_time) " +
+                        "VALUES (@id, @item_id, @quantity, @total_price, @shipping_address, @date_time); " +
+                        "SET @order_id = SCOPE_IDENTITY();";
+
                     using (SqlCommand command = new SqlCommand(querySecond, connection))
                     {
+                        var date = DateTime.Now;
+
                         command.Parameters.AddWithValue("@id", user.Id);
                         command.Parameters.AddWithValue("@total_price", totalPrice);
                         command.Parameters.AddWithValue("@shipping_address", address);
-                        command.Parameters.AddWithValue("@date_time", DateTime.Now);
-                        for(int i = 0; i < items.Count; i++)
+                        command.Parameters.AddWithValue("@date_time", date);
+
+                        for (int i = 0; i < items.Count; i++)
                         {
-                            command.Parameters["@item_id"].Value = Int32.Parse(items[i].ItemId.ToString());
-                            command.Parameters["@quantity"].Value = Int32.Parse(items[i].ItemQuantity.ToString());
+                            command.Parameters.Clear();
+                            command.Parameters.AddWithValue("@id", user.Id);
+                            command.Parameters.AddWithValue("@total_price", totalPrice);
+                            command.Parameters.AddWithValue("@shipping_address", address);
+                            command.Parameters.AddWithValue("@date_time", date);
+                            command.Parameters.AddWithValue("@item_id", items[i].ItemId);
+                            command.Parameters.AddWithValue("@quantity", items[i].ItemQuantity);
                             command.ExecuteNonQuery();
                         }
                     }
 
                     string queryThird =  
-                           $"UPDATE Product SET quantity = CASE " +
-                           $"WHEN quantity >= @quantity THEN quantity - @quantity " +
+                           $"UPDATE Product SET item_quantity = CASE " +
+                           $"WHEN item_quantity >= @item_quantity THEN item_quantity - @item_quantity " +
                            $"ELSE 0 " +
                            $"END " +
                            $"WHERE item_id = @item_id;";
@@ -97,14 +114,15 @@ namespace Database.Repositories
                     {
                         for(int i = 0; i < items.Count; i++)
                         {
-                            command.Parameters["@quantity"].Value = Int32.Parse(items[i].ItemQuantity.ToString());
-                            command.Parameters["@item_id"].Value = Int32.Parse(items[i].ItemId.ToString());
+                            command.Parameters.Clear();
+                            command.Parameters.AddWithValue("@item_quantity", items[i].ItemQuantity);
+                            command.Parameters.AddWithValue("@item_id", items[i].ItemId);
                             command.ExecuteNonQuery();
                         }
                     }
+                    connection.Close();
 
-
-                        return true;
+                    return true;
                 }
                 catch (Exception ex)
                 {

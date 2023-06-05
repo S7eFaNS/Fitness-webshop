@@ -17,19 +17,22 @@ namespace ManagerLibrary.Algorithm
         {
             this.userRepository = userRepository;
         }
-        public User GetUserFromAuthentication(int userId)
+        public User GetUserFromAuthentication(string email)
         {
-            User user = userRepository.GetUserById(userId); 
+            User user = userRepository.GetUserByEmail(email); 
             return user;
         }
         public double CalculateTotalPrice(List<Item> items)
         {
-            // Example: Calculate the total price based on the items
-            // Replace this with your own code to calculate the total price
+            if (items == null || items.Count == 0)
+            {
+                return 0;
+            }
+
             double totalPrice = 0;
             foreach (var item in items)
             {
-                totalPrice += item.ItemPrice;
+                totalPrice += item.ItemPrice * item.ItemQuantity;
             }
             return totalPrice;
         }
