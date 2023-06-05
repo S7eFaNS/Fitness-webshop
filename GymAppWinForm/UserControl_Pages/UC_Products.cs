@@ -1,6 +1,7 @@
 ﻿using ClassLibrary.Classes.Item;
 using InterfaceLibrary.IManagers;
 using InterfaceLibrary.IRepositories;
+using ManagerLibrary.Algorithm;
 using ManagerLibrary.ManagerClasses;
 using ManagerLibrary.Repositories;
 using System;
@@ -115,27 +116,27 @@ namespace GymAppWinForm
             List<Item> items = itemManager.GetItems();
             if (cb_item_filter.SelectedIndex == 1) // Price ASC
             {
-                items.Sort((x, y) => x.ItemPrice.CompareTo(y.ItemPrice));
+                SortItems.SortByPriceAsc(items);
             }
             else if (cb_item_filter.SelectedIndex == 2) // Price DESC
             {
-                items.Sort((x, y) => y.ItemPrice.CompareTo(x.ItemPrice));
+                SortItems.SortByPriceDesc(items);
             }
             else if (cb_item_filter.SelectedIndex == 3) // Quantity ASC
             {
-                items.Sort((x, y) => x.ItemQuantity.CompareTo(y.ItemQuantity));
+                SortItems.SortByQuantityAsc(items);
             }
             else if (cb_item_filter.SelectedIndex == 4) // Quantity DESC
             {
-                items.Sort((x, y) => y.ItemQuantity.CompareTo(x.ItemQuantity));
+                SortItems.SortByQuantityDesc(items);
             }
             else if (cb_item_filter.SelectedIndex == 5) // Supplements only
             {
-                items = items.Where(item => item.ItemType == ItemType.Supplement).ToList();
+                items = SortItems.SortByItemTypeSupplement(items);
             }
             else if (cb_item_filter.SelectedIndex == 6) // Programs only
             {
-                items = items.Where(item => item.ItemType == ItemType.Program).ToList();
+                items = SortItems.SortByItemTypeProgram(items);
             }
             data_grid_view_items.DataSource = items;
             data_grid_view_items.Columns["ItemId"].Width = 80;

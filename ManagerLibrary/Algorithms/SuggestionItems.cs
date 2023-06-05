@@ -1,6 +1,8 @@
 ﻿using ClassLibrary.Classes.Item;
 using ClassLibrary.Classes.User;
+using Database.Repositories;
 using InterfaceLibrary.IRepositories;
+using ManagerLibrary.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,21 +11,21 @@ using System.Threading.Tasks;
 
 namespace ManagerLibrary.Algorithm
 {
-    public class Algorithm
+    public class SuggestionItems
     {
         private readonly IUserRepository userRepository;
         private readonly IItemRepository itemRepository;
         private readonly IShoppingRepository shoppingRepository;
-        public Algorithm(IUserRepository userRepository)
+        public SuggestionItems(IUserRepository userRepository)
         {
             this.userRepository = userRepository;
         }
-        public Algorithm(IItemRepository itemRepository)
+        public SuggestionItems(IItemRepository itemRepository)
         {
             this.itemRepository = itemRepository;
         }
 
-        public Algorithm(IShoppingRepository shoppingRepository)
+        public SuggestionItems(IShoppingRepository shoppingRepository)
         {
             this.shoppingRepository = shoppingRepository;
         }
@@ -43,7 +45,6 @@ namespace ManagerLibrary.Algorithm
             }
             return purchasedItems;
         }
-
         public List<Item> GetProductSuggestions(int userId)
         {
             List<User> users = userRepository.GetUsers();
@@ -51,23 +52,24 @@ namespace ManagerLibrary.Algorithm
             List<int> currentUserProductIds = shoppingRepository.GetPurchasedItemIdsByUser(userId);
             List<Item> suggestedItems = new List<Item>();
 
-            foreach(User user in users)
+            foreach (User user in users)
             {
                 List<int> userProductIds = shoppingRepository.GetPurchasedItemIdsByUser(user.Id);
                 double similarity = CalculateCosineSimilarity(currentUserProductIds, userProductIds);
 
-                if(similarity > 0.0)
+                if (similarity > 0.0)
                 {
                     List<Item> itemsPurchasedByUser = GetPurchasedItemsByUser(user.Id);
-                    foreach(Item item in itemsPurchasedByUser)
+                    foreach (Item item in itemsPurchasedByUser)
                     {
-                        if(!currentUserProductIds.Contains(item.ItemId) && !suggestedItems.Contains(item))
+                        if (!currentUserProductIds.Contains(item.ItemId) && !suggestedItems.Contains(item))
                         {
                             suggestedItems.Add(item);
                         }
                     }
                 }
             }
+            //suggestedItems.Sort();
             return suggestedItems;
         }
 
@@ -88,6 +90,5 @@ namespace ManagerLibrary.Algorithm
 
             return dotProduct / (user1Norm + user2Norm);
         }
-
     }
 }

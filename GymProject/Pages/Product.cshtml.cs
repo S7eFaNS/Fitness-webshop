@@ -1,4 +1,5 @@
 using ClassLibrary.Classes.Item;
+using ManagerLibrary.Algorithm;
 using ManagerLibrary.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -37,9 +38,9 @@ namespace GymProject.Pages
         {
             if (!string.IsNullOrEmpty(searchQuery))
             {
-                var searchResults = itemManager.SearchItems(searchQuery);
-                Supplements = searchResults.Where(item => item.ItemType == ItemType.Supplement).ToList();
-                Programs = searchResults.Where(item => item.ItemType == ItemType.Program).ToList();
+                var searchResults = SearchForItems.SearchItems(searchQuery, itemManager.GetItems());
+                Supplements = searchResults.supplements;
+                Programs = searchResults.programs;
             }
 
             if (!string.IsNullOrEmpty(sort))
@@ -48,13 +49,13 @@ namespace GymProject.Pages
                 List<Item> filteredPrograms = itemManager.GetPrograms();
                 if (sort == "lowToHigh")
                 {
-                    filteredSupplements = filteredSupplements.OrderBy(item => item.ItemPrice).ToList();
-                    filteredPrograms = filteredPrograms.OrderBy(item => item.ItemPrice).ToList();
+                    SortItems.SortByPriceAsc(filteredSupplements);
+                    SortItems.SortByPriceAsc(filteredPrograms);
                 }
                 else if (sort == "highToLow")
                 {
-                    filteredSupplements = filteredSupplements.OrderByDescending(item => item.ItemPrice).ToList();
-                    filteredPrograms = filteredPrograms.OrderByDescending(item => item.ItemPrice).ToList();
+                    SortItems.SortByPriceDesc(filteredSupplements);
+                    SortItems.SortByPriceDesc(filteredPrograms);
                 }
                 Supplements = filteredSupplements;
                 Programs = filteredPrograms;

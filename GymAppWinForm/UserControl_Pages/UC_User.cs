@@ -1,6 +1,7 @@
 ﻿using ClassLibrary.Classes.User;
 using InterfaceLibrary.IManagers;
 using InterfaceLibrary.IRepositories;
+using ManagerLibrary.Algorithm;
 using ManagerLibrary.ManagerClasses;
 using ManagerLibrary.Repositories;
 using System;
@@ -136,14 +137,14 @@ namespace GymAppWinForm.UserControl_Pages
             List<User> users = userManager.GetUsers();
             if (cb_user_filter.SelectedIndex == 1) //Admins only
             {
-                users = users.Where(user => user.UserType == UserType.Admin).ToList();
+                users = SortUsers.SortByUserTypeAdmin(users);
             }
             else if (cb_user_filter.SelectedIndex == 2) //Customers only
             {
-                users = users.Where(user => user.UserType == UserType.Customer).ToList();
+                users = SortUsers.SortByUserTypeCustomer(users);
             }
             data_grid_view_users.DataSource = users;
-            data_grid_view_users.Columns["Id"].Width = 35;
+            data_grid_view_users.Columns["Id"].Width = 45;
             data_grid_view_users.Columns["FirstName"].Width = 195;
             data_grid_view_users.Columns["LastName"].Width = 195;
             data_grid_view_users.Columns["Email"].Width = 195;

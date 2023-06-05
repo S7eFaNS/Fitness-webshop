@@ -1,11 +1,14 @@
 ﻿using ClassLibrary.Classes.Item;
+using ClassLibrary.Classes.User;
 using Database.Repositories;
 using GymProject.SessionHelper;
+using ManagerLibrary.Algorithm;
 using ManagerLibrary.ManagerClasses;
 using ManagerLibrary.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Collections.Generic;
 using System.Data;
 
 namespace GymProject.Pages
@@ -15,6 +18,7 @@ namespace GymProject.Pages
     {
         public readonly ShoppingCartManager shoppingCartManager = new ShoppingCartManager(new ShoppingRepository());
         public readonly ManagerLibrary.ManagerClasses.ItemManager itemManager = new ItemManager(new ItemRepository());
+        public readonly ShoppingCartAlgorithms shoppingCartAlgorithms = new ShoppingCartAlgorithms(new UserRepository());
         public List<Item> MyCart = new List<Item>();
         [BindProperty]
         public int Quantity { get; set; }
@@ -45,7 +49,7 @@ namespace GymProject.Pages
             }
             else
             {
-                var index = ExistingItem(cart, id);
+                var index = ShoppingCartAlgorithms.ExistingItem(cart, id);
                 if(index == -1)
                 {
                     cart.Add(new Item
@@ -68,17 +72,7 @@ namespace GymProject.Pages
 
 
         //move to back end
-        private int ExistingItem(List<Item> cart , int id)
-        {
-            for(int i = 0; i < cart.Count; i++)
-            {
-                if (cart[i].ItemId.Equals(id))
-                {
-                    return i;
-                }
-            }
-            return -1;
-        }
+
 
         //public void OnPost() {
         //    MyCart = SessionHelper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
@@ -116,6 +110,16 @@ namespace GymProject.Pages
             return RedirectToPage("ShoppingCart");
         }
 
+        public IActionResult OnPostPlaceOrder(string address)
+        {
+            User user = shoppingCartAlgorithms.GetUserFromAuthentication(Id);
+            List <Item> cart = SessionHelper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
+            double totalPrice = shoppingCartAlgorithms.CalculateTotalPrice(cart);
+            
+            bool orderPlaced = shoppingCartManager.PlaceOrder(user, cart, address, totalPrice);
+            
+            return RedirectToPage("Profile");
+        }
 
         //public double TotalPrice(List<Item> selectedItems)
         //{
