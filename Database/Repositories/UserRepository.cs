@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -51,7 +52,6 @@ namespace ManagerLibrary.Repositories
                                     Email = reader.GetString(3),
                                     Password = reader.GetString(4),
                                     UserType = (UserType)Enum.Parse(typeof(UserType), reader.GetString(5))
-
                                 };
                                 users.Add(user);
                             };
@@ -59,9 +59,9 @@ namespace ManagerLibrary.Repositories
                         }
                     }
                 }
-                catch (Exception ex)
+                catch (SqlException e)
                 {
-                    return users;
+                    throw new Exception("An error occurred while fetching users.");
                 }
             }
             return users;
@@ -99,9 +99,9 @@ namespace ManagerLibrary.Repositories
 
                     return true;
                 }
-                catch (Exception ex)
+                catch (SqlException ex)
                 {
-                    return false;
+                    throw new Exception("Account creation was unsuccessful!");
                 }
             }
         }
@@ -143,9 +143,9 @@ namespace ManagerLibrary.Repositories
 
                     return true;
                 }
-                catch (Exception ex)
+                catch (SqlException ex)
                 {
-                    return false;
+                    throw new Exception("An error occured and the account was not edited.");
                 }
             }
         }
@@ -165,9 +165,9 @@ namespace ManagerLibrary.Repositories
 
                     return true;
                 }
-                catch (Exception ex)
+                catch (SqlException ex)
                 {
-                    return false;
+                    throw new Exception("Failed to delete user!");
                 }
             }
         }
@@ -225,9 +225,9 @@ namespace ManagerLibrary.Repositories
 
                     return user;
                 }
-                catch (Exception ex)
+                catch (SqlException ex)
                 {
-                    return user;
+                    throw new Exception("An error occured when trying to retrieve user's information");
                 }
             }
         }
@@ -262,9 +262,9 @@ namespace ManagerLibrary.Repositories
                     }
                     return user;
                 }
-                catch (Exception ex)
+                catch (SqlException ex)
                 {
-                    return user;
+                    throw new Exception("An error occured when trying to retrieve user's information");
                 }
             }
         }
@@ -304,9 +304,9 @@ namespace ManagerLibrary.Repositories
                         }
                     }
                 }
-                catch (Exception ex)
+                catch (SqlException ex)
                 {
-                    return matchedUsers;
+                    throw new Exception("No results found!");
                 }
             }
             return matchedUsers;
@@ -372,9 +372,9 @@ namespace ManagerLibrary.Repositories
 
                     return null;
                 }
-                catch (Exception ex)
+                catch (SqlException ex)
                 {
-                    return null;
+                    throw new Exception("An error occured when trying to log in!");
                 }
             }
         }

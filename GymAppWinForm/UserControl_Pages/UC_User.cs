@@ -8,8 +8,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -19,15 +21,8 @@ namespace GymAppWinForm.UserControl_Pages
 {
     public partial class UC_User : UserControl
     {
-        //private readonly IUserManager userManager;
         private readonly UserManager userManager;
 
-        //public UC_User(User currentUser)
-        //{
-        //    InitializeComponent();
-        //    LoadUsers();
-        //    user = currentUser;
-        //}
 
         public UC_User()
         {
@@ -39,18 +34,24 @@ namespace GymAppWinForm.UserControl_Pages
 
         public void LoadUsers()
         {
-            List<User> users = userManager.GetUsers();
-            data_grid_view_users.DataSource = users;
-            data_grid_view_users.Columns["Id"].Width = 35;
-            data_grid_view_users.Columns["FirstName"].Width = 195;
-            data_grid_view_users.Columns["LastName"].Width = 195;
-            data_grid_view_users.Columns["Email"].Width = 195;
-            cb_user_filter.SelectedIndex = 0;
-
-            //data_grid_view_users.Columns["Id"].DisplayIndex = 0;
-            //data_grid_view_users.Columns["FirstName"].DisplayIndex = 1;
-            //data_grid_view_users.Columns["LastName"].DisplayIndex = 2;
-            //data_grid_view_users.Columns["Email"].DisplayIndex = 3;
+            try
+            {
+                List<User> users = userManager.GetUsers();
+                data_grid_view_users.DataSource = users;
+                data_grid_view_users.Columns["Id"].Width = 35;
+                data_grid_view_users.Columns["FirstName"].Width = 195;
+                data_grid_view_users.Columns["LastName"].Width = 195;
+                data_grid_view_users.Columns["Email"].Width = 195;
+                cb_user_filter.SelectedIndex = 0;
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btn_edit_user_Click(object sender, EventArgs e)
@@ -87,10 +88,19 @@ namespace GymAppWinForm.UserControl_Pages
 
             if (selectedRow != null)
             {
+                try
                 {
                     int id = (int)selectedRow.Cells["id"].Value;
                     userManager.UserDeleted += UserManager_UserDeleted;
                     userManager.DeleteUser(id);
+                }
+                catch (SqlException ex)
+                {
+                    MessageBox.Show(ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Failed to delete user. " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             tb_search_users.Clear();
@@ -130,6 +140,10 @@ namespace GymAppWinForm.UserControl_Pages
             data_grid_view_users.Columns["LastName"].Width = 195;
             data_grid_view_users.Columns["Email"].Width = 195;
             cb_user_filter.SelectedIndex = 0;
+            if (users.Count == 0)
+            {
+                MessageBox.Show("No users found.", "Search Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)

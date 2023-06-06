@@ -31,21 +31,28 @@ namespace Database.Repositories
 
             using (SqlConnection connection= new SqlConnection( _ConnectionString))
             {
-                connection.Open();
-                string query = "SELECT item_id FROM UserItem WHERE user_id = @user_id";
-
-                using (SqlCommand command = new SqlCommand(query, connection))
+                try
                 {
-                    command.Parameters.AddWithValue("@user_id", userId);
+                    connection.Open();
+                    string query = "SELECT item_id FROM UserItem WHERE user_id = @user_id";
 
-                    using (var reader = command.ExecuteReader())
+                    using (SqlCommand command = new SqlCommand(query, connection))
                     {
-                        while (reader.Read())
+                        command.Parameters.AddWithValue("@user_id", userId);
+
+                        using (var reader = command.ExecuteReader())
                         {
-                            int itemId = reader.GetInt32(0);
-                            itemIds.Add(itemId);
+                            while (reader.Read())
+                            {
+                                int itemId = reader.GetInt32(0);
+                                itemIds.Add(itemId);
+                            }
                         }
                     }
+                }
+                catch (SqlException ex)
+                {
+                    throw new Exception("Unable to retrieve user's purchases!");
                 }
             }
             return itemIds;
@@ -124,9 +131,9 @@ namespace Database.Repositories
 
                     return true;
                 }
-                catch (Exception ex)
+                catch (SqlException ex)
                 {
-                    return false;
+                    throw new Exception("An error occured when trying to place the order!");
                 }
             }
         }

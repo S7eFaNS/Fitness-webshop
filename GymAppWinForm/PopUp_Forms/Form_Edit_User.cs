@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
@@ -20,11 +21,10 @@ namespace GymAppWinForm
     public partial class Form_Edit_User : Form
     {
         private User user;
-        //private readonly IUserManager userManager;
         private readonly UserManager userManager;
 
 
-        public Form_Edit_User(/*IUserManager*/ UserManager userManager,  int id)
+        public Form_Edit_User(UserManager userManager,  int id)
         {
             InitializeComponent();
             this.userManager = userManager;
@@ -33,31 +33,43 @@ namespace GymAppWinForm
 
         public void FillInData(int Id)
         {
-            user = userManager.GetUserById(Id);
-
-            tb_id.Text = user.Id.ToString();
-            tb_id.ReadOnly= true;
-            tb_first_name.Text = user.FirstName;
-            tb_last_name.Text = user.LastName;
-            tb_email.Text = user.Email;
-            tb_password.Text = user.Password;
-            tb_password.ReadOnly= true;
-            tb_UserType.Text = user.UserType.ToString();
-            tb_UserType.ReadOnly = true;
-
-            if (user.UserType == UserType.Customer)
+            try
             {
-                Customer customer = user as Customer;
-                if (customer != null)
+                user = userManager.GetUserById(Id);
+
+                tb_id.Text = user.Id.ToString();
+                tb_id.ReadOnly = true;
+                tb_first_name.Text = user.FirstName;
+                tb_last_name.Text = user.LastName;
+                tb_email.Text = user.Email;
+                tb_password.Text = user.Password;
+                tb_password.ReadOnly = true;
+                tb_UserType.Text = user.UserType.ToString();
+                tb_UserType.ReadOnly = true;
+
+                if (user.UserType == UserType.Customer)
                 {
-                    tb_age.Text = customer.Age.ToString();
+                    Customer customer = user as Customer;
+                    if (customer != null)
+                    {
+                        tb_age.Text = customer.Age.ToString();
+                    }
+                }
+                else
+                {
+                    tb_age.Visible = false;
                 }
             }
-            else
+            catch (SqlException ex)
             {
-                tb_age.Visible= false;
+                MessageBox.Show(ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to retrieve user. " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private void Form_Edit_User_Load(object sender, EventArgs e)
         {
@@ -107,7 +119,6 @@ namespace GymAppWinForm
                 customer.Age = Convert.ToInt32(tb_age.Text);
                 customer.Email = tb_email.Text.Trim();
 
-                // Validate email format
                 if (!Regex.IsMatch(customer.Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
                 {
                     MessageBox.Show("Invalid email format.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

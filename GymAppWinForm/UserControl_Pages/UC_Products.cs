@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -19,7 +20,6 @@ namespace GymAppWinForm
 {
     public partial class UC_Products : UserControl
     {
-        //private readonly IItemManager itemManager;
         private readonly ItemManager itemManager;
 
         public UC_Products()
@@ -32,19 +32,25 @@ namespace GymAppWinForm
 
         public void LoadItems()
         {
-            List<Item> items = itemManager.GetItems();
-            data_grid_view_items.DataSource = items;
-            data_grid_view_items.Columns["ItemId"].Width = 80;
-            data_grid_view_items.Columns["ItemName"].Width = 195;
-            data_grid_view_items.Columns["ItemPrice"].Width = 125;
-            data_grid_view_items.Columns["ItemDescription"].Width = 250;
-            data_grid_view_items.Columns["ItemQuantity"].Width = 150;
-            cb_item_filter.SelectedIndex = 0;
-
-            //data_grid_view_items.Columns["Id"].DisplayIndex = 0;
-            //data_grid_view_items.Columns["FirstName"].DisplayIndex = 1;
-            //data_grid_view_items.Columns["LastName"].DisplayIndex = 2;
-            //data_grid_view_items.Columns["Email"].DisplayIndex = 3;
+            try
+            {
+                List<Item> items = itemManager.GetItems();
+                data_grid_view_items.DataSource = items;
+                data_grid_view_items.Columns["ItemId"].Width = 80;
+                data_grid_view_items.Columns["ItemName"].Width = 195;
+                data_grid_view_items.Columns["ItemPrice"].Width = 125;
+                data_grid_view_items.Columns["ItemDescription"].Width = 250;
+                data_grid_view_items.Columns["ItemQuantity"].Width = 150;
+                cb_item_filter.SelectedIndex = 0;
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btn_add_product_Click(object sender, EventArgs e)
@@ -83,8 +89,19 @@ namespace GymAppWinForm
 
             if (selectedRow != null)
             {
-                int id = (int)selectedRow.Cells["ItemId"].Value;
-                itemManager.DeleteItem(id);
+                try
+                {
+                    int id = (int)selectedRow.Cells["ItemId"].Value;
+                    itemManager.DeleteItem(id);
+                }
+                catch (SqlException ex)
+                {
+                    MessageBox.Show(ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Failed to delete user. " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             tb_search_items.Clear();
             cb_item_filter.SelectedIndex = 0;
@@ -109,6 +126,10 @@ namespace GymAppWinForm
             data_grid_view_items.Columns["ItemDescription"].Width = 250;
             data_grid_view_items.Columns["ItemQuantity"].Width = 150;
             cb_item_filter.SelectedIndex = 0;
+            if (items.Count == 0)
+            {
+                MessageBox.Show("No items found.", "Search Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void cb_item_filter_SelectedIndexChanged(object sender, EventArgs e)

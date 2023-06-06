@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -20,7 +21,7 @@ namespace GymAppWinForm
         private readonly UserManager userManager;
 
 
-        public Form_Add_User(/*IUserManager*/ UserManager userManager)
+        public Form_Add_User(UserManager userManager)
         {
             InitializeComponent();
             this.userManager = userManager;
@@ -28,8 +29,8 @@ namespace GymAppWinForm
 
         private void btn_save_user_changes_Click(object sender, EventArgs e)
         {
-            string emailPattern = @"^.+@.+\..+$";
-            string namePattern = @"^[A-Z][a-z]*$";
+            string emailPattern = @"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$";
+            string namePattern = @"^[A-Za-z]+([-']?[A-Za-z]+)*$";
 
             if (!Regex.IsMatch(tb_email.Text, emailPattern))
             {
@@ -46,6 +47,11 @@ namespace GymAppWinForm
                 MessageBox.Show("Invalid last name.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            if (string.IsNullOrEmpty(tb_password.Text))
+            {
+                MessageBox.Show("Password is required.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
             // Create admin object with validated input
             Admin admin = new Admin
@@ -53,7 +59,7 @@ namespace GymAppWinForm
                 FirstName = char.ToUpper(tb_first_name.Text[0]) + tb_first_name.Text.Substring(1),
                 LastName = char.ToUpper(tb_last_name.Text[0]) + tb_last_name.Text.Substring(1),
                 Email = tb_email.Text.ToLower(),
-                Password = tb_password.Text.ToLower()
+                Password = tb_password.Text
             };
 
             try
@@ -65,9 +71,13 @@ namespace GymAppWinForm
                     Close();
                 }
             }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             catch (Exception ex)
             {
-                MessageBox.Show("Failed to create admin \n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Failed to create admin. " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

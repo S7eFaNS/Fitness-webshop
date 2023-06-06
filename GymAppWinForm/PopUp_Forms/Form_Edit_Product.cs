@@ -73,10 +73,39 @@ namespace GymAppWinForm
                 {
                     Supplement supplement = new Supplement();
                     supplement.ItemId = Convert.ToInt32(tb_item_id.Text);
-                    supplement.ItemName = tb_item_name.Text;
-                    supplement.ItemPrice = Convert.ToDouble(tb_item_price.Text);
-                    supplement.ItemDescription = tb_item_description.Text;
-                    supplement.ItemQuantity = Convert.ToInt32(tb_item_quantity.Text);
+
+                    string name = tb_item_name.Text.Trim();
+                    if (string.IsNullOrEmpty(name))
+                    {
+                        MessageBox.Show("Name is required.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    supplement.ItemName = name;
+
+                    double price;
+                    if (!double.TryParse(tb_item_price.Text, out price))
+                    {
+                        MessageBox.Show("Invalid price. Please enter a valid number.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    supplement.ItemPrice = price;
+
+                    string description = tb_item_description.Text.Trim();
+                    if (string.IsNullOrEmpty(description))
+                    {
+                        MessageBox.Show("Description is required.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    supplement.ItemDescription = description;
+
+                    int quantity;
+                    if (!int.TryParse(tb_item_quantity.Text, out quantity))
+                    {
+                        MessageBox.Show("Invalid quantity. Please enter a valid number.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    supplement.ItemQuantity = quantity;
+
                     try
                     {
                         success = itemManager.UpdateItem(supplement);
@@ -90,11 +119,49 @@ namespace GymAppWinForm
                 {
                     Programs program = new Programs();
                     program.ItemId = Convert.ToInt32(tb_item_id.Text);
-                    program.ItemName = tb_item_name.Text;
-                    program.ItemPrice = Convert.ToDouble(tb_item_price.Text);
-                    program.ItemDescription = tb_item_description.Text;
-                    program.ItemQuantity = Convert.ToInt32(tb_item_quantity.Text);
-                    program.ProgramLink = tb_program_link.Text;
+
+                    string name = tb_item_name.Text.Trim();
+                    if (string.IsNullOrEmpty(name))
+                    {
+                        MessageBox.Show("Name is required.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    program.ItemName = name;
+
+                    double price;
+                    if (!double.TryParse(tb_item_price.Text, out price))
+                    {
+                        MessageBox.Show("Invalid price. Please enter a valid number.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    program.ItemPrice = price;
+
+                    string description = tb_item_description.Text.Trim();
+                    if (string.IsNullOrEmpty(description))
+                    {
+                        MessageBox.Show("Description is required.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    program.ItemDescription = description;
+
+                    int quantity;
+                    if (!int.TryParse(tb_item_quantity.Text, out quantity))
+                    {
+                        MessageBox.Show("Invalid quantity. Please enter a valid number.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    program.ItemQuantity = quantity;
+
+                    // Validate program link if provided
+                    if (!string.IsNullOrEmpty(tb_program_link.Text))
+                    {
+                        program.ProgramLink = tb_program_link.Text.Trim();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Program link is required.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
 
                     try
                     {
@@ -121,6 +188,7 @@ namespace GymAppWinForm
                 MessageBox.Show("Failed to update the selected Product \n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
 
         private void btn_cancel_editing_product_Click(object sender, EventArgs e)

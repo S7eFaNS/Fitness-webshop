@@ -12,7 +12,7 @@ using static ClassLibrary.Classes.Delegates.Delegate;
 
 namespace ManagerLibrary.ManagerClasses
 {
-    public class UserManager /*: IUserManager*/
+    public class UserManager
     {
         private readonly IUserRepository repository;
         

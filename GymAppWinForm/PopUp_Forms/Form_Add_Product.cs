@@ -28,20 +28,56 @@ namespace GymAppWinForm
                 cb_item_type.Items.Add(itemTypeName);
             }
         }
-
         private void btn_save_new_product_Click(object sender, EventArgs e)
         {
             try
             {
+                string name = tb_item_name.Text.Trim();
+                string description = tb_item_description.Text.Trim();
+
+                if (cb_item_type.SelectedIndex == -1)
+                {
+                    MessageBox.Show("Item type is required.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                if (string.IsNullOrEmpty(name))
+                {
+                    MessageBox.Show("Name is required.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                if (string.IsNullOrEmpty(description))
+                {
+                    MessageBox.Show("Description is required.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+
 
                 if (cb_item_type.SelectedIndex == (int)ItemType.Supplement)
                 {
                     Supplement supplement = new Supplement();
-                    supplement.ItemName = tb_item_name.Text;
-                    supplement.ItemPrice = Convert.ToDouble(tb_item_price.Text);
-                    supplement.ItemDescription = tb_item_description.Text;
-                    supplement.ItemQuantity = Convert.ToInt32(tb_item_quantity.Text);
+                    supplement.ItemName = name;
+
+                    double price;
+                    if (!double.TryParse(tb_item_price.Text, out price))
+                    {
+                        MessageBox.Show("Invalid price. Please enter a valid number.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    supplement.ItemPrice = price;
+
+                    supplement.ItemDescription = description;
+
+                    int quantity;
+                    if (!int.TryParse(tb_item_quantity.Text, out quantity))
+                    {
+                        MessageBox.Show("Invalid quantity. Please enter a valid number.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    supplement.ItemQuantity = quantity;
+
                     supplement.ItemType = ItemType.Supplement;
+
                     try
                     {
                         if (itemManager.CreateItem(supplement))
@@ -50,20 +86,46 @@ namespace GymAppWinForm
                             Close();
                         }
                     }
-                    catch (Exception ex) 
+                    catch (Exception ex)
                     {
                         MessageBox.Show("Failed to create a Supplement \n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
                 else if (cb_item_type.SelectedIndex == (int)ItemType.Program)
                 {
+                    string programLink = tb_program_link.Text.Trim();
+
+                    // Validate program link
+                    if (string.IsNullOrEmpty(programLink))
+                    {
+                        MessageBox.Show("Program link is required.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
                     Programs program = new Programs();
-                    program.ItemName = tb_item_name.Text;
-                    program.ItemPrice = Convert.ToDouble(tb_item_price.Text);
-                    program.ItemDescription = tb_item_description.Text;
-                    program.ItemQuantity = Convert.ToInt32(tb_item_quantity.Text);
-                    program.ProgramLink = tb_program_link.Text;
-                    program.ItemType = ItemType.Program; 
+                    program.ItemName = name;
+
+                    double price;
+                    if (!double.TryParse(tb_item_price.Text, out price))
+                    {
+                        MessageBox.Show("Invalid price. Please enter a valid number.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    program.ItemPrice = price;
+
+                    program.ItemDescription = description;
+
+                    int quantity;
+                    if (!int.TryParse(tb_item_quantity.Text, out quantity))
+                    {
+                        MessageBox.Show("Invalid quantity. Please enter a valid number.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    program.ItemQuantity = quantity;
+
+                    program.ProgramLink = programLink;
+                    program.ItemType = ItemType.Program;
+
                     try
                     {
                         if (itemManager.CreateItem(program))
@@ -80,9 +142,11 @@ namespace GymAppWinForm
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Failed to create a Product \n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error) ;
+                MessageBox.Show("Failed to create a Product \n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+
 
         private void btn_cancel_new_product_Click(object sender, EventArgs e)
         {

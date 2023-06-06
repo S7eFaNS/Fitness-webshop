@@ -57,9 +57,9 @@ namespace ManagerLibrary.Repositories
                         }
                     }
                 }
-                catch (Exception ex)
+                catch (SqlException ex)
                 {
-                    return items;
+                    throw new Exception("No items found.");
                 }
             }
             return items;
@@ -95,9 +95,9 @@ namespace ManagerLibrary.Repositories
                         }
                     }
                 }
-                catch (Exception ex)
+                catch (SqlException ex)
                 {
-                    return supplements;
+                    throw new Exception("No supplements found.");
                 }
             }
             return supplements;
@@ -133,9 +133,9 @@ namespace ManagerLibrary.Repositories
                         }
                     }
                 }
-                catch (Exception ex)
+                catch (SqlException ex)
                 {
-                    return programs;
+                    throw new Exception("No programs found.");
                 }
             }
             return programs;
@@ -168,9 +168,10 @@ namespace ManagerLibrary.Repositories
 
                     return true;
                 }
-                catch (Exception ex)
+                catch (SqlException ex)
                 {
-                    return false;
+                    throw new Exception("The item was not created!");
+
                 }
             }
         }
@@ -214,9 +215,9 @@ namespace ManagerLibrary.Repositories
 
                     return true;
                 }
-                catch (Exception ex)
+                catch (SqlException ex)
                 {
-                    return false;
+                    throw new Exception("There was a problem when editing the item");
                 }
             }
         }
@@ -237,9 +238,9 @@ namespace ManagerLibrary.Repositories
 
                     return true;
                 }
-                catch (Exception ex)
+                catch (SqlException ex)
                 {
-                    return false;
+                    throw new Exception("An error occured when trying to delete the item!");
                 }
             }
         }
@@ -297,9 +298,9 @@ namespace ManagerLibrary.Repositories
                     }
                     return item;
                 }
-                catch (Exception ex)
+                catch (SqlException ex)
                 {
-                    return item;
+                    throw new Exception("An error occured trying to retrieve the item's information!");
                 }
             }
         }
@@ -337,9 +338,9 @@ namespace ManagerLibrary.Repositories
                         }
                     }
                 }
-                catch (Exception ex)
+                catch (SqlException ex)
                 {
-                    return matchedItems;
+                    throw new Exception("There were no items found!");
                 }
             }
             return matchedItems;
