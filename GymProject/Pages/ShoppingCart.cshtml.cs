@@ -20,7 +20,10 @@ namespace GymProject.Pages
         public readonly ShoppingCartManager shoppingCartManager = new ShoppingCartManager(new ShoppingRepository());
         public readonly ManagerLibrary.ManagerClasses.ItemManager itemManager = new ItemManager(new ItemRepository());
         public readonly ShoppingCartAlgorithms shoppingCartAlgorithms = new ShoppingCartAlgorithms(new UserRepository());
+        public readonly UserManager userManager = new UserManager(new UserRepository());
+        public readonly SuggestionItems suggestionItems = new SuggestionItems(new UserRepository(), new ItemRepository(), new ShoppingRepository());
         public List<Item> MyCart = new List<Item>();
+        public List<Item> Items { get; set; }
         [BindProperty]
         public int Quantity { get; set; }
         [BindProperty]
@@ -31,6 +34,13 @@ namespace GymProject.Pages
         {
             MyCart = SessionHelper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
             Total = shoppingCartAlgorithms.CalculateTotalPrice(MyCart);
+
+            string userEmail = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+            User user = shoppingCartAlgorithms.GetUserFromAuthentication(userEmail);
+
+            var suggestedItems = suggestionItems.GetProductSuggestions(user.Id);
+
+            Items = suggestedItems;
         }
 
         public IActionResult OnGetBuy(int id)
@@ -71,7 +81,41 @@ namespace GymProject.Pages
             }
             return RedirectToPage("Product");
         }
-        
+
+        public IActionResult OnPostAddToCart(int itemId)
+        {
+            var product = itemManager.GetItemsById(itemId);
+            var cart = SessionHelper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
+
+            if (cart == null)
+            {
+                cart = new List<Item>();
+            }
+
+            var existingItem = cart.FirstOrDefault(item => item.ItemId == itemId);
+
+            if (existingItem != null)
+            {
+                existingItem.ItemQuantity++;
+            }
+            else
+            {
+                cart.Add(new Item
+                {
+                    ItemId = product.ItemId,
+                    ItemName = product.ItemName,
+                    ItemQuantity = 1,
+                    ItemPrice = product.ItemPrice
+                });
+            }
+
+            SessionHelper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
+
+            return RedirectToPage("ShoppingCart");
+        }
+
+
+
         public IActionResult OnPostQuantity(string action)
         {
             if (Quantity >= 1)
@@ -112,7 +156,7 @@ namespace GymProject.Pages
             Total = shoppingCartAlgorithms.CalculateTotalPrice(cart);
             
             bool orderPlaced = shoppingCartManager.PlaceOrder(user, cart, address, Total);
-            
+
             return RedirectToPage("Profile");
         }
     }

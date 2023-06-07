@@ -67,10 +67,42 @@
                   </div>
                 </div>
 
-              <hr class="my-4">
+                <hr class="my-4">
 
               <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
             </form>
+
+                <hr class="my-4">
+
+                @{
+                    if (Model.Items == null || Model.Items.Count == 0)
+                    {
+                        <p>No items found.</p>
+                    }
+                    else
+                    {
+                        <h1>Suggested products</h1>
+                        <h5>People that bought the same products as you also liked the following products:</h5>
+                        <div class="row">
+                            @foreach (var item in Model.Items.GroupBy(i => i.ItemId).Select(g => g.First()).Take(3))
+                            {
+                                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                                    <div class="card">
+                                        <img class="card-img-top" src="~/images/products/trenbolone.jpg" alt="@item.ItemName">
+                                        <div class="card-body">
+                                            <h5 class="card-title">@item.ItemName</h5>
+                                            <p class="card-text">@item.ItemPrice.ToString("$0.00")</p>
+                                        </div>
+                                        <form method="post" asp-page-handler="AddToCart">
+                                            <input type="hidden" name="itemId" value="@item.ItemId" />
+                                            <button type="submit" class="btn btn-primary">Add to Cart</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                }
           </div>
         </div>
   </main>

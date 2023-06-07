@@ -16,17 +16,11 @@ namespace ManagerLibrary.Algorithm
         private readonly IUserRepository userRepository;
         private readonly IItemRepository itemRepository;
         private readonly IShoppingRepository shoppingRepository;
-        public SuggestionItems(IUserRepository userRepository)
+
+        public SuggestionItems(IUserRepository userRepository, IItemRepository itemRepository, IShoppingRepository shoppingRepository)
         {
             this.userRepository = userRepository;
-        }
-        public SuggestionItems(IItemRepository itemRepository)
-        {
             this.itemRepository = itemRepository;
-        }
-
-        public SuggestionItems(IShoppingRepository shoppingRepository)
-        {
             this.shoppingRepository = shoppingRepository;
         }
 
