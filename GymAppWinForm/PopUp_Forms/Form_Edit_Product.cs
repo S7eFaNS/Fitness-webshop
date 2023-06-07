@@ -152,7 +152,6 @@ namespace GymAppWinForm
                     }
                     program.ItemQuantity = quantity;
 
-                    // Validate program link if provided
                     if (!string.IsNullOrEmpty(tb_program_link.Text))
                     {
                         program.ProgramLink = tb_program_link.Text.Trim();

@@ -339,7 +339,7 @@ namespace ManagerLibrary.Repositories
             }
         }
 
-            public User? CheckLogin(string email, string password)
+        public User? CheckLogin(string email, string password)
         {
             using (SqlConnection connection = new SqlConnection(_ConnectionString))
             {
@@ -375,6 +375,10 @@ namespace ManagerLibrary.Repositories
                 catch (SqlException ex)
                 {
                     throw new Exception("An error occured when trying to log in!");
+                }
+                catch (ArgumentException ex)
+                {
+                    throw new Exception("Please enter your credentials!");
                 }
             }
         }
