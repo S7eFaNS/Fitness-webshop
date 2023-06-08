@@ -1,5 +1,4 @@
 ﻿using ClassLibrary.Classes.User;
-using InterfaceLibrary.IManagers;
 using ManagerLibrary.ManagerClasses;
 using System;
 using System.Collections.Generic;

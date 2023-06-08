@@ -52,6 +52,10 @@
                     <span >Total (USD)</span>
                     <strong>$@Model.Total.ToString()</strong>
                 </li>
+                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                {
+                    <div class="alert alert-danger">@Model.ErrorMessage</div>
+                }
             </ul>
           </div>
 
@@ -77,7 +81,7 @@
                 @{
                     if (Model.Items == null || Model.Items.Count == 0)
                     {
-                        <p>No items found.</p>
+                        <p>No items for suggestion.</p>
                     }
                     else
                     {

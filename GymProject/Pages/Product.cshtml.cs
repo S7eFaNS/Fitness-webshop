@@ -45,17 +45,18 @@ namespace GymProject.Pages
 
             if (!string.IsNullOrEmpty(sort))
             {
+                SortItems sortItems = new SortItems();
                 List<Item> filteredSupplements = itemManager.GetSupplements();
                 List<Item> filteredPrograms = itemManager.GetPrograms();
                 if (sort == "lowToHigh")
                 {
-                    SortItems.SortByPriceAsc(filteredSupplements);
-                    SortItems.SortByPriceAsc(filteredPrograms);
+                    sortItems.SortByPriceAsc(filteredSupplements);
+                    sortItems.SortByPriceAsc(filteredPrograms);
                 }
                 else if (sort == "highToLow")
                 {
-                    SortItems.SortByPriceDesc(filteredSupplements);
-                    SortItems.SortByPriceDesc(filteredPrograms);
+                    sortItems.SortByPriceDesc(filteredSupplements);
+                    sortItems.SortByPriceDesc(filteredPrograms);
                 }
                 Supplements = filteredSupplements;
                 Programs = filteredPrograms;

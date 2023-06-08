@@ -14,11 +14,10 @@ namespace GymProject.Pages
     public class SignInModel : PageModel
     {
         [BindProperty]
-        public UserViewModel LoggingUser { get; set; }
+        public UserLoginModel LoggingUser { get; set; }
 
         public readonly ManagerLibrary.ManagerClasses.AuthenticationService authenticationService = new ManagerLibrary.ManagerClasses.AuthenticationService(new UserRepository());
         public string? ErrorMessage { get; set; }
-        public string? RequestId { get; private set; }
 
         public IActionResult OnGet()
         {
@@ -32,45 +31,53 @@ namespace GymProject.Pages
 
         public IActionResult OnPost()
         {
-            User? loggedUser = authenticationService.CheckLogin(LoggingUser.Email, LoggingUser.Password);
+            try
+            {
+                if (string.IsNullOrEmpty(LoggingUser.Email) || string.IsNullOrEmpty(LoggingUser.Password))
+                {
+                    ErrorMessage = "Please enter your credentials";
+                    return Page();
+                }
 
-            if (loggedUser == null)
+                User? loggedUser = authenticationService.CheckLogin(LoggingUser.Email, LoggingUser.Password);
+
+                List<Claim> claims = new List<Claim>();
+                claims.Add(new Claim(ClaimTypes.Email, loggedUser.Email));
+                claims.Add(new Claim(ClaimTypes.Role, loggedUser.UserType.ToString()));
+
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                var authProperties = new AuthenticationProperties();
+
+                if (!Request.Form.ContainsKey("RememberMe"))
+                {
+                    authProperties.ExpiresUtc = DateTime.UtcNow.AddMinutes(10);
+                    authProperties.IsPersistent = false;
+                }
+                else
+                {
+                    authProperties.ExpiresUtc = DateTime.UtcNow.AddDays(5);
+                    authProperties.IsPersistent = true;
+                }
+
+                HttpContext.SignInAsync(
+                        CookieAuthenticationDefaults.AuthenticationScheme,
+                        new ClaimsPrincipal(claimsIdentity),
+                        authProperties);
+
+                string? returnUrl = Request.Query["ReturnUrl"];
+                if (string.IsNullOrEmpty(returnUrl))
+                {
+                    return RedirectToPage("/Profile");
+                }
+                return RedirectToPage(returnUrl);   
+            }
+            catch (Exception ex)
             {
                 ErrorMessage = "Incorrect email or password";
                 return Page();
             }
 
-            List<Claim> claims = new List<Claim>();
-            claims.Add(new Claim(ClaimTypes.Email, loggedUser.Email));
-            claims.Add(new Claim(ClaimTypes.Role, loggedUser.UserType.ToString()));
-
-            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-            var authProperties = new AuthenticationProperties();
-
-            if (!Request.Form.ContainsKey("RememberMe"))
-            {
-                authProperties.ExpiresUtc = DateTime.UtcNow.AddMinutes(10);
-                authProperties.IsPersistent = false;
-            }
-            else
-            {
-                authProperties.ExpiresUtc = DateTime.UtcNow.AddDays(5);
-                authProperties.IsPersistent = true;
-            }
-
-            HttpContext.SignInAsync(
-                    CookieAuthenticationDefaults.AuthenticationScheme,
-                    new ClaimsPrincipal(claimsIdentity),
-                    authProperties);
-
-            string? returnUrl = Request.Query["ReturnUrl"];
-            if (string.IsNullOrEmpty(returnUrl))
-            {
-                return RedirectToPage("/Profile");
-            }
-
-            return RedirectToPage(returnUrl);
         }
 
 

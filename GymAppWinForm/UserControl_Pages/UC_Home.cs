@@ -1,5 +1,4 @@
 ﻿using ClassLibrary.Classes.User;
-using InterfaceLibrary.IManagers;
 using InterfaceLibrary.IRepositories;
 using ManagerLibrary.ManagerClasses;
 using ManagerLibrary.Repositories;

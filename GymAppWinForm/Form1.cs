@@ -1,7 +1,6 @@
 using ClassLibrary;
 using ClassLibrary.Classes.User;
 using GymAppWinForm.UserControl_Pages;
-using InterfaceLibrary.IManagers;
 using InterfaceLibrary.IRepositories;
 using ManagerLibrary.ManagerClasses;
 using ManagerLibrary.Repositories;

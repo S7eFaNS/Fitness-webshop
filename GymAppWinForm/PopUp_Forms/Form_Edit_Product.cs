@@ -1,6 +1,5 @@
 ﻿using ClassLibrary.Classes.Item;
 using ClassLibrary.Classes.User;
-using InterfaceLibrary.IManagers;
 using ManagerLibrary.ManagerClasses;
 using Microsoft.VisualBasic.ApplicationServices;
 using System;

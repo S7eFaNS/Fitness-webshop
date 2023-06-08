@@ -1,5 +1,4 @@
 ﻿using ClassLibrary.Classes.User;
-using InterfaceLibrary.IManagers;
 using ManagerLibrary.ManagerClasses;
 using System;
 using System.Collections.Generic;
@@ -17,7 +16,6 @@ namespace GymAppWinForm
 {
     public partial class Form_Add_User : Form
     {
-        //private readonly IUserManager userManager;
         private readonly UserManager userManager;
 
 

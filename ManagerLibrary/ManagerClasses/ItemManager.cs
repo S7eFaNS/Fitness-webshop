@@ -7,12 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 using ManagerLibrary.Repositories;
 using ClassLibrary.Classes.User;
-using InterfaceLibrary.IManagers;
 using InterfaceLibrary.IRepositories;
 
 namespace ManagerLibrary.ManagerClasses
 {
-    public class ItemManager /*: IItemManager*/
+    public class ItemManager
     {
         private readonly IItemRepository itemRepository;
 
@@ -21,7 +20,6 @@ namespace ManagerLibrary.ManagerClasses
             this.itemRepository = itemRepository;
         }
 
-        //private ItemCatalogue itemCatalogue;
 
         public List<Item> GetItems()
         {

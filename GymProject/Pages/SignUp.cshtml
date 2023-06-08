@@ -13,22 +13,27 @@
             <div class="form-floating">
                 <input type="text" class="form-control" id="floatingInput" asp-for="customer.FirstName" placeholder="Name">
                 <label for="floatingInput">First Name</label>
+                <span asp-validation-for="customer.FirstName" class="text-danger"></span>
             </div>
             <div class="form-floating">
                 <input type="text" class="form-control" id="floatingInput" asp-for="customer.LastName" placeholder="Name">
                 <label for="floatingInput">Last Name</label>
+                <span asp-validation-for="customer.LastName" class="text-danger"></span>
             </div>
             <div class="form-floating">
                 <input type="number" class="form-control" id="floatingInput" asp-for="customer.Age" placeholder="Age">
                 <label for="floatingInput">Age</label>
+                <span asp-validation-for="customer.Age" class="text-danger"></span>
             </div>
             <div class="form-floating">
                 <input type="email" class="form-control" id="floatingInput" asp-for="customer.Email" placeholder="name@example.com">
                 <label for="floatingInput">Email address</label>
+                <span asp-validation-for="customer.Email" class="text-danger"></span>
             </div>
             <div class="form-floating">
                 <input type="password" class="form-control" id="floatingPassword" asp-for="customer.Password" placeholder="Password">
                 <label for="floatingPassword">Password</label>
+                <span asp-validation-for="customer.Password" class="text-danger"></span>
             </div>
             <button class="w-100 btn btn-lg btn-primary" type="submit">Sign up</button>
             <div class="text-center">

@@ -18,7 +18,12 @@
                 <input asp-for="LoggingUser.Password" type="password" class="form-control" id="floatingPassword" placeholder="Password">
                 <label for="floatingPassword">Password</label>
             </div>
-
+            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+            {
+                <div class="alert alert-danger" role="alert">
+                    @Model.ErrorMessage
+                </div>
+            }
             <div class="checkbox mb-3">
                 <label>
                     <input type="checkbox" name="RememberMe"> Remember me

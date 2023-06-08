@@ -9,12 +9,14 @@ namespace ManagerLibrary.Algorithm
 {
     public class SortUsers
     {
-        public static List<User> SortByUserTypeAdmin(List<User> admins)
+        public SortUsers() { }
+
+        public List<User> SortByUserTypeAdmin(List<User> admins)
         {
             return admins = admins.Where(admin => admin.UserType == UserType.Admin).ToList();
         }
 
-        public static List<User> SortByUserTypeCustomer(List<User> customers)
+        public List<User> SortByUserTypeCustomer(List<User> customers)
         {
             return customers = customers.Where(customer => customer.UserType == UserType.Customer).ToList();
         }

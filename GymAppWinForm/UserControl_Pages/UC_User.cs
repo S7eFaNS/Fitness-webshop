@@ -1,5 +1,4 @@
 ﻿using ClassLibrary.Classes.User;
-using InterfaceLibrary.IManagers;
 using InterfaceLibrary.IRepositories;
 using ManagerLibrary.Algorithm;
 using ManagerLibrary.ManagerClasses;
@@ -148,14 +147,15 @@ namespace GymAppWinForm.UserControl_Pages
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            SortUsers sortUsers = new SortUsers();
             List<User> users = userManager.GetUsers();
             if (cb_user_filter.SelectedIndex == 1) //Admins only
             {
-                users = SortUsers.SortByUserTypeAdmin(users);
+                users = sortUsers.SortByUserTypeAdmin(users);
             }
             else if (cb_user_filter.SelectedIndex == 2) //Customers only
             {
-                users = SortUsers.SortByUserTypeCustomer(users);
+                users = sortUsers.SortByUserTypeCustomer(users);
             }
             data_grid_view_users.DataSource = users;
             data_grid_view_users.Columns["Id"].Width = 45;

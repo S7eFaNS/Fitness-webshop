@@ -29,6 +29,7 @@ namespace GymProject.Pages
         [BindProperty]
         public int Id { get; set; }
         public double Total { get; set; }
+        public string ErrorMessage { get; set; }
 
         public void OnGet()
         {
@@ -150,14 +151,22 @@ namespace GymProject.Pages
 
         public IActionResult OnPostPlaceOrder(string address)
         {
-            string userEmail = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
-            User user = shoppingCartAlgorithms.GetUserFromAuthentication(userEmail);
-            List <Item> cart = SessionHelper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
-            Total = shoppingCartAlgorithms.CalculateTotalPrice(cart);
+            try
+            {
+                string userEmail = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+                User user = shoppingCartAlgorithms.GetUserFromAuthentication(userEmail);
+                List <Item> cart = SessionHelper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
+                Total = shoppingCartAlgorithms.CalculateTotalPrice(cart);
             
-            bool orderPlaced = shoppingCartManager.PlaceOrder(user, cart, address, Total);
+                bool orderPlaced = shoppingCartManager.PlaceOrder(user, cart, address, Total);
 
-            return RedirectToPage("Profile");
+                return RedirectToPage("Profile");
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = ex.Message;
+                return Page();
+            }
         }
     }
 }

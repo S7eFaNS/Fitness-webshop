@@ -1,5 +1,4 @@
 ﻿using ClassLibrary.Classes.Item;
-using InterfaceLibrary.IManagers;
 using InterfaceLibrary.IRepositories;
 using ManagerLibrary.Algorithm;
 using ManagerLibrary.ManagerClasses;
@@ -134,30 +133,31 @@ namespace GymAppWinForm
 
         private void cb_item_filter_SelectedIndexChanged(object sender, EventArgs e)
         {
+            SortItems sortItems = new SortItems();
             List<Item> items = itemManager.GetItems();
             if (cb_item_filter.SelectedIndex == 1) // Price ASC
             {
-                SortItems.SortByPriceAsc(items);
+                sortItems.SortByPriceAsc(items);
             }
             else if (cb_item_filter.SelectedIndex == 2) // Price DESC
             {
-                SortItems.SortByPriceDesc(items);
+                sortItems.SortByPriceDesc(items);
             }
             else if (cb_item_filter.SelectedIndex == 3) // Quantity ASC
             {
-                SortItems.SortByQuantityAsc(items);
+                sortItems.SortByQuantityAsc(items);
             }
             else if (cb_item_filter.SelectedIndex == 4) // Quantity DESC
             {
-                SortItems.SortByQuantityDesc(items);
+                sortItems.SortByQuantityDesc(items);
             }
             else if (cb_item_filter.SelectedIndex == 5) // Supplements only
             {
-                items = SortItems.SortByItemTypeSupplement(items);
+                items = sortItems.SortByItemTypeSupplement(items);
             }
             else if (cb_item_filter.SelectedIndex == 6) // Programs only
             {
-                items = SortItems.SortByItemTypeProgram(items);
+                items = sortItems.SortByItemTypeProgram(items);
             }
             data_grid_view_items.DataSource = items;
             data_grid_view_items.Columns["ItemId"].Width = 80;

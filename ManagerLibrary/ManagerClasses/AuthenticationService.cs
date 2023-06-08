@@ -1,5 +1,5 @@
 ﻿using ClassLibrary.Classes.User;
-using InterfaceLibrary.IManagers;
+using GymProject.ViewModels;
 using InterfaceLibrary.IRepositories;
 using ManagerLibrary.Repositories;
 using System;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ManagerLibrary.ManagerClasses
 {
-    public class AuthenticationService /*: IAuthenticationService*/
+    public class AuthenticationService
     {
         private readonly IUserRepository repository;
 
@@ -21,13 +21,16 @@ namespace ManagerLibrary.ManagerClasses
 
         public User? CheckLogin(string email, string password) => repository.CheckLogin(email, password);
 
-        public bool Register(Customer customer)
+        public bool Register(UserRegistrationModel registrationModel)
         {
+            Customer customer = registrationModel.ToCustomer();
+
             bool emailExists = CheckUserByEmail(customer.Email);
             if (emailExists)
             {
                 return false;
             }
+
             return repository.CreateUser(customer);
         }
 

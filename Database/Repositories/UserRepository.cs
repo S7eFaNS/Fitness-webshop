@@ -376,10 +376,6 @@ namespace ManagerLibrary.Repositories
                 {
                     throw new Exception("An error occured when trying to log in!");
                 }
-                catch (ArgumentException ex)
-                {
-                    throw new Exception("Please enter your credentials!");
-                }
             }
         }
     }

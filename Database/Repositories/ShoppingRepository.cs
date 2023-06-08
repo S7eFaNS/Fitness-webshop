@@ -66,6 +66,11 @@ namespace Database.Repositories
                 try
                 {
                     connection.Open();
+                    
+                    if (items == null || items.Count == 0)
+                    {
+                        throw new Exception("Shopping cart is empty. Please add items to your cart.");
+                    }
 
                     string queryFirst = "INSERT INTO UserItem (user_id, item_id) " +
                         "VALUES (@user_id, @item_id); " +
