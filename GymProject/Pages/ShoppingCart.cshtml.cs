@@ -2,6 +2,7 @@
 using ClassLibrary.Classes.User;
 using Database.Repositories;
 using GymProject.SessionHelper;
+using InterfaceLibrary.IAlgorithmService;
 using ManagerLibrary.Algorithm;
 using ManagerLibrary.ManagerClasses;
 using ManagerLibrary.Repositories;
@@ -21,7 +22,7 @@ namespace GymProject.Pages
         public readonly ManagerLibrary.ManagerClasses.ItemManager itemManager = new ItemManager(new ItemRepository());
         public readonly ShoppingCartAlgorithms shoppingCartAlgorithms = new ShoppingCartAlgorithms(new UserRepository());
         public readonly UserManager userManager = new UserManager(new UserRepository());
-        public readonly SuggestionItems suggestionItems = new SuggestionItems(new UserRepository(), new ItemRepository(), new ShoppingRepository());
+        public readonly ISuggestionItemService suggestionItems = new SuggestionItems(new UserRepository(), new ItemRepository(), new ShoppingRepository());
         public List<Item> MyCart = new List<Item>();
         public List<Item> Items { get; set; }
         [BindProperty]
@@ -158,7 +159,7 @@ namespace GymProject.Pages
                 User user = shoppingCartAlgorithms.GetUserFromAuthentication(userEmail);
                 MyCart = SessionHelper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
                 Total = shoppingCartAlgorithms.CalculateTotalPrice(MyCart);
-            
+                
                 bool orderPlaced = shoppingCartManager.PlaceOrder(user, MyCart, address, Total);
 
                 HttpContext.Session.Remove("cart");

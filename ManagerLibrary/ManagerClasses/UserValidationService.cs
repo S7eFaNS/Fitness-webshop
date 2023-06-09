@@ -69,21 +69,21 @@ namespace ManagerLibrary.ManagerClasses
                 return false;
             }
 
-            bool hasUppercase = false;
+            bool hasUpperCase = false;
             bool hasNumber = false;
 
             foreach (char c in password)
             {
                 if (char.IsUpper(c))
                 {
-                    hasUppercase = true;
+                    hasUpperCase = true;
                 }
                 else if (char.IsDigit(c))
                 {
                     hasNumber = true;
                 }
 
-                if (hasUppercase && hasNumber)
+                if (hasUpperCase && hasNumber)
                 {
                     return true;
                 }

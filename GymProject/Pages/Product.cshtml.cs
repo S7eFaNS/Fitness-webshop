@@ -1,8 +1,14 @@
 using ClassLibrary.Classes.Item;
+using ClassLibrary.Classes.User;
+using Database.Repositories;
+using InterfaceLibrary.IAlgorithmService;
+using InterfaceLibrary.IRepositories;
 using ManagerLibrary.Algorithm;
+using ManagerLibrary.Algorithms;
 using ManagerLibrary.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Security.Claims;
 
 namespace GymProject.Pages
 {
@@ -13,6 +19,9 @@ namespace GymProject.Pages
         public readonly ManagerLibrary.ManagerClasses.ItemManager itemManager;
         public string Sort { get; set; }
         public string Type { get; set; }
+        public List<Item> MostBoughtItems { get; set; }
+        public ISuggestionItemService suggestionItemService = new SuggestionItemsService(new UserRepository(), new ItemRepository(), new ShoppingRepository());
+        public readonly ShoppingCartAlgorithms shoppingCartAlgorithms = new ShoppingCartAlgorithms(new UserRepository());
 
 
         public ProductModel()
@@ -31,6 +40,13 @@ namespace GymProject.Pages
             Supplements = supplements;
 
             Programs = programs;
+
+            string userEmail = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+
+            User user = shoppingCartAlgorithms.GetUserFromAuthentication(userEmail);
+
+            List<Item> mostBoughtItems = suggestionItemService.GetProductSuggestions(user.Id);
+            MostBoughtItems = mostBoughtItems;
         }
 
 

@@ -1,6 +1,7 @@
 ﻿using ClassLibrary.Classes.Item;
 using ClassLibrary.Classes.User;
 using Database.Repositories;
+using InterfaceLibrary.IAlgorithmService;
 using InterfaceLibrary.IRepositories;
 using ManagerLibrary.Repositories;
 using System;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace ManagerLibrary.Algorithm
 {
-    public class SuggestionItems
+    public class SuggestionItems : ISuggestionItemService
     {
         private readonly IUserRepository userRepository;
         private readonly IItemRepository itemRepository;
@@ -39,6 +40,7 @@ namespace ManagerLibrary.Algorithm
             }
             return purchasedItems;
         }
+
         public List<Item> GetProductSuggestions(int userId)
         {
             List<User> users = userRepository.GetUsers();
@@ -63,7 +65,6 @@ namespace ManagerLibrary.Algorithm
                     }
                 }
             }
-            //suggestedItems.Sort();
             return suggestedItems;
         }
 
