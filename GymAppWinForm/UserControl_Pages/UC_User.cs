@@ -73,14 +73,6 @@ namespace GymAppWinForm.UserControl_Pages
             LoadUsers();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Form_Purchase_History form_Purchase_History = new Form_Purchase_History();
-            form_Purchase_History.ShowDialog();
-            tb_search_users.Clear();
-            cb_user_filter.SelectedIndex = 0;
-        }
-
         private void btn_remove_user_Click(object sender, EventArgs e)
         {
             DataGridViewRow selectedRow = data_grid_view_users.SelectedRows.Count > 0 ? data_grid_view_users.SelectedRows[0] : null;

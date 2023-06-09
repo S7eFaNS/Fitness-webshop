@@ -37,6 +37,7 @@ namespace GymProject.Pages
             Total = shoppingCartAlgorithms.CalculateTotalPrice(MyCart);
 
             string userEmail = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+            
             User user = shoppingCartAlgorithms.GetUserFromAuthentication(userEmail);
 
             var suggestedItems = suggestionItems.GetProductSuggestions(user.Id);
@@ -155,10 +156,12 @@ namespace GymProject.Pages
             {
                 string userEmail = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
                 User user = shoppingCartAlgorithms.GetUserFromAuthentication(userEmail);
-                List <Item> cart = SessionHelper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
-                Total = shoppingCartAlgorithms.CalculateTotalPrice(cart);
+                MyCart = SessionHelper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
+                Total = shoppingCartAlgorithms.CalculateTotalPrice(MyCart);
             
-                bool orderPlaced = shoppingCartManager.PlaceOrder(user, cart, address, Total);
+                bool orderPlaced = shoppingCartManager.PlaceOrder(user, MyCart, address, Total);
+
+                HttpContext.Session.Remove("cart");
 
                 return RedirectToPage("Profile");
             }

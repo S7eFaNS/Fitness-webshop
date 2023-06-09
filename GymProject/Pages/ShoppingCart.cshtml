@@ -16,7 +16,7 @@
               <span class="text-primary">Your cart</span>
             </h4>
             <ul class="list-group mb-3">
-                        @if (Model.MyCart != null)
+                    @if (Model.MyCart != null && Model.MyCart.Count > 0)
                         {
                     @foreach (var item in Model.MyCart)
                     {

@@ -31,7 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UC_User));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btn_add_user = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.btn_edit_user = new System.Windows.Forms.Button();
             this.tb_search_users = new System.Windows.Forms.TextBox();
@@ -56,22 +55,6 @@
             this.btn_add_user.Text = "Add";
             this.btn_add_user.UseVisualStyleBackColor = false;
             this.btn_add_user.Click += new System.EventHandler(this.btn_add_user_Click);
-            // 
-            // button1
-            // 
-            this.button1.BackColor = System.Drawing.Color.Silver;
-            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.button1.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.button1.ForeColor = System.Drawing.Color.Black;
-            this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
-            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.Location = new System.Drawing.Point(744, 174);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(378, 73);
-            this.button1.TabIndex = 22;
-            this.button1.Text = "Purchase History";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // label1
             // 
@@ -180,7 +163,6 @@
             this.Controls.Add(this.cb_user_filter);
             this.Controls.Add(this.data_grid_view_users);
             this.Controls.Add(this.btn_add_user);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btn_edit_user);
             this.Controls.Add(this.tb_search_users);
@@ -198,7 +180,6 @@
 
         #endregion
         private Button btn_add_user;
-        private Button button1;
         private Label label1;
         private Button btn_edit_user;
         private TextBox tb_search_users;

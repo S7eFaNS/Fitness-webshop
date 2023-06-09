@@ -101,13 +101,13 @@ footer {
     background-position: center;
 }
 
-.carousel-item:nth-child(1) {
-    background-image: url('/images/tren-twins-alex-eubank.jpg');
-}
+    .carousel-item:nth-child(1) {
+        background-image: url('../images/background-images/tren-twins-jojo.png');
+    }
 
-.carousel-item:nth-child(2) {
-    background-image: url('/images/gym-image1.jpg');
-}
+    .carousel-item:nth-child(2) {
+        background-image: url('../images/background-images/aizen-cbum.png');
+    }
 
 #testimonial-carousel {
     height: 100vh;
