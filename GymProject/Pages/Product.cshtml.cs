@@ -43,10 +43,13 @@ namespace GymProject.Pages
 
             string userEmail = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
 
-            User user = shoppingCartAlgorithms.GetUserFromAuthentication(userEmail);
+            if (User.Identity.IsAuthenticated)
+            {
+                User user = shoppingCartAlgorithms.GetUserFromAuthentication(userEmail);
 
-            List<Item> mostBoughtItems = suggestionItemService.GetProductSuggestions(user.Id);
-            MostBoughtItems = mostBoughtItems;
+                List<Item> mostBoughtItems = suggestionItemService.GetProductSuggestions(user.Id);
+                MostBoughtItems = mostBoughtItems;
+            }
         }
 
 
