@@ -120,8 +120,6 @@ namespace ManagerLibrary.Repositories
                             $"last_name = '{user.LastName}', " +
                             $"email = '{user.Email}' " +
                             $"WHERE id = {user.Id};";
-                    
-                    
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {

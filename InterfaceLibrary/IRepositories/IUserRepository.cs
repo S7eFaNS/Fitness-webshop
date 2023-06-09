@@ -17,8 +17,6 @@ namespace InterfaceLibrary.IRepositories
         bool UpdateUser(User user);
         List<User> SearchUsers(string searchQuery);
         string GetSalt(string email);
-
-        //Login
         User? CheckLogin(string email, string password);
 
     }

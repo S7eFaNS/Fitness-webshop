@@ -68,7 +68,7 @@ namespace ManagerLibrary.Algorithm
             return suggestedItems;
         }
 
-        private double CalculateCosineSimilarity(List<int> user1Products, List<int> user2Products)
+        public double CalculateCosineSimilarity(List<int> user1Products, List<int> user2Products)
         {
             HashSet<int> commonProducts = new HashSet<int>(user1Products);
             commonProducts.IntersectWith(user2Products);
