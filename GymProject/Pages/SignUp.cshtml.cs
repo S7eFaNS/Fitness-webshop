@@ -39,15 +39,15 @@ namespace GymProject.Pages
         {
             try
             {
-                if (string.IsNullOrEmpty(customer.FirstName) ||
-                string.IsNullOrEmpty(customer.LastName) ||
-                customer.Age <= 0 ||
-                string.IsNullOrEmpty(customer.Email) ||
-                string.IsNullOrEmpty(customer.Password))
-                {
-                    ModelState.AddModelError("", "Please fill in all the required fields.");
-                    return Page();
-                }
+                //if (string.IsNullOrEmpty(customer.FirstName) ||
+                //string.IsNullOrEmpty(customer.LastName) ||
+                //customer.Age <= 0 ||
+                //string.IsNullOrEmpty(customer.Email) ||
+                //string.IsNullOrEmpty(customer.Password))
+                //{
+                //    ModelState.AddModelError("", "Please fill in all the required fields.");
+                //    return Page();
+                //}
 
                 UserValidationService userValidation = new UserValidationService();
 
@@ -69,11 +69,6 @@ namespace GymProject.Pages
                 if (!userValidation.IsPasswordValid(customer.Password))
                 {
                     ModelState.AddModelError("customer.Password", "Password should be at least 8 characters long and contain at least one uppercase letter and one number.");
-                }
-
-                if (customer.Age > 100)
-                {
-                    ModelState.AddModelError("customer.Age", "Age should be less than or equal to 100.");
                 }
 
                 if (!ModelState.IsValid)

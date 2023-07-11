@@ -20,8 +20,9 @@ namespace GymProject.ViewModels
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Password is required.")]
-        [StringLength(8, ErrorMessage = "Password must be at least 8 characters long.")]
+        [StringLength(30, MinimumLength = 8, ErrorMessage = "Password must be between 8 and 30 characters long.")] 
         public string Password { get; set; }
+
         public UserType UserType { get; set; } = UserType.Customer;
 
         public Customer ToCustomer()

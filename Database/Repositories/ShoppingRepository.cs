@@ -34,6 +34,8 @@ namespace Database.Repositories
                 try
                 {
                     connection.Open();
+                    //return list of items
+                    //string query = $"SELECT * FROM [Product] WHERE item_id IN (SELECT item_id FROM UserItem WHERE user_id = @userId)";
                     string query = "SELECT item_id FROM UserItem WHERE user_id = @user_id";
 
                     using (SqlCommand command = new SqlCommand(query, connection))

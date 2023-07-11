@@ -35,7 +35,6 @@ namespace UnitTest
 
             sortItems.SortByPriceDesc(items);
 
-            // 
             Assert.AreEqual(4, items[0].ItemId);
             Assert.AreEqual(3, items[1].ItemId);
             Assert.AreEqual(2, items[2].ItemId);

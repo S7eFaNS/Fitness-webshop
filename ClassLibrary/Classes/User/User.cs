@@ -58,9 +58,6 @@ namespace ClassLibrary.Classes.User
         //    private set { password = value; }
         //}
 
-
-        //zaobikalqm encapsulation i setvam password kum private set passworda.
-        //Po toq nachin moga da setna password.
         //public void SetPassword(string password)
         //{
         //    Password = password;

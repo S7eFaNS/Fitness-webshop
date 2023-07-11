@@ -1,6 +1,8 @@
 ﻿using ClassLibrary.Classes.Item;
 using ClassLibrary.Classes.User;
+using InterfaceLibrary.IRepositories;
 using ManagerLibrary.ManagerClasses;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +23,30 @@ namespace UnitTest
             List<Item> returnedItems = itemManager.GetItems();
 
             Assert.AreEqual(returnedItems.Count, 4);
+        }
+
+        [TestMethod]
+        public void TestGetItems_DomainLogic()
+        {
+            List<Item> items = new List<Item>
+        {
+            new Item { ItemId = 1, ItemName ="testTren1",ItemPrice = 10, ItemDescription = "testDataTren1", ItemQuantity = 10, ItemType = ItemType.Supplement },
+            new Item { ItemId = 2, ItemName ="testTren2",ItemPrice = 15, ItemDescription = "testDataTren2", ItemQuantity = 20, ItemType = ItemType.Supplement },
+            new Item { ItemId = 3, ItemName ="testTren3",ItemPrice = 25, ItemDescription = "testDataTren3", ItemQuantity = 30, ItemType = ItemType.Supplement }
+        };
+
+            Mock<IItemRepository> mockRepository = new Mock<IItemRepository>();
+            mockRepository.Setup(r => r.GetItems()).Returns(items);
+
+            ItemManager itemManager = new ItemManager(mockRepository.Object);
+
+            List<Item> returnedItems = itemManager.GetItems();
+
+            Assert.AreEqual(items.Count, returnedItems.Count);
+            Assert.AreEqual(items[0].ItemId, returnedItems[0].ItemId);
+            Assert.AreEqual(items[1].ItemName, returnedItems[1].ItemName);
+            Assert.AreEqual(items[2].ItemPrice, returnedItems[2].ItemPrice);
+            Assert.AreEqual(items[0].ItemDescription, returnedItems[0].ItemDescription);
         }
 
         [TestMethod]

@@ -1,6 +1,7 @@
 ﻿using ClassLibrary.Classes.User;
 using Database.DataBase;
 using InterfaceLibrary.IRepositories;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -23,6 +24,7 @@ namespace ManagerLibrary.Repositories
 
         private void ConfigureService()
         {
+            //_ConnectionString = configuration.GetConnectionString("DefaultConnection");
             DataBaseConnection dbConn = new DataBaseConnection();
             _ConnectionString = dbConn.ConnectionString;
         }

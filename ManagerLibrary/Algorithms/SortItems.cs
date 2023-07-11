@@ -18,14 +18,14 @@ namespace ManagerLibrary.Algorithm
 
         public void SortByPriceAsc(List<Item> items)
         {
-            try
-            {
+            //try
+            //{
                 items.Sort(new ItemPriceComparer());
-            }
-            catch(Exception ex)
-            {
-                throw new NullReferenceException("Failed");
-            }
+            //}
+            //catch(Exception ex)
+            //{
+            //    throw new NullReferenceException("Failed");
+            //}
         }
 
         public void SortByPriceDesc(List<Item> items)
