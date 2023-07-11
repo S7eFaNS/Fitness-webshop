@@ -14,6 +14,7 @@ namespace Database.DataBase
         {
             ConnectionString = "Server=mssqlstud.fhict.local;Database=dbi500182;User Id=dbi500182;Password=123;";
         }
+        //it can be done automatically
 
     }
 }
